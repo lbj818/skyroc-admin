@@ -36,36 +36,15 @@ function getMenu(options: DropdownOption[]) {
 }
 
 const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: ContextMenuProps) => {
-  const { t } = useTranslation();
   const { clearLeftTabs, clearRightTabs, closeAllTabs, closeCurrentTab, closeOtherTabs } = useTabController();
 
   const options = () => {
     const opts: DropdownOption[] = [
-      {
-        icon: 'ant-design:close-outlined',
-        key: 'closeCurrent',
-        label: t('dropdown.closeCurrent')
-      },
-      {
-        icon: 'ant-design:column-width-outlined',
-        key: 'closeOther',
-        label: t('dropdown.closeOther')
-      },
-      {
-        icon: 'mdi:format-horizontal-align-left',
-        key: 'closeLeft',
-        label: t('dropdown.closeLeft')
-      },
-      {
-        icon: 'mdi:format-horizontal-align-right',
-        key: 'closeRight',
-        label: t('dropdown.closeRight')
-      },
-      {
-        icon: 'ant-design:line-outlined',
-        key: 'closeAll',
-        label: t('dropdown.closeAll')
-      }
+      { icon: 'ant-design:close-outlined', key: 'closeCurrent', label: '关闭' },
+      { icon: 'ant-design:column-width-outlined', key: 'closeOther', label: '关闭其它' },
+      { icon: 'mdi:format-horizontal-align-left', key: 'closeLeft', label: '关闭左侧' },
+      { icon: 'mdi:format-horizontal-align-right', key: 'closeRight', label: '关闭右侧' },
+      { icon: 'ant-design:line-outlined', key: 'closeAll', label: '关闭所有' }
     ];
 
     return opts

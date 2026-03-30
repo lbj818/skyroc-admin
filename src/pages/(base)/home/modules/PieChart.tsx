@@ -1,49 +1,21 @@
-import { useLang } from '@/features/lang';
-
 const PieChart = () => {
-  const { t } = useTranslation();
-
-  const { locale } = useLang();
-
   const { domRef, updateOptions } = useEcharts(() => ({
-    legend: {
-      bottom: '1%',
-      itemStyle: {
-        borderWidth: 0
-      },
-      left: 'center'
-    },
+    legend: { bottom: '1%', itemStyle: { borderWidth: 0 }, left: 'center' },
     series: [
       {
         avoidLabelOverlap: false,
         color: ['#5da8ff', '#8e9dff', '#fedc69', '#26deca'],
         data: [] as { name: string; value: number }[],
-        emphasis: {
-          label: {
-            fontSize: '12',
-            show: true
-          }
-        },
-        itemStyle: {
-          borderColor: '#fff',
-          borderRadius: 10,
-          borderWidth: 1
-        },
-        label: {
-          position: 'center',
-          show: false
-        },
-        labelLine: {
-          show: false
-        },
-        name: t('page.home.schedule'),
+        emphasis: { label: { fontSize: '12', show: true } },
+        itemStyle: { borderColor: '#fff', borderRadius: 10, borderWidth: 1 },
+        label: { position: 'center', show: false },
+        labelLine: { show: false },
+        name: '作息安排',
         radius: ['45%', '75%'],
         type: 'pie'
       }
     ],
-    tooltip: {
-      trigger: 'item'
-    }
+    tooltip: { trigger: 'item' }
   }));
 
   async function mockData() {
@@ -53,44 +25,19 @@ const PieChart = () => {
 
     updateOptions(opts => {
       opts.series[0].data = [
-        { name: t('page.home.study'), value: 20 },
-        { name: t('page.home.entertainment'), value: 10 },
-        { name: t('page.home.work'), value: 40 },
-        { name: t('page.home.rest'), value: 30 }
+        { name: '学习', value: 20 },
+        { name: '娱乐', value: 10 },
+        { name: '工作', value: 40 },
+        { name: '休息', value: 30 }
       ];
-
       return opts;
     });
-  }
-
-  function updateLocale() {
-    updateOptions((opts, factory) => {
-      const originOpts = factory();
-
-      opts.series[0].name = originOpts.series[0].name;
-
-      opts.series[0].data = [
-        { name: t('page.home.study'), value: 20 },
-        { name: t('page.home.entertainment'), value: 10 },
-        { name: t('page.home.work'), value: 40 },
-        { name: t('page.home.rest'), value: 30 }
-      ];
-
-      return opts;
-    });
-  }
-
-  async function init() {
-    mockData();
   }
 
   useMount(() => {
-    init();
+    mockData();
   });
 
-  useUpdateEffect(() => {
-    updateLocale();
-  }, [locale]);
   return (
     <ACard
       className="card-wrapper"

@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 
 interface InitialStateType {
   activeFirstLevelMenuKey: string;
   activeTabId: string;
-  removeCacheKey: RoutePath | null;
+  removeCacheKey: null;
   tabs: App.Global.Tab[];
 }
-
 const initialState: InitialStateType = {
   /** - 当前一级菜单 */
   activeFirstLevelMenuKey: '',
@@ -36,9 +34,9 @@ export const tabSlice = createSlice({
       const { index, label } = payload;
 
       if (label) {
-        state.tabs[index].i18nKey = label;
+        state.tabs[index].label = label;
       } else {
-        state.tabs[index].i18nKey = state.tabs[index].oldLabel;
+        state.tabs[index].label = state.tabs[index].oldLabel ?? '';
       }
     },
     clearTabs: () => initialState,

@@ -1,8 +1,6 @@
 import { openThemeDrawer } from '@/layouts/appStore';
 
 const ThemeButton = memo(() => {
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
 
   function handleClick() {
@@ -14,7 +12,7 @@ const ThemeButton = memo(() => {
       triggerParent
       className="px-12px"
       icon="majesticons:color-swatch-line"
-      tooltipContent={t('icon.themeConfig')}
+      tooltipContent="主题配置"
       onClick={handleClick}
     />
   );

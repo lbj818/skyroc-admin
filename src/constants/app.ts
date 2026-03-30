@@ -4,14 +4,14 @@ export const GLOBAL_HEADER_MENU_ID = '__GLOBAL_HEADER_MENU__';
 
 export const GLOBAL_SIDER_MENU_ID = '__GLOBAL_SIDER_MENU__';
 
-export const loginModuleRecord: Record<UnionKey.LoginModule, App.I18n.I18nKey> = {
+export const loginModuleRecord: Record<UnionKey.LoginModule, string> = {
   'code-login': 'page.login.codeLogin.title',
   'pwd-login': 'page.login.pwdLogin.title',
   register: 'page.login.register.title',
   'reset-pwd': 'page.login.resetPwd.title'
 };
 
-export const themeLayoutModeRecord: Record<UnionKey.ThemeLayoutMode, App.I18n.I18nKey> = {
+export const themeLayoutModeRecord: Record<UnionKey.ThemeLayoutMode, string> = {
   horizontal: 'theme.layoutMode.horizontal',
   'horizontal-mix': 'theme.layoutMode.horizontal-mix',
   vertical: 'theme.layoutMode.vertical',
@@ -20,14 +20,14 @@ export const themeLayoutModeRecord: Record<UnionKey.ThemeLayoutMode, App.I18n.I1
 
 export const themeLayoutModeOptions = transformRecordToOption(themeLayoutModeRecord);
 
-export const themeScrollModeRecord: Record<UnionKey.ThemeScrollMode, App.I18n.I18nKey> = {
+export const themeScrollModeRecord: Record<UnionKey.ThemeScrollMode, string> = {
   content: 'theme.scrollMode.content',
   wrapper: 'theme.scrollMode.wrapper'
 };
 
 export const themeScrollModeOptions = transformRecordToOption(themeScrollModeRecord);
 
-export const themeTabModeRecord: Record<UnionKey.ThemeTabMode, App.I18n.I18nKey> = {
+export const themeTabModeRecord: Record<UnionKey.ThemeTabMode, string> = {
   button: 'theme.tab.mode.button',
   chrome: 'theme.tab.mode.chrome',
   slider: 'theme.tab.mode.slider'
@@ -35,7 +35,7 @@ export const themeTabModeRecord: Record<UnionKey.ThemeTabMode, App.I18n.I18nKey>
 
 export const themeTabModeOptions = transformRecordToOption(themeTabModeRecord);
 
-export const themePageAnimationModeRecord: Record<UnionKey.ThemePageAnimateMode, App.I18n.I18nKey> = {
+export const themePageAnimationModeRecord: Record<UnionKey.ThemePageAnimateMode, string> = {
   fade: 'theme.page.mode.fade',
   'fade-bottom': 'theme.page.mode.fade-bottom',
   'fade-scale': 'theme.page.mode.fade-scale',

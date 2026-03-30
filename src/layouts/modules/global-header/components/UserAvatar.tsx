@@ -9,21 +9,19 @@ const UserAvatar = memo(() => {
 
   const { data: userInfo } = useUserInfo();
 
-  const { t } = useTranslation();
-
   const { navigate, push } = useRouter();
 
   const { fullPath } = useRoute();
 
   function logout() {
     window?.$modal?.confirm({
-      cancelText: t('common.cancel'),
-      content: t('common.logoutConfirm'),
-      okText: t('common.confirm'),
+      cancelText: '取消',
+      content: '确认退出登录吗？',
+      okText: '确认',
       onOk: () => {
         push('/login-out', { query: { redirect: fullPath } });
       },
-      title: t('common.tip')
+      title: '提示'
     });
   }
 
@@ -48,7 +46,7 @@ const UserAvatar = memo(() => {
             className="text-icon"
             icon="ph:user-circle"
           />
-          {t('common.userCenter')}
+          个人中心
         </div>
       )
     },
@@ -63,7 +61,7 @@ const UserAvatar = memo(() => {
             className="text-icon"
             icon="ph:sign-out"
           />
-          {t('common.logout')}
+          退出登录
         </div>
       )
     }
@@ -86,7 +84,7 @@ const UserAvatar = memo(() => {
       </div>
     </ADropdown>
   ) : (
-    <AButton onClick={loginOrRegister}>{t('page.login.common.loginOrRegister')}</AButton>
+    <AButton onClick={loginOrRegister}>登录 / 注册</AButton>
   );
 });
 

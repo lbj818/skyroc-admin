@@ -4,15 +4,13 @@ import { Suspense } from 'react';
 const SearchModal = lazy(() => import('./components/SearchModal'));
 
 const GlobalSearch = memo(() => {
-  const { t } = useTranslation();
-
   const [show, { setFalse, toggle }] = useBoolean();
 
   return (
     <>
       <ButtonIcon
         className="px-12px"
-        tooltipContent={t('common.search')}
+        tooltipContent="搜索"
         onClick={toggle}
       >
         <IconUilSearch />

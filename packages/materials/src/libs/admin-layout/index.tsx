@@ -1,4 +1,5 @@
 import classNames from 'clsx';
+import * as React from 'react';
 import { type FC } from 'react';
 
 import type { AdminLayoutProps } from '../../types';

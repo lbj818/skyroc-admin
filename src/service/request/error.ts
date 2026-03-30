@@ -3,7 +3,6 @@ import { BACKEND_ERROR_CODE } from '@sa/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 import { router } from '@/features/router';
-import { $t } from '@/locales';
 
 import { getAuthorization, handleExpiredRequest, showErrorMsg } from './shared';
 import type { RequestInstanceState } from './type';
@@ -48,14 +47,14 @@ export async function backEndFail(
       content: response.data.msg,
       keyboard: false,
       maskClosable: false,
-      okText: $t('common.confirm'),
-      onClose() {
+      okText: '确认',
+      onCancel() {
         logoutAndCleanup();
       },
       onOk() {
         logoutAndCleanup();
       },
-      title: $t('common.error')
+      title: '错误'
     });
 
     return null;

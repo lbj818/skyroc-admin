@@ -98,7 +98,6 @@ declare namespace Api {
       | 'fixedIndexInTab'
       | 'hideInMenu'
       | 'href'
-      | 'i18nKey'
       | 'keepAlive'
       | 'multiTab'
       | 'order'

@@ -17,6 +17,18 @@ export default defineConfig(configEnv => {
     base: viteEnv.VITE_BASE_URL,
     build: {
       rollupOptions: {
+        onwarn(warning, warn) {
+          // 屏蔽 "use client" / module-level directives 相关 warning（打包器提示不影响运行）
+          const msg = String(warning.message ?? '');
+          if (
+            warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
+            msg.includes('Module level directives cause errors when bundled') ||
+            (msg.includes('"use client"') && msg.includes('was ignored'))
+          ) {
+            return;
+          }
+          warn(warning);
+        },
         output: {
           assetFileNames: chunkInfo => {
             const name = chunkInfo.names[0];
@@ -61,9 +73,8 @@ export default defineConfig(configEnv => {
           },
           manualChunks: {
             animate: ['motion'],
-            antd: ['antd', '@ant-design/v5-patch-for-react-19'],
+            antd: ['antd'],
             axios: ['axios'],
-            il8n: ['react-i18next', 'i18next'],
             react: ['react', 'react-dom', 'react-error-boundary'],
             reactRouter: ['react-router-dom'],
             redux: ['react-redux', '@reduxjs/toolkit'],

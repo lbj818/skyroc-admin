@@ -1,7 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
 import BeyondHiding from '@/components/BeyondHiding';
-import { $t } from '@/locales';
 
 /**
  * Get global menus by auth routes
@@ -73,9 +72,9 @@ function sortRouteByOrder(route: RouteObject) {
 export function getGlobalMenuByBaseRoute(route: RouteObject): App.Global.Menu {
   const { path } = route;
 
-  const { i18nKey, icon = import.meta.env.VITE_MENU_ICON, localIcon, title } = route.handle ?? {};
+  const { icon = import.meta.env.VITE_MENU_ICON, localIcon, title } = route.handle ?? {};
 
-  const label = i18nKey ? $t(i18nKey) : title;
+  const label = title;
 
   const menu: App.Global.Menu = {
     icon: (

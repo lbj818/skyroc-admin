@@ -1,6 +1,6 @@
+import type { MenuInfo } from '@rc-component/menu/lib/interface';
 import { SimpleScrollbar } from '@sa/materials';
 import type { MenuProps } from 'antd';
-import type { MenuInfo } from 'rc-menu/lib/interface';
 
 import { useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
@@ -38,6 +38,15 @@ const getSelectedMenuKeyPath = (matches: Router.Route['matched']) => {
 
   return result;
 };
+
+function transformMenuToAntdMenuItem(menu: any): any {
+  // Recursively transform children to always be an array or undefined
+  const { children, ...rest } = menu;
+  return {
+    ...rest,
+    children: Array.isArray(children) && children.length > 0 ? children.map(transformMenuToAntdMenuItem) : undefined
+  };
+}
 
 const VerticalMenu = memo(() => {
   const { allMenus, childLevelMenus, route, selectKey } = useMixMenuContext();
@@ -111,7 +120,7 @@ const VerticalMenu = memo(() => {
         className="size-full transition-300 border-0!"
         inlineCollapsed={isVerticalMix ? false : inlineCollapsed}
         inlineIndent={18}
-        items={isMix ? childLevelMenus : allMenus}
+        items={(isMix ? childLevelMenus : allMenus).map(transformMenuToAntdMenuItem)}
         mode="inline"
         openKeys={stateOpenKeys}
         selectedKeys={selectKey}

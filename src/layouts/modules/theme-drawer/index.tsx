@@ -10,8 +10,6 @@ import PageFun from './modules/PageFun';
 import ThemeColor from './modules/ThemeColor';
 
 const ThemeDrawer = memo(() => {
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
 
   const themeDrawerVisible = useAppSelector(getThemeDrawerVisible);
@@ -38,7 +36,7 @@ const ThemeDrawer = memo(() => {
       footer={<ConfigOperation />}
       open={themeDrawerVisible}
       styles={{ body: { padding: 0 } }}
-      title={t('theme.themeDrawerTitle')}
+      title="主题配置"
       extra={
         <ButtonIcon
           className="h-28px"
@@ -50,13 +48,13 @@ const ThemeDrawer = memo(() => {
     >
       <SimpleScrollbar>
         <div className="overflow-x-hidden px-24px pb-24px pt-8px">
-          <ADivider>{t('theme.themeSchema.title')}</ADivider>
+          <ADivider>主题模式</ADivider>
           <DarkMode />
-          <ADivider>{t('theme.layoutMode.title')}</ADivider>
+          <ADivider>布局模式</ADivider>
           <LayoutMode />
-          <ADivider>{t('theme.themeColor.title')}</ADivider>
+          <ADivider>主题颜色</ADivider>
           <ThemeColor />
-          <ADivider>{t('theme.pageFunTitle')}</ADivider>
+          <ADivider>页面功能</ADivider>
           <PageFun />
         </div>
       </SimpleScrollbar>

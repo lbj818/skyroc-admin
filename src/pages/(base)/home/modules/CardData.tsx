@@ -17,50 +17,36 @@ function getGradientColor(color: CardDataProps['color']) {
 }
 
 function useGetCardData() {
-  const { t } = useTranslation();
-
   const cardData: CardDataProps[] = [
     {
-      color: {
-        end: '#b955a4',
-        start: '#ec4786'
-      },
+      color: { end: '#b955a4', start: '#ec4786' },
       icon: 'ant-design:bar-chart-outlined',
       key: 'visitCount',
-      title: t('page.home.visitCount'),
+      title: '访问量',
       unit: '',
       value: 9725
     },
     {
-      color: {
-        end: '#5144b4',
-        start: '#865ec0'
-      },
+      color: { end: '#5144b4', start: '#865ec0' },
       icon: 'ant-design:money-collect-outlined',
       key: 'turnover',
-      title: t('page.home.turnover'),
-      unit: '$',
+      title: '成交额',
+      unit: '¥',
       value: 1026
     },
     {
-      color: {
-        end: '#719de3',
-        start: '#56cdf3'
-      },
+      color: { end: '#719de3', start: '#56cdf3' },
       icon: 'carbon:document-download',
       key: 'downloadCount',
-      title: t('page.home.downloadCount'),
+      title: '下载量',
       unit: '',
       value: 970925
     },
     {
-      color: {
-        end: '#f68057',
-        start: '#fcbc25'
-      },
+      color: { end: '#f68057', start: '#fcbc25' },
       icon: 'ant-design:trademark-circle-outlined',
       key: 'dealCount',
-      title: t('page.home.dealCount'),
+      title: '成交量',
       unit: '',
       value: 9527
     }

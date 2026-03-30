@@ -32,9 +32,15 @@ interface Props {
 }
 
 const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value }) => {
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
+
+  const themeColorLabels: Record<string, string> = {
+    error: '错误色',
+    info: '信息色',
+    primary: '主色',
+    success: '成功色',
+    warning: '警告色'
+  };
 
   function handleUpdateColor(color: string, name: App.Theme.ThemeColorKey) {
     dispatch(updateThemeColors({ color, key: name }));
@@ -82,14 +88,14 @@ const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value
 
   return (
     <SettingItem
-      label={t(`theme.themeColor.${label}`)}
+      label={themeColorLabels[label] || label}
       suffix={
         label === 'info' && (
           <ACheckbox
             checked={isInfoFollowPrimary}
             onChange={onChange}
           >
-            {t('theme.themeColor.followPrimary')}
+            跟随主色
           </ACheckbox>
         )
       }

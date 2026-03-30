@@ -15,8 +15,6 @@ import VerticalMenu from '../components/VerticalMenu';
 import { useGetElementById } from './hook';
 
 const VerticalMix = memo(() => {
-  const { t } = useTranslation();
-
   const { childLevelMenus, setActiveFirstLevelMenuKey } = useMixMenuContext();
 
   const dispatch = useAppDispatch();
@@ -70,7 +68,7 @@ const VerticalMix = memo(() => {
             className="flex-y-center justify-between px-12px"
             style={{ height: `${themeSettings.header.height}px` }}
           >
-            <h2 className="text-16px text-primary font-bold">{t('system.title')}</h2>
+            <h2 className="text-16px text-primary font-bold">Skyroc 管理系统</h2>
             <PinToggler
               className={classNames({ 'text-white:88 !hover:text-white': siderInverted })}
               pin={mixSiderFixed}

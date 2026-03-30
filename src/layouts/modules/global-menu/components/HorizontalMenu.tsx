@@ -1,4 +1,4 @@
-import type { MenuInfo } from 'rc-menu/lib/interface';
+import type { MenuInfo } from '@rc-component/menu/lib/interface';
 import type { FC } from 'react';
 
 import { useMixMenuContext } from '@/features/menu';
@@ -46,10 +46,13 @@ const HorizontalMenu: FC<Props> = memo(({ mode }) => {
     <AMenu
       className="size-full transition-400 border-0!"
       inlineIndent={18}
-      items={getMenus()}
       mode="horizontal"
       selectedKeys={selectedKeys}
       style={{ lineHeight: `${themeSettings.header.height}px` }}
+      items={getMenus().map(menu => ({
+        ...menu,
+        children: menu.children ? menu.children : []
+      }))}
       onSelect={handleClickMenu}
     />
   );

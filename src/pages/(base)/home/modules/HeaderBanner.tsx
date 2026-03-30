@@ -8,26 +8,12 @@ interface StatisticData {
 }
 
 const HeaderBanner = () => {
-  const { t } = useTranslation();
-
   const { data: userInfo } = useUserInfo();
 
   const statisticData: StatisticData[] = [
-    {
-      id: 0,
-      title: t('page.home.projectCount'),
-      value: '25'
-    },
-    {
-      id: 1,
-      title: t('page.home.todo'),
-      value: '4/16'
-    },
-    {
-      id: 2,
-      title: t('page.home.message'),
-      value: '12'
-    }
+    { id: 0, title: '项目数', value: '25' },
+    { id: 1, title: '待办', value: '4/16' },
+    { id: 2, title: '消息', value: '12' }
   ];
   return (
     <ACard
@@ -47,8 +33,8 @@ const HeaderBanner = () => {
               />
             </div>
             <div className="pl-12px">
-              <h3 className="text-18px font-semibold">{t('page.home.greeting', { userName: userInfo?.userName })}</h3>
-              <p className="text-#999 leading-30px">{t('page.home.weatherDesc')}</p>
+              <h3 className="text-18px font-semibold">早安，{userInfo?.userName}，今天又是充满活力的一天！</h3>
+              <p className="text-#999 leading-30px">今日多云转晴，20℃ - 25℃！</p>
             </div>
           </div>
         </ACol>

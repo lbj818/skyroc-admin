@@ -29,7 +29,6 @@ const IframePage = () => {
 
 export const handle = {
   hideInMenu: true,
-  i18nKey: 'route.iframe-page_[url]',
   title: 'iframe-page_[url]'
 };
 

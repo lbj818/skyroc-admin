@@ -9,8 +9,6 @@ interface FormModel {
 }
 
 const Register = () => {
-  const { t } = useTranslation();
-
   const { getCaptcha, isCounting, label, loading } = useCaptcha();
 
   const { navigateUp } = useRouter();
@@ -21,9 +19,7 @@ const Register = () => {
 
   function handleSubmit(params: FormModel) {
     console.log(params);
-
-    // request to reset password
-    window.$message?.success(t('page.login.common.validateSuccess'));
+    window.$message?.success('验证成功');
   }
 
   function sendCaptcha() {
@@ -36,7 +32,7 @@ const Register = () => {
 
   return (
     <>
-      <h3 className="text-18px text-primary font-medium">{t('page.login.register.title')}</h3>
+      <h3 className="text-18px text-primary font-medium">注册账号</h3>
       <AForm
         className="pt-24px"
         form={form}
@@ -46,14 +42,14 @@ const Register = () => {
           name="phone"
           rules={formRules.phone}
         >
-          <AInput placeholder={t('page.login.common.phonePlaceholder')} />
+          <AInput placeholder="请输入手机号" />
         </AForm.Item>
         <AForm.Item
           name="code"
           rules={formRules.code}
         >
           <div className="w-full flex-y-center gap-16px">
-            <AInput placeholder={t('page.login.common.codePlaceholder')} />
+            <AInput placeholder="请输入验证码" />
             <AButton
               disabled={isCounting}
               loading={loading}
@@ -68,13 +64,13 @@ const Register = () => {
           name="password"
           rules={formRules.pwd}
         >
-          <AInput placeholder={t('page.login.common.passwordPlaceholder')} />
+          <AInput placeholder="请输入密码" />
         </AForm.Item>
         <AForm.Item
           name="confirmPassword"
           rules={createConfirmPwdRule(form)}
         >
-          <AInput placeholder={t('page.login.common.confirmPasswordPlaceholder')} />
+          <AInput placeholder="请再次输入密码" />
         </AForm.Item>
         <ASpace
           className="w-full"
@@ -88,7 +84,7 @@ const Register = () => {
             size="large"
             type="primary"
           >
-            {t('common.confirm')}
+            确认
           </AButton>
 
           <AButton
@@ -97,7 +93,7 @@ const Register = () => {
             size="large"
             onClick={navigateUp}
           >
-            {t('page.login.common.back')}
+            返回
           </AButton>
         </ASpace>
       </AForm>

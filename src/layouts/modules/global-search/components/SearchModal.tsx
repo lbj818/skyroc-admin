@@ -34,12 +34,8 @@ function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Globa
 
 const SearchModal = ({ onClose, show }: Props) => {
   const [resultOptions, setResultOptions] = useState<App.Global.Menu[]>([]);
-
   const [activeRoute, setActiveRoute] = useState<string>('');
-
   const isMobile = useAppSelector(getIsMobile);
-
-  const { t } = useTranslation();
 
   const keyword = useRef<InputRef>(null);
 
@@ -119,14 +115,14 @@ const SearchModal = ({ onClose, show }: Props) => {
       height={isMobile ? '100%' : 400}
       open={show}
       style={isMobile ? { margin: 0, maxWidth: '100%', padding: 0 } : undefined}
-      styles={{ content: { height: isMobile ? '100vh' : '100%', paddingBottom: 0 } }}
+      styles={{ body: { height: isMobile ? '100vh' : '100%', paddingBottom: 0 } }}
       width={isMobile ? '100%' : 630}
       onCancel={handleClose}
     >
       <ASpace.Compact className="w-full">
         <AInput
           allowClear
-          placeholder={t('common.keywordSearch')}
+          placeholder="请输入关键词搜索"
           prefix={<IconUilSearch className="text-15px text-#c2c2c2" />}
           ref={keyword}
           onInput={handleSearch.run}
@@ -137,7 +133,7 @@ const SearchModal = ({ onClose, show }: Props) => {
             type="primary"
             onClick={handleClose}
           >
-            {t('common.cancel')}
+            取消
           </AButton>
         )}
       </ASpace.Compact>

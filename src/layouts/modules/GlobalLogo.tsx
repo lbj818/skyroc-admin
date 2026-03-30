@@ -9,8 +9,6 @@ interface Props extends Omit<LinkProps, 'to'> {
   showTitle?: boolean;
 }
 const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) => {
-  const { t } = useTranslation();
-
   return (
     <Link
       className={clsx('w-full flex-center nowrap-hidden', className)}
@@ -22,7 +20,7 @@ const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) =
         className="pl-8px text-16px text-primary font-bold transition duration-300 ease-in-out"
         style={{ display: showTitle ? 'block' : 'none' }}
       >
-        {t('system.title')}
+        Skyroc 管理系统
       </h2>
     </Link>
   );

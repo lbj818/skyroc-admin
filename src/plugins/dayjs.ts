@@ -1,10 +1,9 @@
 import { extend } from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 
-import { setDayjsLocale } from '../locales/dayjs';
+import 'dayjs/locale/zh-cn';
 
 export function setupDayjs() {
   extend(localeData);
-
-  setDayjsLocale();
+  import('dayjs').then(dayjs => dayjs.locale('zh-cn'));
 }

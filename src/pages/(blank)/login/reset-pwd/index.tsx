@@ -9,8 +9,6 @@ interface FormModel {
 }
 
 const ResetPwd = () => {
-  const { t } = useTranslation();
-
   const [form] = AForm.useForm<FormModel>();
 
   const { navigateUp } = useRouter();
@@ -19,9 +17,7 @@ const ResetPwd = () => {
 
   function handleSubmit(params: FormModel) {
     console.log(params);
-
-    // request to reset password
-    window.$message?.success(t('page.login.common.validateSuccess'));
+    window.$message?.success('验证成功');
   }
 
   useKeyPress('enter', () => {
@@ -30,7 +26,7 @@ const ResetPwd = () => {
 
   return (
     <>
-      <h3 className="text-18px text-primary font-medium">{t('page.login.register.title')}</h3>
+      <h3 className="text-18px text-primary font-medium">重置密码</h3>
       <AForm
         className="pt-24px"
         form={form}
@@ -40,13 +36,13 @@ const ResetPwd = () => {
           name="phone"
           rules={formRules.phone}
         >
-          <AInput placeholder={t('page.login.common.phonePlaceholder')} />
+          <AInput placeholder="请输入手机号" />
         </AForm.Item>
         <AForm.Item
           name="code"
           rules={formRules.code}
         >
-          <AInput placeholder={t('page.login.common.codePlaceholder')} />
+          <AInput placeholder="请输入验证码" />
         </AForm.Item>
         <AForm.Item
           name="password"
@@ -54,7 +50,7 @@ const ResetPwd = () => {
         >
           <AInput.Password
             autoComplete="password"
-            placeholder={t('page.login.common.passwordPlaceholder')}
+            placeholder="请输入密码"
           />
         </AForm.Item>
         <AForm.Item
@@ -63,7 +59,7 @@ const ResetPwd = () => {
         >
           <AInput.Password
             autoComplete="confirm-password"
-            placeholder={t('page.login.common.confirmPasswordPlaceholder')}
+            placeholder="请再次输入密码"
           />
         </AForm.Item>
         <ASpace
@@ -78,7 +74,7 @@ const ResetPwd = () => {
             size="large"
             type="primary"
           >
-            {t('common.confirm')}
+            确认
           </AButton>
 
           <AButton
@@ -87,7 +83,7 @@ const ResetPwd = () => {
             size="large"
             onClick={navigateUp}
           >
-            {t('page.login.common.back')}
+            返回
           </AButton>
         </ASpace>
       </AForm>

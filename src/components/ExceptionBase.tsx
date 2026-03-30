@@ -20,7 +20,6 @@ const iconMap: Record<ExceptionType, string> = {
   '500': 'service-error'
 };
 const ExceptionBase: FC<Props> = memo(({ type }) => {
-  const { t } = useTranslation();
   const nav = useNavigate();
 
   const onClick = () => {
@@ -36,7 +35,7 @@ const ExceptionBase: FC<Props> = memo(({ type }) => {
         type="primary"
         onClick={onClick}
       >
-        {t('common.backToHome')}
+        返回首页
       </AButton>
     </div>
   );

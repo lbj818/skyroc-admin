@@ -1,4 +1,3 @@
-import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 import { Outlet, matchRoutes } from 'react-router-dom';
 
 import { usePrevious, useRoute } from '@/features/router';
@@ -22,7 +21,7 @@ function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
 
 // eslint-disable-next-line max-params
 function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean, previousRoute: Router.Route | null) {
-  const loginRoute: RoutePath = '/login';
+  const loginRoute = '/login';
 
   const isLogin = Boolean(localStg.get('token'));
 
@@ -45,8 +44,8 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean, p
     return location;
   }
 
-  const rootRoute: RoutePath = '/';
-  const noAuthorizationRoute: RoutePath = '/403';
+  const rootRoute = '/';
+  const noAuthorizationRoute = '/403';
 
   const needLogin = !to.handle.constant;
   const routeRoles = to.handle.roles || [];
@@ -89,7 +88,7 @@ const RootLayout = () => {
 
   const location = useRef<string | { path: string; replace: boolean } | null>(null);
 
-  const { i18nKey, title } = handle;
+  const { title } = handle;
 
   const { data: userInfo } = useUserInfo();
 
@@ -97,11 +96,9 @@ const RootLayout = () => {
 
   const isSuper = userInfo?.roles.includes(import.meta.env.VITE_STATIC_SUPER_ROLE);
 
-  const { t } = useTranslation();
-
   useEffect(() => {
-    document.title = i18nKey ? t(i18nKey) : title;
-  }, [i18nKey, title, t]);
+    document.title = title ?? '';
+  }, [title]);
 
   useEffect(() => {
     window.NProgress?.done?.();

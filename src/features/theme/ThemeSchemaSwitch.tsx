@@ -18,11 +18,9 @@ const DEFAULT_ANIMATION_DURATION = 400;
 const DEFAULT_ANIMATION_EASING = 'ease-out';
 
 const ThemeSchemaSwitch: FC<Props> = memo(({ showTooltip = true, tooltipPlacement = 'bottom', ...props }) => {
-  const { t } = useTranslation();
-
   const { darkMode, themeScheme, toggleThemeScheme } = useContext(ThemeContext);
 
-  const tooltipContent = showTooltip ? t('icon.themeSchema') : '';
+  const tooltipContent = showTooltip ? '主题模式' : '';
 
   const toggleDark: ButtonProps['onClick'] = event => {
     const isAppearanceTransition = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -26,6 +26,7 @@ export async function initAuthRoutes(addRoutes: (parent: string | null, route: R
     // 超级管理员
     if (isSuper) {
       reactAuthRoutes.forEach(route => {
+        console.log(route);
         addRoutes(route.parent, route.route);
       });
     } else {

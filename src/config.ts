@@ -16,29 +16,8 @@ class GlobalConfig {
   /** - 默认暗色模式 */
   private _defaultDarkMode = false;
 
-  /** - 默认语言 */
-  private _defaultLang: App.I18n.LangType = 'zh-CN';
-
-  /** - 默认语言选项 */
-  private _defaultLangOptions: App.I18n.LangOption[] = [
-    {
-      key: 'zh-CN',
-      label: '中文'
-    },
-    {
-      key: 'en-US',
-      label: 'English'
-    }
-  ];
-
   constructor() {
-    /** - 初始化默认主题颜色 */
     this._defaultThemeColor = localStg.get('themeColor') || themeSettings.themeColor;
-
-    /** - 初始化默认语言 */
-    this._defaultLang = localStg.get('lang') || this._defaultLang;
-
-    /** - 初始化默认暗色模式 */
     this._defaultDarkMode = localStg.get('darkMode') || this._defaultDarkMode;
   }
 
@@ -92,21 +71,6 @@ class GlobalConfig {
   /** - 设置默认暗色模式 */
   set defaultDarkMode(darkMode: boolean) {
     this._defaultDarkMode = darkMode;
-  }
-
-  /** - 默认语言 */
-  get defaultLang() {
-    return this._defaultLang;
-  }
-
-  /** - 设置默认语言 */
-  set defaultLang(lang: App.I18n.LangType) {
-    this._defaultLang = lang;
-  }
-
-  /** - 默认语言选项 */
-  get defaultLangOptions() {
-    return this._defaultLangOptions;
   }
 
   /** - 默认主题颜色 */

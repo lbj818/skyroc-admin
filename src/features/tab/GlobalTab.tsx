@@ -14,8 +14,6 @@ import { useTabActions, useTabManager } from './tabHooks';
 import { useTabScroll } from './useTabScroll';
 
 const GlobalTab = () => {
-  const { t } = useTranslation();
-
   const isPCFlag = isPC();
 
   const { darkMode } = useTheme();
@@ -108,7 +106,7 @@ const GlobalTab = () => {
                     }
                     onClick={() => handleClickTab(item)}
                   >
-                    <div className="max-w-240px ellipsis-text">{item.i18nKey ? t(item.i18nKey) : item.label}</div>
+                    <div className="max-w-240px ellipsis-text">{item.label}</div>
                   </PageTab>
                 </div>
               </ContextMenu>

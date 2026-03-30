@@ -199,7 +199,7 @@ export function getAntdTheme(
         subMenuItemBg: 'transparent'
       }
     },
-    cssVar: true,
+    cssVar: {},
     token: {
       colorBgContainer: containerBgColor,
       colorError: error,

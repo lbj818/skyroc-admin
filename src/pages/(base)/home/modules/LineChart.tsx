@@ -1,10 +1,4 @@
-import { useLang } from '@/features/lang';
-
 const LineChart = () => {
-  const { t } = useTranslation();
-
-  const { locale } = useLang();
-
   const { domRef, updateOptions } = useEcharts(() => ({
     grid: {
       bottom: '3%',
@@ -13,21 +7,15 @@ const LineChart = () => {
       right: '4%'
     },
     legend: {
-      data: [t('page.home.downloadCount'), t('page.home.registerCount')]
+      data: ['下载量', '注册量']
     },
     series: [
       {
         areaStyle: {
           color: {
             colorStops: [
-              {
-                color: '#8e9dff',
-                offset: 0.25
-              },
-              {
-                color: '#fff',
-                offset: 1
-              }
+              { color: '#8e9dff', offset: 0.25 },
+              { color: '#fff', offset: 1 }
             ],
             type: 'linear',
             x: 0,
@@ -38,10 +26,8 @@ const LineChart = () => {
         },
         color: '#8e9dff',
         data: [] as number[],
-        emphasis: {
-          focus: 'series'
-        },
-        name: t('page.home.downloadCount'),
+        emphasis: { focus: 'series' },
+        name: '下载量',
         smooth: true,
         stack: 'Total',
         type: 'line'
@@ -50,14 +36,8 @@ const LineChart = () => {
         areaStyle: {
           color: {
             colorStops: [
-              {
-                color: '#26deca',
-                offset: 0.25
-              },
-              {
-                color: '#fff',
-                offset: 1
-              }
+              { color: '#26deca', offset: 0.25 },
+              { color: '#fff', offset: 1 }
             ],
             type: 'linear',
             x: 0,
@@ -68,32 +48,19 @@ const LineChart = () => {
         },
         color: '#26deca',
         data: [],
-        emphasis: {
-          focus: 'series'
-        },
-        name: t('page.home.registerCount'),
+        emphasis: { focus: 'series' },
+        name: '注册量',
         smooth: true,
         stack: 'Total',
         type: 'line'
       }
     ],
     tooltip: {
-      axisPointer: {
-        label: {
-          backgroundColor: '#6a7985'
-        },
-        type: 'cross'
-      },
+      axisPointer: { label: { backgroundColor: '#6a7985' }, type: 'cross' },
       trigger: 'axis'
     },
-    xAxis: {
-      boundaryGap: false,
-      data: [] as string[],
-      type: 'category'
-    },
-    yAxis: {
-      type: 'value'
-    }
+    xAxis: { boundaryGap: false, data: [] as string[], type: 'category' },
+    yAxis: { type: 'value' }
   }));
 
   async function mockData() {
@@ -114,25 +81,11 @@ const LineChart = () => {
     mockData();
   }
 
-  function updateLocale() {
-    updateOptions((opts, factory) => {
-      const originOpts = factory();
-      opts.legend.data = originOpts.legend.data;
-      opts.series[0].name = originOpts.series[0].name;
-      opts.series[1].name = originOpts.series[1].name;
-
-      return opts;
-    });
-  }
   // init
 
   useMount(() => {
     init();
   });
-
-  useUpdateEffect(() => {
-    updateLocale();
-  }, [locale]);
   return (
     <ACard
       className="card-wrapper"

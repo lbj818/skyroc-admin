@@ -10,14 +10,12 @@ const variants = {
 };
 
 const ProjectNews = () => {
-  const { t } = useTranslation();
-
   const [newses, { down, pop, push, remove, reset, reverse, shift, sort, unshift, up }] = useArray([
-    { content: t('page.home.projectNews.desc1'), id: 1, time: '2021-05-28 22:22:22' },
-    { content: t('page.home.projectNews.desc2'), id: 2, time: '2023-10-27 10:24:54' },
-    { content: t('page.home.projectNews.desc3'), id: 3, time: '2021-10-31 22:43:12' },
-    { content: t('page.home.projectNews.desc4'), id: 4, time: '2022-11-03 20:33:31' },
-    { content: t('page.home.projectNews.desc5'), id: 5, time: '2021-11-07 22:45:32' }
+    { content: 'Skyroc 在2021年5月28日创建了开源项目 skyroc-admin!', id: 1, time: '2021-05-28 22:22:22' },
+    { content: 'Yanbowe 向 skyroc-admin 提交了一个bug，多标签栏不会自适应。', id: 2, time: '2023-10-27 10:24:54' },
+    { content: 'Skyroc 准备为 skyroc-admin 的发布做充分的准备工作!', id: 3, time: '2021-10-31 22:43:12' },
+    { content: 'Skyroc 正在忙于为skyroc-admin写项目说明文档！', id: 4, time: '2022-11-03 20:33:31' },
+    { content: 'Skyroc 刚才把工作台页面随便写了一些，凑合能看了！', id: 5, time: '2021-11-07 22:45:32' }
   ]);
 
   const sortByTimeDesc = () => {
@@ -28,7 +26,7 @@ const ProjectNews = () => {
     <ACard
       className="card-wrapper"
       size="small"
-      title={t('page.home.projectNews.title')}
+      title="项目动态"
       variant="borderless"
       extra={[
         <AButton
@@ -84,7 +82,7 @@ const ProjectNews = () => {
           className="ml-8px text-primary"
           key="a"
         >
-          {t('page.home.projectNews.moreNews')}
+          更多动态
         </a>
       ]}
     >

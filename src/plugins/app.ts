@@ -3,8 +3,6 @@ import { createElement } from 'react';
 
 import { globalConfig } from '@/config';
 
-import { $t } from '../locales';
-
 export function setupAppVersionNotification() {
   const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' && import.meta.env.PROD;
 
@@ -31,14 +29,13 @@ export function setupAppVersionNotification() {
           [
             createElement(
               Button,
-
               {
                 key: 'cancel',
                 onClick() {
                   window.$notification?.destroy();
                 }
               },
-              $t('system.updateCancel')
+              '稍后再说'
             ),
             createElement(
               Button,
@@ -49,13 +46,13 @@ export function setupAppVersionNotification() {
                 },
                 type: 'primary'
               },
-              $t('system.updateConfirm')
+              '立即刷新'
             )
           ]
         );
       })(),
-      description: $t('system.updateContent'),
-      message: $t('system.updateTitle'),
+      description: '检测到系统有新版本发布，是否立即刷新页面？',
+      message: '系统版本更新通知',
       onClose() {
         isShow = false;
       }

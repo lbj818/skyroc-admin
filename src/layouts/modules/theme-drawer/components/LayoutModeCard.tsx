@@ -2,7 +2,6 @@ import type { TooltipProps } from 'antd';
 import { Tooltip } from 'antd';
 import clsx from 'clsx';
 
-import { themeLayoutModeRecord } from '@/constants/app';
 import { setLayoutMode } from '@/features/theme';
 import { getIsMobile } from '@/layouts/appStore';
 
@@ -52,10 +51,15 @@ const LayoutModeCard: FC<Props> = ({ mode, ...rest }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const { t } = useTranslation();
+  const layoutModeLabels: Record<UnionKey.ThemeLayoutMode, string> = {
+    horizontal: '顶部菜单模式',
+    'horizontal-mix': '顶部菜单混合模式',
+    vertical: '左侧菜单模式',
+    'vertical-mix': '左侧菜单混合模式'
+  };
+
   function handleChangeMode(modeType: UnionKey.ThemeLayoutMode) {
     if (isMobile) return;
-
     dispatch(setLayoutMode(modeType));
   }
 
@@ -72,7 +76,7 @@ const LayoutModeCard: FC<Props> = ({ mode, ...rest }: Props) => {
         >
           <Tooltip
             placement={item.placement}
-            title={t(themeLayoutModeRecord[key as UnionKey.ThemeLayoutMode])}
+            title={layoutModeLabels[key as UnionKey.ThemeLayoutMode]}
           >
             <div
               className={clsx(

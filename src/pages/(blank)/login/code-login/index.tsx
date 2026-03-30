@@ -11,17 +11,13 @@ const CodeLogin = () => {
 
   const { getCaptcha, isCounting, label, loading } = useCaptcha();
 
-  const { t } = useTranslation();
-
   const { formRules } = useFormRules();
 
   const { navigateUp } = useRouter();
 
   function handleSubmit(params: FormValues) {
     console.log(params);
-
-    // request to reset password
-    window.$message?.success(t('page.login.common.validateSuccess'));
+    window.$message?.success('验证成功');
   }
 
   function sendCaptcha() {
@@ -34,7 +30,7 @@ const CodeLogin = () => {
 
   return (
     <>
-      <h3 className="text-18px text-primary font-medium">{t('page.login.codeLogin.title')}</h3>
+      <h3 className="text-18px text-primary font-medium">验证码登录</h3>
       <AForm
         className="pt-24px"
         form={form}
@@ -44,7 +40,7 @@ const CodeLogin = () => {
           name="phone"
           rules={formRules.phone}
         >
-          <AInput placeholder={t('page.login.common.phonePlaceholder')} />
+          <AInput placeholder="请输入手机号" />
         </AForm.Item>
 
         <AForm.Item
@@ -52,7 +48,7 @@ const CodeLogin = () => {
           rules={formRules.code}
         >
           <div className="w-full flex-y-center gap-16px">
-            <AInput placeholder={t('page.login.common.codePlaceholder')} />
+            <AInput placeholder="请输入验证码" />
             <AButton
               disabled={isCounting}
               loading={loading}
@@ -75,7 +71,7 @@ const CodeLogin = () => {
             size="large"
             type="primary"
           >
-            {t('common.confirm')}
+            确认
           </AButton>
 
           <AButton
@@ -84,7 +80,7 @@ const CodeLogin = () => {
             size="large"
             onClick={navigateUp}
           >
-            {t('page.login.common.back')}
+            返回
           </AButton>
         </ASpace>
       </AForm>

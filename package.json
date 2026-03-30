@@ -1,34 +1,9 @@
 {
-  "name": "skyroc-admin",
+  "name": "grc-web-react",
   "type": "module",
   "version": "2.5.0",
   "private": false,
   "packageManager": "pnpm@10.4.1",
-  "description": "A fresh and elegant admin template, based on React18、Vite5、TypeScript、Ant Design and UnoCSS. 一个基于React18、Vite5、TypeScript、Ant Design and UnoCSS的清新优雅的中后台模版。",
-  "author": {
-    "name": "Ohh",
-    "email": "1509326266@qq.com",
-    "url": "https://github.com/mufeng889"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/Ohh-889/skyroc-admin",
-  "repository": {
-    "url": "https://github.com/Ohh-889/skyroc-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Ohh-889/skyroc-admin/issues"
-  },
-  "keywords": [
-    "React admin",
-    "react-admin-template",
-    "Vite5",
-    "TypeScript",
-    "Ant Design",
-    "antd-admin",
-    "Redux",
-    "React-Router V6",
-    "UnoCSS"
-  ],
   "engines": {
     "node": ">=18.12.0",
     "pnpm": ">=8.7.0"
@@ -41,7 +16,6 @@
     "commit:zh": "sa git-commit -l=zh-cn",
     "dev": "vite --mode test",
     "dev:prod": "vite --mode prod",
-    "gen-route": "sa gen-route",
     "lint": "eslint . --fix",
     "prepare": "simple-git-hooks",
     "preview": "vite preview",
@@ -50,7 +24,6 @@
     "update-pkg": "sa update-pkg"
   },
   "dependencies": {
-    "@ant-design/v5-patch-for-react-19": "1.0.3",
     "@better-scroll/core": "2.5.1",
     "@dnd-kit/core": "6.3.1",
     "@dnd-kit/sortable": "10.0.0",
@@ -63,11 +36,11 @@
     "@sa/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.8",
     "ahooks": "3.8.4",
-    "antd": "5.24.1",
+    "antd": "6.3.4",
+    "classnames": "^2.5.1",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "echarts": "5.6.0",
-    "i18next": "24.2.2",
     "keepalive-for-react": "4.0.0",
     "lodash-es": "4.17.21",
     "motion": "12.4.7",
@@ -75,7 +48,6 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-error-boundary": "5.0.0",
-    "react-i18next": "15.4.1",
     "react-redux": "9.2.0",
     "react-router-dom": "7.2.0"
   },
@@ -84,7 +56,6 @@
     "@iconify/types": "2.0.0",
     "@sa/scripts": "workspace:*",
     "@sa/uno-preset": "workspace:*",
-    "@soybean-react/vite-plugin-react-router": "0.7.1",
     "@soybeanjs/eslint-config": "1.5.3",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",

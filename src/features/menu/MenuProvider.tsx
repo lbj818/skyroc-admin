@@ -2,7 +2,6 @@ import type { FC, PropsWithChildren } from 'react';
 
 import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/features/tab/tabStore';
 
-import { useLang } from '../lang';
 import { useRoute, useRouter } from '../router';
 import { getBaseChildrenRoutes } from '../router/routes';
 
@@ -16,14 +15,12 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const dispatch = useAppDispatch();
 
-  const { locale } = useLang();
-
   const activeFirstLevelMenuKey = useAppSelector(selectActiveFirstLevelMenuKey);
 
   const menus = useMemo(
     () => filterRoutesToMenus(getBaseChildrenRoutes(router.reactRouter.routes)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.reactRouter.routes, locale]
+    [router.reactRouter.routes]
   );
 
   const firstLevelMenu = menus.map(menu => {

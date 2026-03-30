@@ -7,8 +7,6 @@ import SettingItem from '../components/SettingItem';
 import CustomPicker from './CustomPicker';
 
 const ThemeColor = () => {
-  const { t } = useTranslation();
-
   const themeSettings = useAppSelector(getThemeSettings);
 
   const dispatch = useAppDispatch();
@@ -25,7 +23,7 @@ const ThemeColor = () => {
         placement="topLeft"
         title={
           <p>
-            <span className="pr-12px">{t('theme.recommendColorDesc')}</span>
+            <span className="pr-12px">推荐颜色的算法参照</span>
             <br />
             <Button
               className="text-gray"
@@ -42,7 +40,7 @@ const ThemeColor = () => {
         <div>
           <SettingItem
             key="recommend-color"
-            label={t('theme.recommendColor')}
+            label="应用推荐算法的颜色"
           >
             <Switch
               checked={themeSettings.recommendColor}

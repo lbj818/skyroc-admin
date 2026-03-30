@@ -22,8 +22,6 @@ const icons: Record<NumberBool, Record<NumberBool, string>> = {
 };
 
 const MenuToggler = ({ arrowIcon, className }: Props) => {
-  const { t } = useTranslation();
-
   const siderCollapse = useAppSelector(getSiderCollapse);
 
   const dispatch = useAppDispatch();
@@ -35,7 +33,7 @@ const MenuToggler = ({ arrowIcon, className }: Props) => {
   return (
     <ButtonIcon
       className={className}
-      tooltipContent={siderCollapse ? t('icon.expand') : t('icon.collapse')}
+      tooltipContent={siderCollapse ? '展开菜单' : '折叠菜单'}
       tooltipPlacement="bottomLeft"
       onClick={() => dispatch(toggleSiderCollapse())}
     >

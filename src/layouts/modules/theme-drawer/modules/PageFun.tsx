@@ -1,6 +1,5 @@
 import { InputNumber, Select, Switch } from 'antd';
 
-import { themePageAnimationModeOptions, themeScrollModeOptions, themeTabModeOptions } from '@/constants/app';
 import {
   getThemeSettings,
   setFixedHeaderAndTab,
@@ -16,59 +15,64 @@ import {
 import SettingItem from '../components/SettingItem';
 
 const PageFun = memo(() => {
-  const { t } = useTranslation();
-
   const themeSetting = useAppSelector(getThemeSettings);
 
   const dispatch = useAppDispatch();
 
   const isWrapperScrollMode = themeSetting.layout.scrollMode === 'wrapper';
-
   const isPageAnimate = themeSetting.page.animate;
-
   const layoutMode = themeSetting.layout.mode;
-
   const isMixLayoutMode = layoutMode.includes('mix');
-
   const isVertical = layoutMode === 'vertical';
+
+  const scrollModeOptions = [
+    { label: '外层滚动', value: 'wrapper' },
+    { label: '主体滚动', value: 'content' }
+  ];
+  const pageAnimationModeOptions = [
+    { label: '弹动', value: 'fade' },
+    { label: '底部消退', value: 'fade-bottom' },
+    { label: '缩放消退', value: 'fade-scale' },
+    { label: '滑动', value: 'fade-slide' },
+    { label: '无', value: 'none' },
+    { label: '渐变', value: 'zoom-fade' },
+    { label: '闪现', value: 'zoom-out' }
+  ];
+  const tabModeOptions = [
+    { label: '按钮风格', value: 'button' },
+    { label: '谷歌风格', value: 'chrome' },
+    { label: '滑块风格', value: 'slider' }
+  ];
 
   return (
     <div className="relative flex-col-stretch gap-12px">
-      <SettingItem label={t('theme.scrollMode.title')}>
+      <SettingItem label="滚动模式">
         <Select
           className="w-120px"
+          options={scrollModeOptions}
           value={themeSetting.layout.scrollMode}
-          options={themeScrollModeOptions.map(item => ({
-            label: t(item.label),
-            value: item.value
-          }))}
           onChange={value => dispatch(setLayoutScrollMode(value))}
         />
       </SettingItem>
-      <SettingItem label={t('theme.page.animate')}>
+      <SettingItem label="页面切换动画">
         <Switch
           checked={isPageAnimate}
           onChange={value => dispatch(setPage({ animate: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.page.mode.title')}
+        label="页面切换动画类型"
         show={isPageAnimate}
       >
         <Select
           className="w-120px"
+          options={pageAnimationModeOptions}
           value={themeSetting.page.animateMode}
-          options={themePageAnimationModeOptions.map(item => ({
-            label: t(item.label),
-            value: item.value
-          }))}
           onChange={value => dispatch(setPage({ animateMode: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.fixedHeaderAndTab')}
+        label="固定头部和标签栏"
         show={isWrapperScrollMode}
       >
         <Switch
@@ -76,23 +80,21 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setFixedHeaderAndTab(value))}
         />
       </SettingItem>
-
-      <SettingItem label={t('theme.header.height')}>
+      <SettingItem label="头部高度">
         <InputNumber
           className="w-120px"
           value={themeSetting.header.height}
           onChange={value => dispatch(setHeader({ height: value ?? 0 }))}
         />
       </SettingItem>
-      <SettingItem label={t('theme.header.breadcrumb.visible')}>
+      <SettingItem label="显示面包屑">
         <Switch
           value={themeSetting.header.breadcrumb.visible}
           onChange={value => dispatch(setHeader({ breadcrumb: { visible: value } }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.header.breadcrumb.showIcon')}
+        label="显示面包屑图标"
         show={themeSetting.header.breadcrumb.visible}
       >
         <Switch
@@ -100,16 +102,14 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setHeader({ breadcrumb: { showIcon: value } }))}
         />
       </SettingItem>
-
-      <SettingItem label={t('theme.tab.visible')}>
+      <SettingItem label="显示标签栏">
         <Switch
           value={themeSetting.tab.visible}
           onChange={value => dispatch(setTab({ visible: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.tab.height')}
+        label="标签栏高度"
         show={themeSetting.tab.visible}
       >
         <InputNumber
@@ -118,24 +118,19 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setTab({ height: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.tab.mode.title')}
+        label="标签栏风格"
         show={themeSetting.tab.visible}
       >
         <Select
           className="w-120px"
+          options={tabModeOptions}
           value={themeSetting.tab.mode}
-          options={themeTabModeOptions.map(item => ({
-            label: t(item.label),
-            value: item.value
-          }))}
           onChange={value => dispatch(setTab({ mode: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.sider.width')}
+        label="侧边栏宽度"
         show={isVertical}
       >
         <InputNumber
@@ -144,9 +139,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setSider({ width: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.sider.collapsedWidth')}
+        label="侧边栏折叠宽度"
         show={isVertical}
       >
         <InputNumber
@@ -155,9 +149,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setSider({ collapsedWidth: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.sider.mixWidth')}
+        label="混合布局侧边栏宽度"
         show={isMixLayoutMode}
       >
         <InputNumber
@@ -166,9 +159,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setSider({ mixWidth: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.sider.mixCollapsedWidth')}
+        label="混合布局侧边栏折叠宽度"
         show={isMixLayoutMode}
       >
         <InputNumber
@@ -177,9 +169,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setSider({ mixCollapsedWidth: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.sider.mixChildMenuWidth')}
+        label="混合布局子菜单宽度"
         show={layoutMode === 'vertical-mix'}
       >
         <InputNumber
@@ -188,16 +179,14 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setSider({ mixChildMenuWidth: value ?? 0 }))}
         />
       </SettingItem>
-
-      <SettingItem label={t('theme.footer.visible')}>
+      <SettingItem label="显示底部">
         <Switch
           value={themeSetting.footer.visible}
           onChange={value => dispatch(setFooter({ visible: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.footer.fixed')}
+        label="固定底部"
         show={Boolean(themeSetting.footer.visible && isWrapperScrollMode)}
       >
         <Switch
@@ -205,9 +194,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setFooter({ fixed: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.footer.height')}
+        label="底部高度"
         show={themeSetting.footer.visible}
       >
         <InputNumber
@@ -216,9 +204,8 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setFooter({ height: value ?? 0 }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.footer.right')}
+        label="底部局右"
         show={Boolean(themeSetting.footer.visible && layoutMode === 'horizontal-mix')}
       >
         <Switch
@@ -226,16 +213,14 @@ const PageFun = memo(() => {
           onChange={value => dispatch(setFooter({ right: value }))}
         />
       </SettingItem>
-
-      <SettingItem label={t('theme.watermark.visible')}>
+      <SettingItem label="显示全屏水印">
         <Switch
           value={themeSetting.watermark?.visible}
           onChange={value => dispatch(setWatermark({ visible: value }))}
         />
       </SettingItem>
-
       <SettingItem
-        label={t('theme.watermark.text')}
+        label="水印文本"
         show={Boolean(themeSetting.watermark.visible)}
       >
         <AInput

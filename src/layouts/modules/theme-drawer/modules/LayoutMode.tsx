@@ -49,8 +49,6 @@ const LAYOUTS_COMPONENTS: Record<UnionKey.ThemeLayoutMode, React.ReactNode> = {
 const LayoutMode = memo(() => {
   const themeSettings = useAppSelector(getThemeSettings);
 
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
 
   function toggleReverseHorizontalMix(checked: boolean) {
@@ -66,7 +64,7 @@ const LayoutMode = memo(() => {
 
       <SettingItem
         className="mt-16px"
-        label={t('theme.layoutMode.reverseHorizontalMix')}
+        label="一级菜单与子级菜单位置反转"
         show={themeSettings.layout.mode === 'horizontal-mix'}
       >
         <ASwitch

@@ -7,12 +7,10 @@ interface Props {
 }
 
 const FullScreen = ({ className, full, toggleFullscreen }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <ButtonIcon
       className={className}
-      tooltipContent={full ? t('icon.fullscreenExit') : t('icon.fullscreen')}
+      tooltipContent={full ? '退出全屏' : '全屏'}
       onClick={toggleFullscreen}
     >
       {full ? <IconGridiconsFullscreenExit /> : <IconGridiconsFullscreen />}

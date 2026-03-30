@@ -1,0 +1,19 @@
+# 依赖目录
+node_modules
+dist
+build
+.next
+out
+
+# 锁文件
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# 类型定义文件
+*.d.ts
+
+# 其他
+coverage
+.vscode
+.idea

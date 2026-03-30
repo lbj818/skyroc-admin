@@ -5,22 +5,12 @@ import { REG_PHONE } from '@/constants/reg';
 export function useCaptcha() {
   const { endLoading, loading, startLoading } = useLoading();
   const { count, isCounting, start } = useCountDownTimer(10);
-  const { t } = useTranslation();
   const label = useMemo(() => {
-    let text = t('page.login.codeLogin.getCode');
-
-    const countingLabel = t('page.login.codeLogin.reGetCode', { time: count });
-
-    if (loading) {
-      text = '';
-    }
-
-    if (isCounting) {
-      text = countingLabel;
-    }
-
+    let text = '获取验证码';
+    if (loading) text = '';
+    if (isCounting) text = `${count}秒后重新获取`;
     return text;
-  }, [count]);
+  }, [count, loading, isCounting]);
 
   function isPhoneValid(phone: string) {
     if (phone.trim() === '') {

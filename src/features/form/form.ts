@@ -1,47 +1,45 @@
 import type { FormInstance } from 'antd';
 
 import { REG_CODE_SIX, REG_EMAIL, REG_PHONE, REG_PWD, REG_USER_NAME } from '@/constants/reg';
-import { $t } from '@/locales';
 
 export function useFormRules() {
   const patternRules = {
     code: {
-      message: $t('form.code.invalid'),
+      message: '验证码格式不正确',
       pattern: REG_CODE_SIX,
       validateTrigger: 'onChange'
     },
     email: {
-      message: $t('form.email.invalid'),
+      message: '邮箱格式不正确',
       pattern: REG_EMAIL,
       validateTrigger: 'onChange'
     },
     phone: {
-      message: $t('form.phone.invalid'),
+      message: '手机号格式不正确',
       pattern: REG_PHONE,
       validateTrigger: 'onChange'
     },
     pwd: {
-      message: $t('form.pwd.invalid'),
+      message: '密码格式不正确，6-18位字符，包含字母、数字、下划线',
       pattern: REG_PWD,
       validateTrigger: 'onChange'
     },
     userName: {
-      message: $t('form.userName.invalid'),
+      message: '用户名格式不正确',
       pattern: REG_USER_NAME,
       validateTrigger: 'onChange'
     }
   } satisfies Record<string, App.Global.FormRule>;
 
   const formRules = {
-    code: [createRequiredRule($t('form.code.required')), patternRules.code],
-    email: [createRequiredRule($t('form.email.required')), patternRules.email],
-    phone: [createRequiredRule($t('form.phone.required')), patternRules.phone],
-    pwd: [createRequiredRule($t('form.pwd.required')), patternRules.pwd],
-    userName: [createRequiredRule($t('form.userName.required')), patternRules.userName]
+    code: [createRequiredRule('请输入验证码'), patternRules.code],
+    email: [createRequiredRule('请输入邮箱'), patternRules.email],
+    phone: [createRequiredRule('请输入手机号'), patternRules.phone],
+    pwd: [createRequiredRule('请输入密码'), patternRules.pwd],
+    userName: [createRequiredRule('请输入用户名'), patternRules.userName]
   } satisfies Record<string, App.Global.FormRule[]>;
 
-  /** the default required rule */
-  const defaultRequiredRule = createRequiredRule($t('form.required'));
+  const defaultRequiredRule = createRequiredRule('不能为空');
 
   function createRequiredRule(message: string): App.Global.FormRule {
     return {
@@ -50,12 +48,11 @@ export function useFormRules() {
     };
   }
 
-  /** create a rule for confirming the password */
   function createConfirmPwdRule(from: FormInstance) {
     const confirmPwdRule: App.Global.FormRule[] = [
-      { message: $t('form.confirmPwd.required'), required: true },
+      { message: '请再次输入密码', required: true },
       {
-        message: $t('form.confirmPwd.invalid'),
+        message: '两次输入密码不一致',
         validateTrigger: 'onChange',
         validator: (rule, value) => {
           const pwd = from.getFieldValue('password');

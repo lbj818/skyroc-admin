@@ -1,12 +1,10 @@
 const CreativityBanner = () => {
-  const { t } = useTranslation();
-
   return (
     <ACard
       className="h-full flex-col-stretch card-wrapper"
       size="small"
       styles={{ body: { flex: 1, overflow: 'hidden' } }}
-      title={t('page.home.creativity')}
+      title="创意"
       variant="borderless"
     >
       <div className="h-full flex-center">

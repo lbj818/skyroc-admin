@@ -52,8 +52,6 @@ export function useInitAuth() {
 
   const { refetch: refetchUserInfo } = useUserInfo();
 
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
 
   const { replace } = useRouter();
@@ -97,8 +95,8 @@ export function useInitAuth() {
           }
 
           window.$notification?.success({
-            description: t('page.login.common.welcomeBack', { userName: info.userName }),
-            message: t('page.login.common.loginSuccess')
+            description: `欢迎回来，${info.userName} ！`,
+            message: '登录成功'
           });
         } else {
           endLoading();

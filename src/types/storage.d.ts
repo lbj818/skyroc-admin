@@ -20,7 +20,7 @@ declare namespace StorageType {
     /** The global tabs */
     globalTabs: App.Global.Tab[];
     /** The i18n language */
-    lang: App.I18n.LangType;
+    lang: string;
     /** Fixed sider with mix-menu */
     mixSiderFixed: CommonType.YesOrNo;
     /**

@@ -8,8 +8,6 @@ import { DARK_CLASS } from '@/constants/app';
 import { toggleHtmlClass } from '@/utils/common';
 
 const GlobalLoading = memo(() => {
-  const { t } = useTranslation();
-
   const { defaultDarkMode, defaultThemeColor } = globalConfig;
 
   if (defaultDarkMode) {
@@ -43,7 +41,7 @@ const GlobalLoading = memo(() => {
           })}
         </div>
       </div>
-      <h2 className="text-28px text-primary font-500">{t('system.title')}</h2>
+      <h2 className="text-28px text-primary font-500">Skyroc 管理系统</h2>
     </div>
   );
 });

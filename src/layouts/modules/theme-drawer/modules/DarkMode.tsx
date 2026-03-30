@@ -12,7 +12,6 @@ import SettingItem from '../components/SettingItem';
 import '@/styles/css/darkMode.css';
 
 const DarkMode = () => {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const themeSettings = useAppSelector(getThemeSettings);
@@ -34,21 +33,21 @@ const DarkMode = () => {
         <ThemeSchemaSegmented />
       </div>
 
-      <SettingItem label={t('theme.grayscale')}>
+      <SettingItem label="灰度模式">
         <Switch
           checked={themeSettings.grayscale}
           onChange={handleGrayscaleChange}
         />
       </SettingItem>
 
-      <SettingItem label={t('theme.colourWeakness')}>
+      <SettingItem label="色弱模式">
         <Switch
           checked={themeSettings.colourWeakness}
           onChange={handleAuxiliaryColorChange}
         />
       </SettingItem>
 
-      <SettingItem label={t('theme.isOnlyExpandCurrentParentMenu')}>
+      <SettingItem label="仅展开当前父级菜单">
         <Switch
           checked={themeSettings.isOnlyExpandCurrentParentMenu}
           onChange={handleIsOnlyExpandCurrentParentMenuChange}
