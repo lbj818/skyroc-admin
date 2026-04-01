@@ -19,6 +19,12 @@ declare namespace StorageType {
     darkMode: boolean;
     /** The global tabs */
     globalTabs: App.Global.Tab[];
+    /** GRC refresh token */
+    grcRefreshToken: string;
+    /** GRC access token */
+    grcToken: string;
+    /** GRC user info */
+    grcUserInfo: GrcApi.Auth.UserInfo;
     /** The i18n language */
     lang: string;
     /** Fixed sider with mix-menu */

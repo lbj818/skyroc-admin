@@ -36,6 +36,8 @@ export default defineConfig(
         }
       ],
 
+      'no-console': 'off',
+
       'no-continue': 'off',
 
       'no-underscore-dangle': 'off',

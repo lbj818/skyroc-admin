@@ -25,6 +25,8 @@ declare namespace Env {
     /** The base url of the application */
     readonly VITE_BASE_URL: string;
     readonly VITE_CONSTANT_ROUTE_MODE: 'dynamic' | 'static';
+    /** GRC 业务接口代理前缀（开发时使用） */
+    readonly VITE_GRC_PROXY_PATTERN?: string;
     /**
      * Whether to enable the http proxy
      *

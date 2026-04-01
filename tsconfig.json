@@ -6,13 +6,16 @@
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"],
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "base-app/*": ["./src/modules/base-app/*"],
+      "workplace-app/*": ["./src/modules/workplace-app/*"],
+      "common-app/*": ["./src/modules/common-app/*"]
     },
     "resolveJsonModule": true,
-    "types": ["vite/client", "node", "unplugin-icons/types/react", "vite-plugin-svg-icons/client"],
+    "types": ["vite/client", "node", "unplugin-icons/types/react"],
     "allowImportingTsExtensions": true,
     /* Linting */
     "strict": true,

@@ -13,7 +13,20 @@ const routes: RouteObject[] = [
       {
         children: BaseChildrenRoutes,
         id: '(base)',
-        lazy: () => import('@/pages/(base)/layout.tsx').then(convert)
+        lazy: () => import('@/layouts/base-layout').then(convert)
+      },
+      {
+        children: [
+          {
+            handle: { constant: true, title: '登录' },
+            id: '(blank)_login',
+            lazy: () => import('common-app/pages/login/index.tsx').then(convert),
+            path: '/login'
+          }
+        ],
+        handle: { constant: true },
+        id: '(blank)',
+        lazy: () => import('common-app/pages/login/layout.tsx').then(convert)
       }
     ],
     handle: { constant: true, title: 'root' },
@@ -24,6 +37,4 @@ const routes: RouteObject[] = [
 ];
 
 export const allRoutes = routes;
-export const authRoutes: Router.SingleAuthRoute[] = [];
-export const initCacheRoutes: string[] = [];
 export { routes };

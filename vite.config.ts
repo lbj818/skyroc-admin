@@ -101,7 +101,10 @@ export default defineConfig(configEnv => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '~': fileURLToPath(new URL('./', import.meta.url))
+        '~': fileURLToPath(new URL('./', import.meta.url)),
+        'base-app': fileURLToPath(new URL('./src/modules/base-app', import.meta.url)),
+        'common-app': fileURLToPath(new URL('./src/modules/common-app', import.meta.url)),
+        'workplace-app': fileURLToPath(new URL('./src/modules/workplace-app', import.meta.url))
       }
     },
     server: {

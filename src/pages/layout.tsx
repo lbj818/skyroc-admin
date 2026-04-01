@@ -1,145 +1,97 @@
-import { Outlet, matchRoutes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
+import { selectMenuLoaded } from '@/features/menu/menuTreeStore';
 import { usePrevious, useRoute } from '@/features/router';
-import { allRoutes } from '@/router';
-import { fetchGetUserInfo } from '@/service/api/auth.ts';
-import { useUserInfo } from '@/service/hooks';
-import { QUERY_KEYS } from '@/service/keys/index.ts';
-import { queryClient } from '@/service/queryClient';
+import { initDynamicRoutes } from '@/features/router/initDynamicRoutes';
+import { router } from '@/features/router/router';
 import { localStg } from '@/utils/storage';
 
-function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
-  // route with href
-  if (to.handle.href) {
-    window.open(to.handle.href, '_blank');
-
-    return { path: from?.fullPath as string, replace: true };
-  }
-
-  return null;
-}
-
-// eslint-disable-next-line max-params
-function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean, previousRoute: Router.Route | null) {
-  const loginRoute = '/login';
-
-  const isLogin = Boolean(localStg.get('token'));
-
-  const notFoundRoute = 'notFound';
-
-  const isNotFoundRoute = to.id === notFoundRoute;
-
-  if (!isLogin) {
-    // if the user is not logged in and the route is a constant route but not the "not-found" route, then it is allowed to access.
-    if (to.handle.constant && !isNotFoundRoute) {
-      return null;
-    }
-
-    // if the user is not logged in, then switch to the login page
-
-    const query = to.fullPath;
-
-    const location = `${loginRoute}?redirect=${query}`;
-
-    return location;
-  }
-
-  const rootRoute = '/';
-  const noAuthorizationRoute = '/403';
-
-  const needLogin = !to.handle.constant;
-  const routeRoles = to.handle.roles || [];
-
-  const hasRole = roles.some(role => routeRoles.includes(role));
-
-  const hasAuth = isSuper || !routeRoles.length || hasRole;
-
-  // if it is login route when logged in, then switch to the root page
-  if (to.fullPath.includes('login') && to.pathname !== '/login-out' && isLogin) {
-    return rootRoute;
-  }
-
-  if (to.id === 'notFound') {
-    const exist = matchRoutes(allRoutes[0].children || [], to.pathname);
-
-    if (exist && exist.length > 1) {
-      return noAuthorizationRoute;
-    }
-
-    return null;
-  }
-
-  if (!needLogin) return handleRouteSwitch(to, previousRoute);
-
-  // if the user is logged in but does not have authorization, then switch to the 403 page
-  if (!hasAuth && import.meta.env.VITE_AUTH_ROUTE_MODE === 'static') return noAuthorizationRoute;
-
-  return handleRouteSwitch(to, previousRoute);
-}
+const LOGIN_PATH = '/login';
+const ALLOW_LIST = ['/login', '/login-out', '/exception/403', '/exception/404', '/exception/500'];
 
 const RootLayout = () => {
   const route = useRoute();
-
   const previousRoute = usePrevious(route);
 
   const { handle, id, pathname } = route;
+  const menuLoaded = useAppSelector(selectMenuLoaded);
 
-  const routeId = useRef<string>(null);
-
-  const location = useRef<string | { path: string; replace: boolean } | null>(null);
-
-  const { title } = handle;
-
-  const { data: userInfo } = useUserInfo();
-
-  const roles = userInfo?.roles || [];
-
-  const isSuper = userInfo?.roles.includes(import.meta.env.VITE_STATIC_SUPER_ROLE);
+  // 路由守卫状态：null=放行，string=重定向，'loading'=等待动态路由
+  const [guardState, setGuardState] = useState<'loading' | null | string>(null);
+  const processedRouteId = useRef<string>(null);
 
   useEffect(() => {
-    document.title = title ?? '';
-  }, [title]);
+    document.title = handle?.title ?? '';
+  }, [handle?.title]);
 
   useEffect(() => {
     window.NProgress?.done?.();
-
     return () => {
       window.NProgress?.start?.();
     };
   }, [pathname]);
 
-  if (routeId.current !== id) {
-    routeId.current = id;
+  useEffect(() => {
+    // 路由 id 变化时重新执行守卫逻辑（对齐 Vue3 beforeEach）
+    if (processedRouteId.current === id) return;
+    processedRouteId.current = id;
 
-    location.current = createRouteGuard(route, roles, isSuper || false, previousRoute);
+    const isLogin = Boolean(localStg.get('token'));
+    const isAllowed = ALLOW_LIST.includes(pathname) || handle?.constant;
+
+    if (!isLogin) {
+      if (!isAllowed) {
+        setGuardState(`${LOGIN_PATH}?redirect=${encodeURIComponent(route.fullPath)}`);
+      } else {
+        setGuardState(null);
+      }
+      return;
+    }
+
+    // 已登录访问登录页 → 跳首页
+    if (pathname === LOGIN_PATH) {
+      setGuardState(import.meta.env.VITE_ROUTE_HOME || '/home');
+      return;
+    }
+
+    // 外链路由
+    if (handle?.href) {
+      window.open(handle.href, '_blank');
+      setGuardState(null);
+      return;
+    }
+
+    // 有 token 但菜单未加载（对齐 Vue3：!userStore.userInfo 时拉取动态路由）
+    if (!menuLoaded && !isAllowed) {
+      setGuardState('loading');
+
+      initDynamicRoutes(router.reactRouter.patchRoutes).then(() => {
+        // 动态路由加载完成后，replace 当前路由触发重新匹配（对齐 Vue3 next({ ...to, replace: true })）
+        router.replace(route.fullPath);
+      }).catch(() => {
+        setGuardState(`${LOGIN_PATH}?redirect=${encodeURIComponent(route.fullPath)}`);
+      });
+
+      return;
+    }
+
+    setGuardState(null);
+  }, [id]);
+
+  if (guardState === 'loading') {
+    return null; // 等待动态路由加载，可替换为 loading 组件
   }
 
-  // eslint-disable-next-line no-nested-ternary
-  return location.current ? (
-    typeof location.current === 'string' ? (
-      <Navigate to={location.current} />
-    ) : (
+  if (guardState) {
+    return (
       <Navigate
-        replace={location.current.replace}
-        to={location.current.path}
+        replace
+        to={guardState}
       />
-    )
-  ) : (
-    <Outlet context={previousRoute} />
-  );
-};
-
-export async function loader() {
-  const hasToken = Boolean(localStg.get('token'));
-
-  if (hasToken) {
-    await queryClient.prefetchQuery({
-      gcTime: Infinity,
-      queryFn: fetchGetUserInfo,
-      queryKey: QUERY_KEYS.AUTH.USER_INFO,
-      staleTime: Infinity
-    });
+    );
   }
-}
+
+  return <Outlet context={previousRoute} />;
+};
 
 export default RootLayout;

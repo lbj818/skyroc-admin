@@ -1,13 +1,13 @@
 import type { MenuProps } from 'antd';
 
-import { selectToken } from '@/features/auth/authStore';
+import { selectIsLogin } from '@/features/auth/tokenStore';
 import { useRoute, useRouter } from '@/features/router';
-import { useUserInfo } from '@/service/hooks';
+import { localStg } from '@/utils/storage';
 
 const UserAvatar = memo(() => {
-  const token = useAppSelector(selectToken);
+  const isLogin = useAppSelector(selectIsLogin);
 
-  const { data: userInfo } = useUserInfo();
+  const userInfo = localStg.get('userInfo') as any;
 
   const { navigate, push } = useRouter();
 
@@ -67,7 +67,7 @@ const UserAvatar = memo(() => {
     }
   ];
 
-  return token ? (
+  return isLogin ? (
     <ADropdown
       menu={{ items, onClick }}
       placement="bottomRight"
@@ -79,7 +79,7 @@ const UserAvatar = memo(() => {
             className="text-icon-large"
             icon="ph:user-circle"
           />
-          <span className="text-16px font-medium">{userInfo?.userName}</span>
+          <span className="text-16px font-medium">{userInfo?.nickname || userInfo?.username}</span>
         </ButtonIcon>
       </div>
     </ADropdown>

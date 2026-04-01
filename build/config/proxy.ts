@@ -25,6 +25,13 @@ export function createViteProxy(env: Env.ImportMeta, enable: boolean) {
     Object.assign(proxy, createProxyItem(item, isEnableProxyLog));
   });
 
+  // GRC 业务接口代理：将 /proxy-grc 前缀转发到 VITE_SERVICE_BASE_URL
+  const grcProxyPattern = env.VITE_GRC_PROXY_PATTERN || '/proxy-grc';
+  Object.assign(
+    proxy,
+    createProxyItem({ baseURL: env.VITE_SERVICE_BASE_URL, proxyPattern: grcProxyPattern }, isEnableProxyLog)
+  );
+
   return proxy;
 }
 

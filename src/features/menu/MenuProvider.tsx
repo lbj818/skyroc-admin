@@ -1,56 +1,72 @@
 import type { FC, PropsWithChildren } from 'react';
 
+import { selectIsLogin } from '@/features/auth/tokenStore';
+import { selectMenuTree } from '@/features/menu/menuTreeStore';
 import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/features/tab/tabStore';
 
 import { useRoute, useRouter } from '../router';
 import { getBaseChildrenRoutes } from '../router/routes';
 
-import { filterRoutesToMenus, getActiveFirstLevelMenuKey, getSelectKey } from './MenuUtil';
 import { MixMenuContext } from './menuContext';
+import {
+  filterRoutesToMenus,
+  getActiveFirstLevelMenuKey,
+  getActiveMenuKeyFromTree,
+  getSelectKey,
+  getSelectKeyFromPath,
+  menuTreeToGlobalMenus
+} from './menuHelpers';
 
 const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const route = useRoute();
-
   const router = useRouter();
-
   const dispatch = useAppDispatch();
 
   const activeFirstLevelMenuKey = useAppSelector(selectActiveFirstLevelMenuKey);
+  const isLogin = useAppSelector(selectIsLogin);
+  const menuTree = useAppSelector(selectMenuTree);
 
-  const menus = useMemo(
-    () => filterRoutesToMenus(getBaseChildrenRoutes(router.reactRouter.routes)),
+  const menus = useMemo(() => {
+    if (isLogin && menuTree.length > 0) return menuTreeToGlobalMenus(menuTree);
+    return filterRoutesToMenus(getBaseChildrenRoutes(router.reactRouter.routes));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.reactRouter.routes]
-  );
+  }, [isLogin, menuTree, router.reactRouter.routes]);
 
-  const firstLevelMenu = menus.map(menu => {
-    const { children: _, ...rest } = menu;
-    return rest;
-  }) as App.Global.Menu[];
-
+  const firstLevelMenu = menus.map(({ children: _, ...rest }) => rest) as App.Global.Menu[];
   const childLevelMenus = menus.find(menu => menu.key === activeFirstLevelMenuKey)?.children as App.Global.Menu[];
+  const selectKey = isLogin && menuTree.length > 0 ? getSelectKeyFromPath(route.pathname) : getSelectKey(route);
 
-  const selectKey = getSelectKey(route);
-
-  /** - 可以手动指定菜单或者是默认当前路由的一级菜单 */
   function changeActiveFirstLevelMenuKey(key?: string) {
-    const routeKey = key || getActiveFirstLevelMenuKey(route);
-
+    const routeKey =
+      key ||
+      (isLogin && menuTree.length > 0
+        ? getActiveMenuKeyFromTree(menus, route.pathname)
+        : getActiveFirstLevelMenuKey(route));
     dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
 
-  const mixMenuContext = {
-    activeFirstLevelMenuKey,
-    allMenus: menus,
-    childLevelMenus: childLevelMenus || [],
-    firstLevelMenu,
-    isActiveFirstLevelMenuHasChildren: activeFirstLevelMenuKey ? Boolean(childLevelMenus) : false,
-    route,
-    selectKey,
-    setActiveFirstLevelMenuKey: changeActiveFirstLevelMenuKey
-  };
+  // 路由变化时自动同步一级菜单激活状态
+  useEffect(() => {
+    changeActiveFirstLevelMenuKey();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.pathname, menus]);
 
-  return <MixMenuContext value={mixMenuContext}>{children}</MixMenuContext>;
+  return (
+    <MixMenuContext
+      value={{
+        activeFirstLevelMenuKey,
+        allMenus: menus,
+        childLevelMenus: childLevelMenus || [],
+        firstLevelMenu,
+        isActiveFirstLevelMenuHasChildren: activeFirstLevelMenuKey ? Boolean(childLevelMenus) : false,
+        route,
+        selectKey,
+        setActiveFirstLevelMenuKey: changeActiveFirstLevelMenuKey
+      }}
+    >
+      {children}
+    </MixMenuContext>
+  );
 };
 
 export default MenuProvider;

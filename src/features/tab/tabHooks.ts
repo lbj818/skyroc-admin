@@ -13,7 +13,7 @@ import {
 } from '@/features/tab/tabStore';
 import { localStg } from '@/utils/storage';
 
-import { getActiveFirstLevelMenuKey } from '../menu/MenuUtil';
+import { getActiveFirstLevelMenuKey } from '../menu/menuHelpers';
 import { setRemoveCacheKey } from '../router/routeStore';
 import { useThemeSettings } from '../theme';
 
