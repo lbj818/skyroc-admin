@@ -1,8 +1,8 @@
-import { RouterProvider } from '@/features/router';
+import { RouterProvider } from '@/features/router'
 
-import { LazyAnimate } from './features/animate';
-import { AntdContextHolder, AntdProvider } from './features/antdConfig';
-import { ThemeProvider } from './features/theme';
+import { LazyAnimate } from './features/animate'
+import { AntdContextHolder, AntdProvider } from './features/antdConfig'
+import { ThemeProvider } from './features/theme'
 
 const App = () => (
   <ThemeProvider>
@@ -14,6 +14,6 @@ const App = () => (
       </AntdContextHolder>
     </AntdProvider>
   </ThemeProvider>
-);
+)
 
-export default App;
+export default App

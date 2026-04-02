@@ -1,7 +1,7 @@
-import GlobalContent from '@/layouts/modules/GlobalContent';
+import GlobalContent from '@/layouts/modules/GlobalContent'
 
 const BlankLayout = () => {
-  return <GlobalContent closePadding />;
-};
+  return <GlobalContent closePadding />
+}
 
-export default BlankLayout;
+export default BlankLayout

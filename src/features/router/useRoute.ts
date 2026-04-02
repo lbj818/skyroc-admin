@@ -1,37 +1,37 @@
-import { useMatches, useRouteError } from 'react-router-dom';
+import { useMatches, useRouteError } from 'react-router-dom'
 
-import { parseQuery } from './query';
+import { parseQuery } from './query'
 
 export function usePrevious<T>(value: T): T | null {
-  const ref = useRef<T>(null);
+  const ref = useRef<T>(null)
 
   useEffect(() => {
-    ref.current = value;
-  }, [value]);
+    ref.current = value
+  }, [value])
 
-  return ref.current;
+  return ref.current
 }
 
 function getCatchAllParam(str: string | undefined) {
-  if (!str) return null;
+  if (!str) return null
   // \[\.\.\.(\w+)\] 用来匹配形如 [...slug]
   // (\w+) 意味着捕获“字母、数字或下划线”组成的部分
-  const match = str.match(/\[\.\.\.(\w+)\]/);
-  return match ? match[1] : null;
+  const match = str.match(/\[\.\.\.(\w+)\]/)
+  return match ? match[1] : null
 }
 
 function getParams(
   params: Record<string, string> | undefined,
   id: string
 ): Record<string, string | string[]> | undefined {
-  if (!params?.['*']) return params;
+  if (!params?.['*']) return params
 
-  const lastName = id.split('_').at(-1);
-  const catchAllParam = getCatchAllParam(lastName);
+  const lastName = id.split('_').at(-1)
+  const catchAllParam = getCatchAllParam(lastName)
   if (catchAllParam) {
-    return { [catchAllParam]: params['*'].split('/') };
+    return { [catchAllParam]: params['*'].split('/') }
   }
-  return params;
+  return params
 }
 
 /** - get route meta */
@@ -40,17 +40,17 @@ export function useRoute<
   Q extends Record<string, string> | null = Record<string, string>,
   P extends Record<string, string | string[]> = Record<string, string | string[]>
 >() {
-  const matches = useMatches();
+  const matches = useMatches()
 
-  const routes = matches.at(-1) as Router.Route<T>;
+  const routes = matches.at(-1) as Router.Route<T>
 
-  const { hash, pathname, search } = useLocation();
+  const { hash, pathname, search } = useLocation()
 
-  const fullPath = pathname + search + hash;
+  const fullPath = pathname + search + hash
 
-  const query = parseQuery(search) as Q;
+  const query = parseQuery(search) as Q
 
-  const error = useRouteError() as Error | null;
+  const error = useRouteError() as Error | null
 
   return useMemo(
     () =>
@@ -67,9 +67,9 @@ export function useRoute<
         search
       }) as Router.Route<T, Q, P>,
     [fullPath]
-  );
+  )
 }
 
 export function usePreviousRoute() {
-  return useOutletContext<Router.Route>();
+  return useOutletContext<Router.Route>()
 }

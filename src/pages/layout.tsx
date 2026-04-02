@@ -1,97 +1,68 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
 
-import { selectMenuLoaded } from '@/features/menu/menuTreeStore';
-import { usePrevious, useRoute } from '@/features/router';
-import { initDynamicRoutes } from '@/features/router/initDynamicRoutes';
-import { router } from '@/features/router/router';
-import { localStg } from '@/utils/storage';
+import { selectMenuLoaded } from '@/features/menu/menuTreeStore'
+import { usePrevious, useRoute } from '@/features/router'
 
-const LOGIN_PATH = '/login';
-const ALLOW_LIST = ['/login', '/login-out', '/exception/403', '/exception/404', '/exception/500'];
+const LOGIN_PATH = '/login'
+const ALLOW_LIST = ['/login', '/login-out', '/exception/403', '/exception/404', '/exception/500']
+
+function checkIsLogin() {
+  return Boolean(window.sessionStorage.getItem('Authorization'))
+}
 
 const RootLayout = () => {
-  const route = useRoute();
-  const previousRoute = usePrevious(route);
+  const route = useRoute()
+  const previousRoute = usePrevious(route)
 
-  const { handle, id, pathname } = route;
-  const menuLoaded = useAppSelector(selectMenuLoaded);
-
-  // 路由守卫状态：null=放行，string=重定向，'loading'=等待动态路由
-  const [guardState, setGuardState] = useState<'loading' | null | string>(null);
-  const processedRouteId = useRef<string>(null);
+  const { handle, pathname } = route
+  const menuLoaded = useAppSelector(selectMenuLoaded)
 
   useEffect(() => {
-    document.title = handle?.title ?? '';
-  }, [handle?.title]);
+    document.title = handle?.title ?? ''
+  }, [handle?.title])
 
   useEffect(() => {
-    window.NProgress?.done?.();
+    window.NProgress?.done?.()
     return () => {
-      window.NProgress?.start?.();
-    };
-  }, [pathname]);
-
-  useEffect(() => {
-    // 路由 id 变化时重新执行守卫逻辑（对齐 Vue3 beforeEach）
-    if (processedRouteId.current === id) return;
-    processedRouteId.current = id;
-
-    const isLogin = Boolean(localStg.get('token'));
-    const isAllowed = ALLOW_LIST.includes(pathname) || handle?.constant;
-
-    if (!isLogin) {
-      if (!isAllowed) {
-        setGuardState(`${LOGIN_PATH}?redirect=${encodeURIComponent(route.fullPath)}`);
-      } else {
-        setGuardState(null);
-      }
-      return;
+      window.NProgress?.start?.()
     }
+  }, [pathname])
 
-    // 已登录访问登录页 → 跳首页
-    if (pathname === LOGIN_PATH) {
-      setGuardState(import.meta.env.VITE_ROUTE_HOME || '/home');
-      return;
-    }
+  const isLogin = checkIsLogin()
+  const isAllowed = ALLOW_LIST.includes(pathname) || handle?.constant
 
-    // 外链路由
-    if (handle?.href) {
-      window.open(handle.href, '_blank');
-      setGuardState(null);
-      return;
-    }
-
-    // 有 token 但菜单未加载（对齐 Vue3：!userStore.userInfo 时拉取动态路由）
-    if (!menuLoaded && !isAllowed) {
-      setGuardState('loading');
-
-      initDynamicRoutes(router.reactRouter.patchRoutes).then(() => {
-        // 动态路由加载完成后，replace 当前路由触发重新匹配（对齐 Vue3 next({ ...to, replace: true })）
-        router.replace(route.fullPath);
-      }).catch(() => {
-        setGuardState(`${LOGIN_PATH}?redirect=${encodeURIComponent(route.fullPath)}`);
-      });
-
-      return;
-    }
-
-    setGuardState(null);
-  }, [id]);
-
-  if (guardState === 'loading') {
-    return null; // 等待动态路由加载，可替换为 loading 组件
-  }
-
-  if (guardState) {
+  // 未登录 + 非白名单 → 跳登录页
+  if (!isLogin && !isAllowed) {
     return (
       <Navigate
         replace
-        to={guardState}
+        to={`${LOGIN_PATH}?redirect=${encodeURIComponent(route.fullPath)}`}
       />
-    );
+    )
   }
 
-  return <Outlet context={previousRoute} />;
-};
+  // 已登录 + 访问登录页 → 跳首页
+  if (isLogin && pathname === LOGIN_PATH) {
+    return (
+      <Navigate
+        replace
+        to={import.meta.env.VITE_ROUTE_HOME || '/home'}
+      />
+    )
+  }
 
-export default RootLayout;
+  // 外链路由
+  if (handle?.href) {
+    window.open(handle.href, '_blank')
+    return <Outlet context={previousRoute} />
+  }
+
+  // 已登录但菜单未加载：等待 patchRoutesOnNavigation 完成
+  if (isLogin && !menuLoaded && !isAllowed) {
+    return null
+  }
+
+  return <Outlet context={previousRoute} />
+}
+
+export default RootLayout

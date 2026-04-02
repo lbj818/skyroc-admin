@@ -1,12 +1,12 @@
-import { transformColorWithOpacity } from '@sa/color';
-import { SimpleScrollbar } from '@sa/materials';
-import clsx from 'clsx';
-import { cloneElement } from 'react';
+import { transformColorWithOpacity } from '@sa/color'
+import { SimpleScrollbar } from '@sa/materials'
+import clsx from 'clsx'
+import { cloneElement } from 'react'
 
-import { MenuToggler, useMixMenuContext } from '@/features/menu';
-import { useRouter } from '@/features/router';
-import { ThemeContext, getThemeSettings } from '@/features/theme';
-import { getSiderCollapse } from '@/layouts/appStore';
+import { MenuToggler, useMixMenuContext } from '@/features/menu'
+import { useRouter } from '@/features/router'
+import { ThemeContext, getThemeSettings } from '@/features/theme'
+import { getSiderCollapse } from '@/layouts/appStore'
 
 interface Props {
   children?: React.ReactNode;
@@ -31,32 +31,32 @@ function MixMenuItem(Props: MixMenuItemProps) {
     menu: { children, icon, key, label },
     onClick,
     setActiveFirstLevelMenuKey
-  } = Props;
+  } = Props
 
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const { navigate } = useRouter();
+  const { navigate } = useRouter()
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext)
 
-  const siderCollapse = useAppSelector(getSiderCollapse);
+  const siderCollapse = useAppSelector(getSiderCollapse)
 
-  const selectedBgColor = getSelectedBgColor();
+  const selectedBgColor = getSelectedBgColor()
 
   function getSelectedBgColor() {
-    const light = transformColorWithOpacity(themeSettings.themeColor, 0.1, '#ffffff');
-    const dark = transformColorWithOpacity(themeSettings.themeColor, 0.3, '#000000');
+    const light = transformColorWithOpacity(themeSettings.themeColor, 0.1, '#ffffff')
+    const dark = transformColorWithOpacity(themeSettings.themeColor, 0.3, '#000000')
 
-    return darkMode ? dark : light;
+    return darkMode ? dark : light
   }
 
   function handleSelectMixMenu() {
-    setActiveFirstLevelMenuKey(key);
+    setActiveFirstLevelMenuKey(key)
 
     if (children?.length) {
-      if (onClick) onClick();
+      if (onClick) onClick()
     } else {
-      navigate(key);
+      navigate(key)
     }
   }
 
@@ -82,11 +82,11 @@ function MixMenuItem(Props: MixMenuItemProps) {
         {label}
       </p>
     </div>
-  );
+  )
 }
 
 const FirstLevelMenu: FC<Props> = memo(({ children, inverted, onSelect }) => {
-  const { activeFirstLevelMenuKey, allMenus, setActiveFirstLevelMenuKey } = useMixMenuContext();
+  const { activeFirstLevelMenuKey, allMenus, setActiveFirstLevelMenuKey } = useMixMenuContext()
 
   return (
     <div className="h-full flex-col-stretch flex-1-hidden">
@@ -108,7 +108,7 @@ const FirstLevelMenu: FC<Props> = memo(({ children, inverted, onSelect }) => {
         className={clsx({ 'text-white:88 !hover:text-white': inverted })}
       />
     </div>
-  );
-});
+  )
+})
 
-export default FirstLevelMenu;
+export default FirstLevelMenu

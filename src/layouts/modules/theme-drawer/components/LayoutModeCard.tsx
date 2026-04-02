@@ -1,9 +1,9 @@
-import type { TooltipProps } from 'antd';
-import { Tooltip } from 'antd';
-import clsx from 'clsx';
+import type { TooltipProps } from 'antd'
+import { Tooltip } from 'antd'
+import clsx from 'clsx'
 
-import { setLayoutMode } from '@/features/theme';
-import { getIsMobile } from '@/layouts/appStore';
+import { setLayoutMode } from '@/features/theme'
+import { getIsMobile } from '@/layouts/appStore'
 
 type LayoutConfig = Record<
   UnionKey.ThemeLayoutMode,
@@ -40,27 +40,27 @@ const LAYOUT_CONFIG: LayoutConfig = {
     menuClass: 'w-1/4 h-full',
     placement: 'bottom'
   }
-};
+}
 
 interface Props extends Record<UnionKey.ThemeLayoutMode, React.ReactNode> {
   mode: UnionKey.ThemeLayoutMode;
 }
 
 const LayoutModeCard: FC<Props> = ({ mode, ...rest }: Props) => {
-  const isMobile = useAppSelector(getIsMobile);
+  const isMobile = useAppSelector(getIsMobile)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const layoutModeLabels: Record<UnionKey.ThemeLayoutMode, string> = {
     horizontal: '顶部菜单模式',
     'horizontal-mix': '顶部菜单混合模式',
     vertical: '左侧菜单模式',
     'vertical-mix': '左侧菜单混合模式'
-  };
+  }
 
   function handleChangeMode(modeType: UnionKey.ThemeLayoutMode) {
-    if (isMobile) return;
-    dispatch(setLayoutMode(modeType));
+    if (isMobile) return
+    dispatch(setLayoutMode(modeType))
   }
 
   return (
@@ -90,7 +90,7 @@ const LayoutModeCard: FC<Props> = ({ mode, ...rest }: Props) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default LayoutModeCard;
+export default LayoutModeCard

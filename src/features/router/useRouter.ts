@@ -1,14 +1,14 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
 
-import type { RouterContextType } from './router';
-import { RouterContext } from './router-context';
+import type { RouterContextType } from './router'
+import { RouterContext } from './router-context'
 
 export function useRouter(): RouterContextType {
-  const navigator = useContext(RouterContext);
+  const navigator = useContext(RouterContext)
 
   if (!navigator) {
-    throw new Error('RouterContext is not provided');
+    throw new Error('RouterContext is not provided')
   }
 
-  return navigator;
+  return navigator
 }

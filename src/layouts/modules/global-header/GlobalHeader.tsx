@@ -1,15 +1,15 @@
-import DarkModeContainer from '@/components/DarkModeContainer';
-import FullScreen from '@/components/FullScreen';
-import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
-import { MenuToggler } from '@/features/menu';
-import { ThemeSchemaSwitch } from '@/features/theme';
+import DarkModeContainer from '@/components/DarkModeContainer'
+import FullScreen from '@/components/FullScreen'
+import { GLOBAL_HEADER_MENU_ID } from '@/constants/app'
+import { MenuToggler } from '@/features/menu'
+import { ThemeSchemaSwitch } from '@/features/theme'
 
-import GlobalLogo from '../GlobalLogo';
-import GlobalSearch from '../global-search/GlobalSearch';
+import GlobalLogo from '../GlobalLogo'
+import GlobalSearch from '../global-search/GlobalSearch'
 
-import GlobalBreadcrumb from './components/Breadcrumb';
-import ThemeButton from './components/ThemeButton';
-import UserAvatar from './components/UserAvatar';
+import GlobalBreadcrumb from './components/Breadcrumb'
+import ThemeButton from './components/ThemeButton'
+import UserAvatar from './components/UserAvatar'
 
 interface Props {
   isMobile: boolean;
@@ -39,14 +39,14 @@ const HEADER_PROPS_CONFIG: Record<UnionKey.ThemeLayoutMode, App.Global.HeaderPro
     showMenu: false,
     showMenuToggler: false
   }
-};
+}
 
 const GlobalHeader: FC<Props> = memo(({ isMobile, mode, reverse, siderWidth }) => {
-  const [isFullscreen, { toggleFullscreen }] = useFullscreen(document.body);
+  const [isFullscreen, { toggleFullscreen }] = useFullscreen(document.body)
 
-  const { showLogo, showMenu, showMenuToggler } = HEADER_PROPS_CONFIG[mode];
+  const { showLogo, showMenu, showMenuToggler } = HEADER_PROPS_CONFIG[mode]
 
-  const showToggler = reverse ? true : showMenuToggler;
+  const showToggler = reverse ? true : showMenuToggler
 
   return (
     <DarkModeContainer className="h-full flex-y-center px-12px shadow-header">
@@ -85,7 +85,7 @@ const GlobalHeader: FC<Props> = memo(({ isMobile, mode, reverse, siderWidth }) =
         <UserAvatar />
       </div>
     </DarkModeContainer>
-  );
-});
+  )
+})
 
-export default GlobalHeader;
+export default GlobalHeader

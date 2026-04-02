@@ -6,7 +6,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     fixed: false,
     height: 48,
     right: true,
-    visible: true
+    visible: false
   },
   grayscale: false,
   header: {
@@ -73,10 +73,10 @@ export const themeSettings: App.Theme.ThemeSetting = {
     }
   },
   watermark: {
-    text: 'SkyrocAdmin',
+    text: '数智化合规系统',
     visible: false
   }
-};
+}
 
 /**
  * Override theme settings
@@ -85,7 +85,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
  */
 export const overrideThemeSettings: Partial<App.Theme.ThemeSetting> = {
   watermark: {
-    text: 'SkyrocAdmin',
+    text: '数智化合规系统',
     visible: false
   }
-};
+}

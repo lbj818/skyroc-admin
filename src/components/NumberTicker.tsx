@@ -1,8 +1,8 @@
-import clsx from 'clsx';
-import type { AnimationPlaybackControls } from 'motion/react';
-import { animate, useInView, useMotionValue, useSpring } from 'motion/react';
-import type { ComponentPropsWithoutRef } from 'react';
-import { useEffect, useRef } from 'react';
+import clsx from 'clsx'
+import type { AnimationPlaybackControls } from 'motion/react'
+import { animate, useInView, useMotionValue, useSpring } from 'motion/react'
+import type { ComponentPropsWithoutRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface NumberTickerProps extends ComponentPropsWithoutRef<'span'> {
   /** - 小数位数 */
@@ -35,39 +35,39 @@ const NumberTicker = ({
   value,
   ...props
 }: NumberTickerProps) => {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLSpanElement>(null)
 
-  const endValue = direction === 'down' ? 0 : value;
+  const endValue = direction === 'down' ? 0 : value
 
-  const motionValue = useMotionValue(direction === 'down' ? value : 0);
+  const motionValue = useMotionValue(direction === 'down' ? value : 0)
 
-  const isInView = useInView(ref, { margin: '0px', once: true });
+  const isInView = useInView(ref, { margin: '0px', once: true })
 
   const springValue = useSpring(motionValue, {
     damping: 60,
     stiffness: 100
-  });
+  })
 
   function updateTextContent(latest: number) {
-    if (!ref.current) return;
+    if (!ref.current) return
 
     const formattedNumber = Intl.NumberFormat('en-US', {
       maximumFractionDigits: decimalPlaces,
       minimumFractionDigits: decimalPlaces
-    }).format(Number(latest.toFixed(decimalPlaces)));
-    ref.current.textContent = `${prefix} ${formattedNumber} ${suffix}`;
+    }).format(Number(latest.toFixed(decimalPlaces)))
+    ref.current.textContent = `${prefix} ${formattedNumber} ${suffix}`
   }
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isInView &&
       setTimeout(() => {
-        motionValue.set(endValue);
-      }, delay * 1000);
-  }, [motionValue, isInView, delay, endValue]);
+        motionValue.set(endValue)
+      }, delay * 1000)
+  }, [motionValue, isInView, delay, endValue])
 
   useEffect(() => {
-    let animation: AnimationPlaybackControls;
+    let animation: AnimationPlaybackControls
     if (duration) {
       animation = animate(
         motionValue.get(), // 起始值
@@ -76,20 +76,20 @@ const NumberTicker = ({
           duration, // 动画时长（秒）
           onUpdate: latest => {
             // 更新 motionValue（可选：如果后续还有依赖该值的逻辑）
-            motionValue.set(latest);
+            motionValue.set(latest)
 
-            updateTextContent(latest);
+            updateTextContent(latest)
           }
         }
-      );
+      )
     } else {
       springValue.on('change', latest => {
-        updateTextContent(latest);
-      });
+        updateTextContent(latest)
+      })
     }
-    return () => animation?.cancel();
+    return () => animation?.cancel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [motionValue, springValue, endValue, duration]);
+  }, [motionValue, springValue, endValue, duration])
 
   return (
     <span
@@ -99,7 +99,7 @@ const NumberTicker = ({
     >
       {prefix} {startValue} {suffix}
     </span>
-  );
-};
+  )
+}
 
-export default NumberTicker;
+export default NumberTicker

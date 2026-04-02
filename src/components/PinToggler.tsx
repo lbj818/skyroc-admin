@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import ButtonIcon from './ButtonIcon';
-import SvgIcon from './SvgIcon';
+import ButtonIcon from './ButtonIcon'
+import SvgIcon from './SvgIcon'
 
 interface Props {
   className: string;
@@ -9,7 +9,7 @@ interface Props {
   pin?: boolean;
 }
 const PinToggler = ({ className, onClick, pin }: Props) => {
-  const icon = pin ? 'mdi-pin-off' : 'mdi-pin';
+  const icon = pin ? 'mdi-pin-off' : 'mdi-pin'
   return (
     <ButtonIcon
       triggerParent
@@ -20,7 +20,7 @@ const PinToggler = ({ className, onClick, pin }: Props) => {
     >
       <SvgIcon icon={icon} />
     </ButtonIcon>
-  );
-};
+  )
+}
 
-export default PinToggler;
+export default PinToggler

@@ -1,11 +1,11 @@
-import clsx from 'clsx';
+import clsx from 'clsx'
 
-import { changeReverseHorizontalMix, getThemeSettings } from '@/features/theme';
+import { changeReverseHorizontalMix, getThemeSettings } from '@/features/theme'
 
-import LayoutModeCard from '../components/LayoutModeCard';
-import SettingItem from '../components/SettingItem';
+import LayoutModeCard from '../components/LayoutModeCard'
+import SettingItem from '../components/SettingItem'
 
-import style from './layoutMode.module.scss';
+import style from './layoutMode.module.scss'
 
 const LAYOUTS_COMPONENTS: Record<UnionKey.ThemeLayoutMode, React.ReactNode> = {
   horizontal: (
@@ -44,15 +44,15 @@ const LAYOUTS_COMPONENTS: Record<UnionKey.ThemeLayoutMode, React.ReactNode> = {
       </div>
     </>
   )
-};
+}
 
 const LayoutMode = memo(() => {
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   function toggleReverseHorizontalMix(checked: boolean) {
-    dispatch(changeReverseHorizontalMix(checked));
+    dispatch(changeReverseHorizontalMix(checked))
   }
 
   return (
@@ -73,7 +73,7 @@ const LayoutMode = memo(() => {
         />
       </SettingItem>
     </>
-  );
-});
+  )
+})
 
-export default LayoutMode;
+export default LayoutMode

@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 export interface MixMenuContextProps<T = unknown> {
   activeFirstLevelMenuKey: string;
@@ -22,14 +22,14 @@ export const MixMenuContext = createContext<MixMenuContextProps<unknown>>({
   route: {} as Router.Route<unknown>,
   selectKey: [],
   setActiveFirstLevelMenuKey: voidFunc
-});
+})
 
 export function useMixMenuContext<T = unknown>() {
-  const context = useContext(MixMenuContext);
+  const context = useContext(MixMenuContext)
 
   if (!context) {
-    throw new Error('useMixMenu must be used within a MixMenuContext');
+    throw new Error('useMixMenu must be used within a MixMenuContext')
   }
 
-  return context as MixMenuContextProps<T>;
+  return context as MixMenuContextProps<T>
 }

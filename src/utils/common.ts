@@ -3,12 +3,12 @@ export function transformRecordToOption<T extends Record<string, string>>(record
   return Object.entries(record).map(([value, label]) => ({
     label,
     value
-  })) as CommonType.Option<keyof T>[];
+  })) as CommonType.Option<keyof T>[]
 }
 
 /** Translate options - 直接返回，label已是中文 */
 export function translateOptions(options: CommonType.Option<string>[]) {
-  return options;
+  return options
 }
 
 /**
@@ -18,32 +18,32 @@ export function translateOptions(options: CommonType.Option<string>[]) {
  */
 export function toggleHtmlClass(className: string) {
   function add() {
-    document.documentElement.classList.add(className);
+    document.documentElement.classList.add(className)
   }
 
   function remove() {
-    document.documentElement.classList.remove(className);
+    document.documentElement.classList.remove(className)
   }
 
   return {
     add,
     remove
-  };
+  }
 }
 
 export function getKeys(obj: Record<string, any>, parentKeys: string[] = []): string[] {
-  let keys: string[] = [];
+  let keys: string[] = []
 
   for (const key in obj) {
     if (key) {
-      const newKeys = [...parentKeys, key];
+      const newKeys = [...parentKeys, key]
       if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-        keys = keys.concat(getKeys(obj[key], newKeys));
+        keys = keys.concat(getKeys(obj[key], newKeys))
       } else {
-        keys = newKeys;
+        keys = newKeys
       }
     }
   }
 
-  return keys;
+  return keys
 }

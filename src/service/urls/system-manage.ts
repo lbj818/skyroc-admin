@@ -7,4 +7,4 @@ export const SYSTEM_MANAGE_URLS = {
   GET_MENU_TREE: '/systemManage/getMenuTree',
   GET_ROLE_LIST: '/systemManage/getRoleList',
   GET_USER_LIST: '/systemManage/getUserList'
-} as const;
+} as const

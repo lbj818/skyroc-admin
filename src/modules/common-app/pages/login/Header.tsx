@@ -1,6 +1,6 @@
-import FlipText from '@/components/FilpText';
-import SystemLogo from '@/components/SystemLogo';
-import { ThemeSchemaSwitch } from '@/features/theme';
+import FlipText from '@/components/FilpText'
+import SystemLogo from '@/components/SystemLogo'
+import { ThemeSchemaSwitch } from '@/features/theme'
 
 const Header = memo(() => {
   return (
@@ -9,7 +9,7 @@ const Header = memo(() => {
 
       <FlipText
         className="text-28px text-primary font-500 lt-sm:text-22px"
-        word="Skyroc 管理系统"
+        word="数智化合规系统"
       />
 
       <div className="i-flex-col">
@@ -19,7 +19,7 @@ const Header = memo(() => {
         />
       </div>
     </header>
-  );
-});
+  )
+})
 
-export default Header;
+export default Header

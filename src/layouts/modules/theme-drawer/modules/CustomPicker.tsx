@@ -1,8 +1,8 @@
-import type { CheckboxProps, ColorPickerProps } from 'antd';
+import type { CheckboxProps, ColorPickerProps } from 'antd'
 
-import { setIsInfoFollowPrimary, updateThemeColors } from '@/features/theme';
+import { setIsInfoFollowPrimary, updateThemeColors } from '@/features/theme'
 
-import SettingItem from '../components/SettingItem';
+import SettingItem from '../components/SettingItem'
 
 const swatches: { color: string; name: string }[] = [
   { color: '#3b82f6', name: '海洋蓝' },
@@ -21,7 +21,7 @@ const swatches: { color: string; name: string }[] = [
   { color: '#84cc16', name: '草地绿' },
   { color: '#22c55e', name: '清新绿' },
   { color: '#10b981', name: '热带绿' }
-];
+]
 
 interface Props {
   index: number;
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value }) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const themeColorLabels: Record<string, string> = {
     error: '错误色',
@@ -40,17 +40,17 @@ const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value
     primary: '主色',
     success: '成功色',
     warning: '警告色'
-  };
-
-  function handleUpdateColor(color: string, name: App.Theme.ThemeColorKey) {
-    dispatch(updateThemeColors({ color, key: name }));
   }
 
-  const [selectTheme, setSelectTheme] = useState<string>(theme);
+  function handleUpdateColor(color: string, name: App.Theme.ThemeColorKey) {
+    dispatch(updateThemeColors({ color, key: name }))
+  }
+
+  const [selectTheme, setSelectTheme] = useState<string>(theme)
 
   const onChange: CheckboxProps['onChange'] = e => {
-    dispatch(setIsInfoFollowPrimary(e.target.checked));
-  };
+    dispatch(setIsInfoFollowPrimary(e.target.checked))
+  }
 
   const customPanelRender: ColorPickerProps['panelRender'] = (_, { components: { Picker } }) => (
     <ASpace
@@ -70,7 +70,7 @@ const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value
             >
               <span
                 onClick={() => {
-                  handleUpdateColor(item.color, selectTheme as App.Theme.ThemeColorKey);
+                  handleUpdateColor(item.color, selectTheme as App.Theme.ThemeColorKey)
                 }}
               >
                 <AColorPicker
@@ -84,7 +84,7 @@ const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value
         </AFlex>
       </>
     </ASpace>
-  );
+  )
 
   return (
     <SettingItem
@@ -106,11 +106,11 @@ const CustomPicker: FC<Props> = memo(({ isInfoFollowPrimary, label, theme, value
         value={value}
         onChangeComplete={hex => handleUpdateColor(hex.toHexString(), label as App.Theme.ThemeColorKey)}
         onOpenChange={() => {
-          setSelectTheme(label);
+          setSelectTheme(label)
         }}
       />
     </SettingItem>
-  );
-});
+  )
+})
 
-export default CustomPicker;
+export default CustomPicker

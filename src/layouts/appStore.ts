@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface InitialStateType {
   contentXScrollable: boolean;
@@ -20,41 +20,41 @@ const initialState: InitialStateType = {
   reloadFlag: false,
   siderCollapse: false,
   themeDrawerVisible: false
-};
+}
 
 export const appSlice = createSlice({
   initialState,
   name: 'app',
   reducers: {
     closeThemeDrawer: state => {
-      state.themeDrawerVisible = false;
+      state.themeDrawerVisible = false
     },
     openThemeDrawer: state => {
-      state.themeDrawerVisible = true;
+      state.themeDrawerVisible = true
     },
     setContentXScrollable: (state, action: PayloadAction<boolean>) => {
-      state.contentXScrollable = action.payload;
+      state.contentXScrollable = action.payload
     },
     setIsMobile: (state, { payload }: { payload: boolean }) => {
-      state.isMobile = payload;
+      state.isMobile = payload
     },
     setMixSiderFixed: (state, action: PayloadAction<boolean>) => {
-      state.mixSiderFixed = action.payload;
+      state.mixSiderFixed = action.payload
     },
     setReloadFlag: (state, action: PayloadAction<boolean>) => {
-      state.reloadFlag = action.payload;
+      state.reloadFlag = action.payload
     },
     setSiderCollapse: (state, { payload }: PayloadAction<boolean>) => {
-      state.siderCollapse = payload;
+      state.siderCollapse = payload
     },
     toggleFullContent: state => {
-      state.fullContent = !state.fullContent;
+      state.fullContent = !state.fullContent
     },
     toggleMixSiderFixed: state => {
-      state.mixSiderFixed = !state.mixSiderFixed;
+      state.mixSiderFixed = !state.mixSiderFixed
     },
     toggleSiderCollapse: state => {
-      state.siderCollapse = !state.siderCollapse;
+      state.siderCollapse = !state.siderCollapse
     }
   },
   selectors: {
@@ -66,7 +66,7 @@ export const appSlice = createSlice({
     getSiderCollapse: app => app.siderCollapse,
     getThemeDrawerVisible: app => app.themeDrawerVisible
   }
-});
+})
 // Action creators are generated for each case reducer function.
 export const {
   closeThemeDrawer,
@@ -79,7 +79,7 @@ export const {
   toggleFullContent,
   toggleMixSiderFixed,
   toggleSiderCollapse
-} = appSlice.actions;
+} = appSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const {
@@ -90,4 +90,4 @@ export const {
   getReloadFlag,
   getSiderCollapse,
   getThemeDrawerVisible
-} = appSlice.selectors;
+} = appSlice.selectors

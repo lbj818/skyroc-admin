@@ -1,6 +1,6 @@
-import { Tooltip } from 'antd';
-import type { TooltipProps } from 'antd/lib/tooltip';
-import React from 'react';
+import { Tooltip } from 'antd'
+import type { TooltipProps } from 'antd/lib/tooltip'
+import React from 'react'
 
 type BeyondHidingProps = Omit<TooltipProps, 'open' | 'trigger'> & {
   className?: string;
@@ -9,21 +9,21 @@ type BeyondHidingProps = Omit<TooltipProps, 'open' | 'trigger'> & {
 };
 
 const BeyondHiding = ({ className, style, title, ...props }: BeyondHidingProps) => {
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
-  const contentRef = useRef<HTMLSpanElement>(null);
+  const contentRef = useRef<HTMLSpanElement>(null)
 
   const isShowTooltip = (): void => {
     // 计算span标签的offsetWidth与盒子元素的offsetWidth，给isShow赋值
     if (contentRef.current && contentRef.current.parentElement) {
-      const spanWidth = contentRef.current.offsetWidth;
-      const parentWidth = contentRef.current.parentElement.offsetWidth;
+      const spanWidth = contentRef.current.offsetWidth
+      const parentWidth = contentRef.current.parentElement.offsetWidth
 
       if (spanWidth > parentWidth) {
-        setIsShow(true);
+        setIsShow(true)
       }
     }
-  };
+  }
   return (
     <Tooltip
       open={isShow}
@@ -40,7 +40,7 @@ const BeyondHiding = ({ className, style, title, ...props }: BeyondHidingProps) 
         {title}
       </span>
     </Tooltip>
-  );
-};
+  )
+}
 
-export default BeyondHiding;
+export default BeyondHiding

@@ -1,7 +1,7 @@
-import ExceptionBase from '@/components/ExceptionBase';
+import ExceptionBase from '@/components/ExceptionBase'
 
 const NotFound = () => {
-  return <ExceptionBase type="404" />;
-};
+  return <ExceptionBase type="404" />
+}
 
-export default NotFound;
+export default NotFound

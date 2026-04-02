@@ -1,7 +1,7 @@
-import { HorizontalMenuMode } from '../types';
+import { HorizontalMenuMode } from '../types'
 
-import Horizontal from './Horizontal';
-import Vertical from './Vertical';
+import Horizontal from './Horizontal'
+import Vertical from './Vertical'
 
 const ReversedHorizontalMix = () => {
   return [
@@ -11,7 +11,7 @@ const ReversedHorizontalMix = () => {
       key="ReversedHorizontalMix "
       mode={HorizontalMenuMode.FirstLevel}
     />
-  ];
-};
+  ]
+}
 
-export default ReversedHorizontalMix;
+export default ReversedHorizontalMix

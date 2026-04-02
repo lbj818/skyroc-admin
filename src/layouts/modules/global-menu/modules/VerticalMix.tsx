@@ -1,44 +1,44 @@
-import classNames from 'clsx';
-import { createPortal } from 'react-dom';
+import classNames from 'clsx'
+import { createPortal } from 'react-dom'
 
-import DarkModeContainer from '@/components/DarkModeContainer';
-import PinToggler from '@/components/PinToggler';
-import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
-import { useMixMenuContext } from '@/features/menu';
-import { ThemeContext, getThemeSettings } from '@/features/theme';
-import { getMixSiderFixed, toggleMixSiderFixed } from '@/layouts/appStore';
+import DarkModeContainer from '@/components/DarkModeContainer'
+import PinToggler from '@/components/PinToggler'
+import { GLOBAL_SIDER_MENU_ID } from '@/constants/app'
+import { useMixMenuContext } from '@/features/menu'
+import { ThemeContext, getThemeSettings } from '@/features/theme'
+import { getMixSiderFixed, toggleMixSiderFixed } from '@/layouts/appStore'
 
-import GlobalLogo from '../../GlobalLogo';
-import FirstLevelMenu from '../components/FirstLevelMenu';
-import VerticalMenu from '../components/VerticalMenu';
+import GlobalLogo from '../../GlobalLogo'
+import FirstLevelMenu from '../components/FirstLevelMenu'
+import VerticalMenu from '../components/VerticalMenu'
 
-import { useGetElementById } from './hook';
+import { useGetElementById } from './hook'
 
 const VerticalMix = memo(() => {
-  const { childLevelMenus, setActiveFirstLevelMenuKey } = useMixMenuContext();
+  const { childLevelMenus, setActiveFirstLevelMenuKey } = useMixMenuContext()
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext)
 
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const mixSiderFixed = useAppSelector(getMixSiderFixed);
+  const mixSiderFixed = useAppSelector(getMixSiderFixed)
 
-  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false)
 
-  const siderInverted = !darkMode && themeSettings.sider.inverted;
-  const hasMenus = childLevelMenus && childLevelMenus.length > 0;
-  const showDrawer = hasMenus && (drawerVisible || mixSiderFixed);
+  const siderInverted = !darkMode && themeSettings.sider.inverted
+  const hasMenus = childLevelMenus && childLevelMenus.length > 0
+  const showDrawer = hasMenus && (drawerVisible || mixSiderFixed)
 
   function handleSelectMixMenu() {
-    setDrawerVisible(true);
+    setDrawerVisible(true)
   }
 
   function handleResetActiveMenu() {
-    setDrawerVisible(false);
+    setDrawerVisible(false)
 
-    setActiveFirstLevelMenuKey();
+    setActiveFirstLevelMenuKey()
   }
 
   return (
@@ -68,7 +68,7 @@ const VerticalMix = memo(() => {
             className="flex-y-center justify-between px-12px"
             style={{ height: `${themeSettings.header.height}px` }}
           >
-            <h2 className="text-16px text-primary font-bold">Skyroc 管理系统</h2>
+            <h2 className="text-16px text-primary font-bold">数智化合规系统</h2>
             <PinToggler
               className={classNames({ 'text-white:88 !hover:text-white': siderInverted })}
               pin={mixSiderFixed}
@@ -79,15 +79,15 @@ const VerticalMix = memo(() => {
         </DarkModeContainer>
       </div>
     </div>
-  );
-});
+  )
+})
 
 const VerticalMixMenu = () => {
-  const container = useGetElementById(GLOBAL_SIDER_MENU_ID);
+  const container = useGetElementById(GLOBAL_SIDER_MENU_ID)
 
-  if (!container) return null;
+  if (!container) return null
 
-  return createPortal(<VerticalMix />, container);
-};
+  return createPortal(<VerticalMix />, container)
+}
 
-export default VerticalMixMenu;
+export default VerticalMixMenu

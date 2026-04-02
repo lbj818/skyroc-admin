@@ -1,4 +1,4 @@
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from './ButtonIcon'
 
 interface Props {
   className?: string;
@@ -15,7 +15,7 @@ const FullScreen = ({ className, full, toggleFullscreen }: Props) => {
     >
       {full ? <IconGridiconsFullscreenExit /> : <IconGridiconsFullscreen />}
     </ButtonIcon>
-  );
-};
+  )
+}
 
-export default FullScreen;
+export default FullScreen

@@ -7,6 +7,10 @@ export function setupAutoImport(viteEnv: Env.ImportMeta) {
   return AutoImport({
     dirs: ['src/hooks/**', 'src/components/**'],
     dts: 'src/types/auto-imports.d.ts',
+    eslintrc: {
+      enabled: true,
+      filepath: '.eslintrc-auto-import.json'
+    },
     imports: ['react', 'react-router-dom', 'ahooks', { from: 'react', imports: ['FC'], type: true }],
     include: [/\.[tj]sx?$/],
     resolvers: [

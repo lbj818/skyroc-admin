@@ -1,6 +1,6 @@
-import clsx from 'clsx';
+import clsx from 'clsx'
 
-import style from './footer.module.scss';
+import style from './footer.module.scss'
 
 const SearchFooter = () => {
   return (
@@ -22,7 +22,7 @@ const SearchFooter = () => {
         </span>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default memo(SearchFooter);
+export default memo(SearchFooter)

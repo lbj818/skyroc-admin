@@ -1,17 +1,25 @@
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom'
 
-import { BaseChildrenRoutes } from './routes/builtin';
+import { BaseChildrenRoutes } from './routes/builtin'
 
 function convert(m: any) {
-  const { default: Component } = m;
-  return { Component };
+  const { default: Component } = m
+  return { Component }
 }
 
 const routes: RouteObject[] = [
   {
     children: [
       {
-        children: BaseChildrenRoutes,
+        children: [
+          {
+            handle: { constant: false },
+            id: 'index',
+            index: true,
+            lazy: () => import('@/pages/index.tsx').then(convert)
+          },
+          ...BaseChildrenRoutes
+        ],
         id: '(base)',
         lazy: () => import('@/layouts/base-layout').then(convert)
       },
@@ -24,17 +32,17 @@ const routes: RouteObject[] = [
             path: '/login'
           }
         ],
-        handle: { constant: true },
+        handle: {},
         id: '(blank)',
         lazy: () => import('common-app/pages/login/layout.tsx').then(convert)
       }
     ],
-    handle: { constant: true, title: 'root' },
+    handle: { title: 'root' },
     id: 'root',
     lazy: () => import('@/pages/layout.tsx').then(convert),
     path: '/'
   }
-];
+]
 
-export const allRoutes = routes;
-export { routes };
+export const allRoutes = routes
+export { routes }

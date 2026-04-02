@@ -1,17 +1,17 @@
-import { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom'
 
-import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
+import { GLOBAL_SIDER_MENU_ID } from '@/constants/app'
 
-import VerticalMenu from '../components/VerticalMenu';
+import VerticalMenu from '../components/VerticalMenu'
 
-import { useGetElementById } from './hook';
+import { useGetElementById } from './hook'
 
 const Vertical = () => {
-  const container = useGetElementById(GLOBAL_SIDER_MENU_ID);
+  const container = useGetElementById(GLOBAL_SIDER_MENU_ID)
 
-  if (!container) return null;
+  if (!container) return null
 
-  return createPortal(<VerticalMenu />, container);
-};
+  return createPortal(<VerticalMenu />, container)
+}
 
-export default Vertical;
+export default Vertical

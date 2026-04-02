@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import clsx from 'clsx'
 
 interface Props extends React.ComponentProps<'div'> {
   inverted?: boolean;
@@ -16,7 +16,7 @@ const DarkModeContainer = ({ children, className, inverted, ...rest }: Props) =>
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default DarkModeContainer;
+export default DarkModeContainer

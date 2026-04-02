@@ -1,7 +1,7 @@
-import type { ButtonProps, TooltipProps } from 'antd';
-import { type CSSProperties } from 'react';
+import type { ButtonProps, TooltipProps } from 'antd'
+import { type CSSProperties } from 'react'
 
-import SvgIcon from './SvgIcon';
+import SvgIcon from './SvgIcon'
 
 interface Props extends Omit<ButtonProps, 'icon' | 'iconPosition'> {
   children?: React.ReactNode;
@@ -21,18 +21,18 @@ interface Props extends Omit<ButtonProps, 'icon' | 'iconPosition'> {
 
 /** - 动态计算class */
 const computeClass = (className: string) => {
-  let clsStr = className;
+  let clsStr = className
 
   if (!clsStr.includes('h-')) {
-    clsStr += ' h-36px';
+    clsStr += ' h-36px'
   }
 
   if (!clsStr.includes('text-')) {
-    clsStr += ' text-icon';
+    clsStr += ' text-icon'
   }
 
-  return clsStr;
-};
+  return clsStr
+}
 
 /** - 生成复用的button */
 
@@ -47,10 +47,10 @@ const ButtonIcon = ({
   zIndex = 98,
   ...rest
 }: Props) => {
-  const cls = computeClass(className);
+  const cls = computeClass(className)
 
   function getPopupContainer(triggerNode: HTMLElement) {
-    return triggerParent ? triggerNode.parentElement! : document.body;
+    return triggerParent ? triggerNode.parentElement! : document.body
   }
 
   return (
@@ -75,6 +75,6 @@ const ButtonIcon = ({
         </div>
       </AButton>
     </ATooltip>
-  );
-};
-export default ButtonIcon;
+  )
+}
+export default ButtonIcon

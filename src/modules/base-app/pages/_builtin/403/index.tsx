@@ -1,7 +1,7 @@
-import ExceptionBase from '@/components/ExceptionBase';
+import ExceptionBase from '@/components/ExceptionBase'
 
 const NotAuth = () => {
-  return <ExceptionBase type="403" />;
-};
+  return <ExceptionBase type="403" />
+}
 
-export default NotAuth;
+export default NotAuth

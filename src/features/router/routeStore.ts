@@ -1,6 +1,6 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit'
 
-import { createAppSlice } from '../../store/createAppSlice';
+import { createAppSlice } from '../../store/createAppSlice'
 
 interface RouteState {
   cacheRoutes: string[];
@@ -10,7 +10,7 @@ interface RouteState {
 const initialState: RouteState = {
   cacheRoutes: [],
   removeCacheKey: null
-};
+}
 
 export const routeSlice = createAppSlice({
   initialState,
@@ -18,17 +18,17 @@ export const routeSlice = createAppSlice({
   reducers: create => ({
     resetRouteStore: create.reducer(() => initialState),
     setCacheRoutes: create.reducer((state, { payload }: PayloadAction<string[]>) => {
-      state.cacheRoutes = payload;
+      state.cacheRoutes = payload
     }),
     setRemoveCacheKey: create.reducer((state, { payload }: PayloadAction<RouteState['removeCacheKey']>) => {
-      state.removeCacheKey = payload;
+      state.removeCacheKey = payload
     })
   }),
   selectors: {
     selectCacheRoutes: route => route.cacheRoutes,
     selectRemoveCacheKey: route => route.removeCacheKey
   }
-});
+})
 
-export const { resetRouteStore, setCacheRoutes, setRemoveCacheKey } = routeSlice.actions;
-export const { selectCacheRoutes, selectRemoveCacheKey } = routeSlice.selectors;
+export const { resetRouteStore, setCacheRoutes, setRemoveCacheKey } = routeSlice.actions
+export const { selectCacheRoutes, selectRemoveCacheKey } = routeSlice.selectors

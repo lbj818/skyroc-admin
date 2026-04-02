@@ -1,39 +1,39 @@
-import { transformRecordToOption } from '@/utils/common';
+import { transformRecordToOption } from '@/utils/common'
 
-export const GLOBAL_HEADER_MENU_ID = '__GLOBAL_HEADER_MENU__';
+export const GLOBAL_HEADER_MENU_ID = '__GLOBAL_HEADER_MENU__'
 
-export const GLOBAL_SIDER_MENU_ID = '__GLOBAL_SIDER_MENU__';
+export const GLOBAL_SIDER_MENU_ID = '__GLOBAL_SIDER_MENU__'
 
 export const loginModuleRecord: Record<UnionKey.LoginModule, string> = {
   'code-login': 'page.login.codeLogin.title',
   'pwd-login': 'page.login.pwdLogin.title',
   register: 'page.login.register.title',
   'reset-pwd': 'page.login.resetPwd.title'
-};
+}
 
 export const themeLayoutModeRecord: Record<UnionKey.ThemeLayoutMode, string> = {
   horizontal: 'theme.layoutMode.horizontal',
   'horizontal-mix': 'theme.layoutMode.horizontal-mix',
   vertical: 'theme.layoutMode.vertical',
   'vertical-mix': 'theme.layoutMode.vertical-mix'
-};
+}
 
-export const themeLayoutModeOptions = transformRecordToOption(themeLayoutModeRecord);
+export const themeLayoutModeOptions = transformRecordToOption(themeLayoutModeRecord)
 
 export const themeScrollModeRecord: Record<UnionKey.ThemeScrollMode, string> = {
   content: 'theme.scrollMode.content',
   wrapper: 'theme.scrollMode.wrapper'
-};
+}
 
-export const themeScrollModeOptions = transformRecordToOption(themeScrollModeRecord);
+export const themeScrollModeOptions = transformRecordToOption(themeScrollModeRecord)
 
 export const themeTabModeRecord: Record<UnionKey.ThemeTabMode, string> = {
   button: 'theme.tab.mode.button',
   chrome: 'theme.tab.mode.chrome',
   slider: 'theme.tab.mode.slider'
-};
+}
 
-export const themeTabModeOptions = transformRecordToOption(themeTabModeRecord);
+export const themeTabModeOptions = transformRecordToOption(themeTabModeRecord)
 
 export const themePageAnimationModeRecord: Record<UnionKey.ThemePageAnimateMode, string> = {
   fade: 'theme.page.mode.fade',
@@ -43,15 +43,15 @@ export const themePageAnimationModeRecord: Record<UnionKey.ThemePageAnimateMode,
   none: 'theme.page.mode.none',
   'zoom-fade': 'theme.page.mode.zoom-fade',
   'zoom-out': 'theme.page.mode.zoom-out'
-};
+}
 
-export const themePageAnimationModeOptions = transformRecordToOption(themePageAnimationModeRecord);
+export const themePageAnimationModeOptions = transformRecordToOption(themePageAnimationModeRecord)
 
 export const info = `██████╗ ███████╗ █████╗  ██████╗████████╗███████╗ ██████╗ ██╗   ██╗██████╗ ███████╗ █████╗ ███╗   ██╗
 ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔═══██╗╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗████╗  ██║
 ██████╔╝█████╗  ███████║██║        ██║   ███████╗██║   ██║ ╚████╔╝ ██████╔╝█████╗  ███████║██╔██╗ ██║
 ██╔══██╗██╔══╝  ██╔══██║██║        ██║   ╚════██║██║   ██║  ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██║██║╚██╗██║
 ██║  ██║███████╗██║  ██║╚██████╗   ██║   ███████║╚██████╔╝   ██║   ██████╔╝███████╗██║  ██║██║ ╚████║
-╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚══════╝ ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝`;
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚══════╝ ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝`
 
-export const DARK_CLASS = 'dark';
+export const DARK_CLASS = 'dark'

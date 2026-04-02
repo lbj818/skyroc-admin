@@ -1,8 +1,8 @@
-import ButtonIcon from '@/components/ButtonIcon';
-import { useReloadPage } from '@/layouts/layoutHook';
+import ButtonIcon from '@/components/ButtonIcon'
+import { useReloadPage } from '@/layouts/layoutHook'
 
 const TabReloadButton = () => {
-  const { isReload, reloadPage } = useReloadPage();
+  const { isReload, reloadPage } = useReloadPage()
 
   return (
     <ButtonIcon
@@ -11,7 +11,7 @@ const TabReloadButton = () => {
     >
       <IconAntDesignReloadOutlined className={isReload ? 'animate-spin animate-duration-750' : ''} />
     </ButtonIcon>
-  );
-};
+  )
+}
 
-export default TabReloadButton;
+export default TabReloadButton

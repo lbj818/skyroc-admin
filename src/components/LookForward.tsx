@@ -1,6 +1,6 @@
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react'
 
-import SvgIcon from './SvgIcon';
+import SvgIcon from './SvgIcon'
 
 const LookForward = ({ children }: PropsWithChildren) => {
   return (
@@ -10,7 +10,7 @@ const LookForward = ({ children }: PropsWithChildren) => {
       </div>
       {children || <h3 className="text-28px text-primary font-500">敬请期待</h3>}
     </div>
-  );
-};
+  )
+}
 
-export default LookForward;
+export default LookForward

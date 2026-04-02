@@ -1,7 +1,8 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-import { localStg } from '@/utils/storage';
+const SESSION_TOKEN_KEY = 'Authorization'
+const SESSION_REFRESH_KEY = 'RefreshToken'
 
 interface TokenState {
   accessToken: string | null;
@@ -9,24 +10,24 @@ interface TokenState {
 }
 
 const initialState: TokenState = {
-  accessToken: localStg.get('token') || null,
-  refreshToken: localStg.get('refreshToken') || null
-};
+  accessToken: window.sessionStorage.getItem(SESSION_TOKEN_KEY) || null,
+  refreshToken: window.sessionStorage.getItem(SESSION_REFRESH_KEY) || null
+}
 
 export const tokenSlice = createSlice({
   initialState,
   name: 'token',
   reducers: {
     resetToken: () => {
-      localStg.remove('token');
-      localStg.remove('refreshToken');
-      return { accessToken: null, refreshToken: null };
+      window.sessionStorage.removeItem(SESSION_TOKEN_KEY)
+      window.sessionStorage.removeItem(SESSION_REFRESH_KEY)
+      return { accessToken: null, refreshToken: null }
     },
     setTokens: (state, { payload }: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
-      localStg.set('token', payload.accessToken);
-      localStg.set('refreshToken', payload.refreshToken);
+      state.accessToken = payload.accessToken
+      state.refreshToken = payload.refreshToken
+      window.sessionStorage.setItem(SESSION_TOKEN_KEY, payload.accessToken)
+      window.sessionStorage.setItem(SESSION_REFRESH_KEY, payload.refreshToken)
     }
   },
   selectors: {
@@ -34,7 +35,7 @@ export const tokenSlice = createSlice({
     selectIsLogin: s => Boolean(s.accessToken),
     selectRefreshToken: s => s.refreshToken
   }
-});
+})
 
-export const { resetToken, setTokens } = tokenSlice.actions;
-export const { selectAccessToken, selectIsLogin, selectRefreshToken } = tokenSlice.selectors;
+export const { resetToken, setTokens } = tokenSlice.actions
+export const { selectAccessToken, selectIsLogin, selectRefreshToken } = tokenSlice.selectors

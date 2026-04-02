@@ -1,1 +1,1 @@
-export { default as LazyAnimate } from './LazyMotion';
+export { default as LazyAnimate } from './LazyMotion'

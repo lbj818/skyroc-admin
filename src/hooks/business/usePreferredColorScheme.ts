@@ -1,26 +1,26 @@
 export type ThemeName = 'dark' | 'light';
 
 function usePreferredColorScheme() {
-  const [themeName, setThemeName] = useState<ThemeName>('light');
+  const [themeName, setThemeName] = useState<ThemeName>('light')
 
   useEffect(() => {
-    const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
-    setThemeName(darkMediaQuery.matches ? 'dark' : 'light');
+    setThemeName(darkMediaQuery.matches ? 'dark' : 'light')
 
-    darkMediaQuery.addEventListener('change', updateTheme);
+    darkMediaQuery.addEventListener('change', updateTheme)
 
-    return () => darkMediaQuery.removeEventListener('change', updateTheme);
-  }, []);
+    return () => darkMediaQuery.removeEventListener('change', updateTheme)
+  }, [])
   function updateTheme(event: MediaQueryListEvent) {
-    setThemeName(event.matches ? 'dark' : 'light');
+    setThemeName(event.matches ? 'dark' : 'light')
   }
 
   return {
     isDarkMode: themeName === 'dark',
     isLightMode: themeName === 'light',
     themeName
-  };
+  }
 }
 
-export default usePreferredColorScheme;
+export default usePreferredColorScheme

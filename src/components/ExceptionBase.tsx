@@ -1,6 +1,6 @@
-import { globalConfig } from '@/config';
+import { globalConfig } from '@/config'
 
-import SvgIcon from './SvgIcon';
+import SvgIcon from './SvgIcon'
 
 type ExceptionType = '403' | '404' | '500';
 
@@ -18,13 +18,13 @@ const iconMap: Record<ExceptionType, string> = {
   '403': 'no-permission',
   '404': 'not-found',
   '500': 'service-error'
-};
+}
 const ExceptionBase: FC<Props> = memo(({ type }) => {
-  const nav = useNavigate();
+  const nav = useNavigate()
 
   const onClick = () => {
-    nav(globalConfig.homePath);
-  };
+    nav(globalConfig.homePath)
+  }
 
   return (
     <div className="size-full min-h-520px flex-col-center gap-24px overflow-hidden">
@@ -38,7 +38,7 @@ const ExceptionBase: FC<Props> = memo(({ type }) => {
         返回首页
       </AButton>
     </div>
-  );
-});
+  )
+})
 
-export default ExceptionBase;
+export default ExceptionBase

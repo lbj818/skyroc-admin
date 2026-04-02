@@ -1,12 +1,12 @@
-import { ThemeMode } from 'ahooks/lib/useTheme';
-import type { ThemeModeType } from 'ahooks/lib/useTheme';
-import type { SegmentedOptions } from 'antd/es/segmented';
-import { useContext } from 'react';
+import { ThemeMode } from 'ahooks/lib/useTheme'
+import type { ThemeModeType } from 'ahooks/lib/useTheme'
+import type { SegmentedOptions } from 'antd/es/segmented'
+import { useContext } from 'react'
 
-import { ThemeContext, icons } from './themeContext';
+import { ThemeContext, icons } from './themeContext'
 
 const OPTIONS = Object.values(ThemeMode).map(item => {
-  const key = item as ThemeModeType;
+  const key = item as ThemeModeType
   return {
     label: (
       <div className="w-[70px] flex justify-center">
@@ -17,11 +17,11 @@ const OPTIONS = Object.values(ThemeMode).map(item => {
       </div>
     ),
     value: item
-  };
-}) satisfies SegmentedOptions;
+  }
+}) satisfies SegmentedOptions
 
 const ThemeSchemaSegmented = () => {
-  const { setThemeScheme, themeScheme } = useContext(ThemeContext);
+  const { setThemeScheme, themeScheme } = useContext(ThemeContext)
 
   return (
     <ASegmented
@@ -30,7 +30,7 @@ const ThemeSchemaSegmented = () => {
       value={themeScheme}
       onChange={setThemeScheme}
     />
-  );
-};
+  )
+}
 
-export default ThemeSchemaSegmented;
+export default ThemeSchemaSegmented

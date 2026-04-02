@@ -1,9 +1,9 @@
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom'
 
-import type { MenuItem } from '@/features/menu/menuTreeStore';
-import { setMenuTree } from '@/features/menu/menuTreeStore';
-import { get } from '@/service/request';
-import { store } from '@/store';
+import type { MenuItem } from '@/features/menu/menuTreeStore'
+import { setMenuTree } from '@/features/menu/menuTreeStore'
+import { get } from '@/service/request'
+import { store } from '@/store'
 
 interface RawMenuItem {
   cacheFlag: number;
@@ -34,7 +34,7 @@ interface MenuApiResponse {
 }
 
 function formatMenuData(raw: MenuApiResponse): MenuItem[] {
-  const { menus, system } = raw.data;
+  const { menus, system } = raw.data
 
   const formattedMenus: MenuItem[] = menus.map(item => ({
     children: [],
@@ -49,7 +49,7 @@ function formatMenuData(raw: MenuApiResponse): MenuItem[] {
     path: item.menuPath,
     routingParameters: item.routingParameters,
     title: item.menuName
-  }));
+  }))
 
   const formattedSystems: MenuItem[] = system.map(item => ({
     children: [],
@@ -59,32 +59,32 @@ function formatMenuData(raw: MenuApiResponse): MenuItem[] {
     name: String(item.systemKey),
     path: String(item.systemKey),
     title: item.systemName
-  }));
+  }))
 
-  return [...formattedMenus, ...formattedSystems];
+  return [...formattedMenus, ...formattedSystems]
 }
 
 function buildMenuTree(items: MenuItem[]): MenuItem[] {
-  const map = new Map<string | number, MenuItem>();
-  const roots: MenuItem[] = [];
+  const map = new Map<string | number, MenuItem>()
+  const roots: MenuItem[] = []
 
-  items.forEach(item => map.set(item.id, { ...item, children: [] }));
+  items.forEach(item => map.set(item.id, { ...item, children: [] }))
 
   items.forEach(item => {
     if (!item.parentId) {
-      roots.push(map.get(item.id)!);
+      roots.push(map.get(item.id)!)
     } else {
-      const parent = map.get(item.parentId);
+      const parent = map.get(item.parentId)
       if (parent) {
-        if (!parent.children) parent.children = [];
-        parent.children.push(map.get(item.id)!);
+        if (!parent.children) parent.children = []
+        parent.children.push(map.get(item.id)!)
       } else {
-        roots.push(map.get(item.id)!);
+        roots.push(map.get(item.id)!)
       }
     }
-  });
+  })
 
-  return roots;
+  return roots
 }
 
 function getPageComponent(componentPath: string) {
@@ -93,41 +93,41 @@ function getPageComponent(componentPath: string) {
     '/src/modules/**/*.ts',
     '/src/modules/**/*.jsx',
     '/src/modules/**/*.js'
-  ]);
+  ])
 
-  const normalizedPath = componentPath.startsWith('/') ? componentPath.slice(1) : componentPath;
+  const normalizedPath = componentPath.startsWith('/') ? componentPath.slice(1) : componentPath
 
   const candidates = [
     `/src/modules/${normalizedPath}.tsx`,
     `/src/modules/${normalizedPath}/index.tsx`,
     `/src/modules/${normalizedPath}.ts`,
     `/src/modules/${normalizedPath}/index.ts`
-  ];
+  ]
 
   for (const path of candidates) {
-    if (modules[path]) return modules[path];
+    if (modules[path]) return modules[path]
   }
 
   if (import.meta.env.DEV) {
-    console.warn(`[route] 找不到组件: "${componentPath}"，尝试路径:`, candidates);
+    console.warn(`[route] 找不到组件: "${componentPath}"，尝试路径:`, candidates)
   }
 
-  return () => import('@/pages/error');
+  return () => import('@/pages/error')
 }
 
 /** 递归收集所有叶子路由，全部平铺注册（对齐 Vue3 generateFlatRoutes）。 父级菜单节点（含 system 分组）只用于菜单树展示，不参与路由注册。 */
 function collectFlatRoutes(items: MenuItem[]): RouteObject[] {
-  const routes: RouteObject[] = [];
+  const routes: RouteObject[] = []
 
   for (const item of items) {
     // 有子菜单：递归收集子路由，自身不注册
     if (item.children && item.children.length > 0) {
-      routes.push(...collectFlatRoutes(item.children));
-      continue;
+      routes.push(...collectFlatRoutes(item.children))
+      continue
     }
 
     // 叶子节点且路径无效（system 节点 path 为纯数字）：跳过
-    if (!item.path.startsWith('/')) continue;
+    if (!item.path.startsWith('/')) continue
 
     routes.push({
       handle: {
@@ -138,31 +138,31 @@ function collectFlatRoutes(items: MenuItem[]): RouteObject[] {
       } as Router.RouteHandle,
       id: item.name,
       lazy: async () => {
-        const loader = getPageComponent(item.component || item.path);
-        const mod = await loader();
-        return { Component: (mod as any).default };
+        const loader = getPageComponent(item.component || item.path)
+        const mod = await loader()
+        return { Component: (mod as any).default }
       },
       path: item.path
-    });
+    })
   }
 
-  return routes;
+  return routes
 }
 
 export async function initDynamicRoutes(
   addRoutes: (parent: string | null, routes: RouteObject[]) => void
 ): Promise<void> {
-  const raw = await get<MenuApiResponse>('/admin/sysmenu/queryCurrentUserAllMenu');
+  const raw = await get<MenuApiResponse>('/admin/sysmenu/queryCurrentUserAllMenu')
 
-  if (!raw) return;
+  if (!raw) return
 
-  const flatItems = formatMenuData(raw);
-  const menuTree = buildMenuTree(flatItems);
+  const flatItems = formatMenuData(raw)
+  const menuTree = buildMenuTree(flatItems)
 
   // 菜单树（含 system 分组）存入 store，供侧边栏渲染
-  store.dispatch(setMenuTree(menuTree));
+  store.dispatch(setMenuTree(menuTree))
 
   // 所有路由平铺注册到 (base) 下，不做嵌套
-  const routes = collectFlatRoutes(menuTree);
-  addRoutes('(base)', routes);
+  const routes = collectFlatRoutes(menuTree)
+  addRoutes('(base)', routes)
 }

@@ -1,4 +1,4 @@
-import { getPaletteColorByNumber } from '@sa/color';
+import { getPaletteColorByNumber } from '@sa/color'
 
 interface Props {
   /** Theme color */
@@ -6,8 +6,8 @@ interface Props {
 }
 
 const WaveBg = ({ themeColor }: Props) => {
-  const lightColor = getPaletteColorByNumber(themeColor, 200);
-  const darkColor = getPaletteColorByNumber(themeColor, 500);
+  const lightColor = getPaletteColorByNumber(themeColor, 200)
+  const darkColor = getPaletteColorByNumber(themeColor, 500)
 
   return (
     <div className="absolute-lt z-1 size-full overflow-hidden">
@@ -92,7 +92,7 @@ const WaveBg = ({ themeColor }: Props) => {
         </svg>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WaveBg;
+export default WaveBg

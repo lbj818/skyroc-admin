@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import type { Variants } from 'motion/react';
-import { AnimatePresence, motion } from 'motion/react';
+import clsx from 'clsx'
+import type { Variants } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 
 interface FlipTextProps {
   readonly className?: string;
@@ -36,8 +36,8 @@ const FlipText: FC<FlipTextProps> = memo(
           </motion.span>
         ))}
       </AnimatePresence>
-    );
+    )
   }
-);
+)
 
-export default FlipText;
+export default FlipText

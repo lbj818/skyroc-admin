@@ -1,4 +1,4 @@
-import { presetSkyrocAdmin } from '@sa/uno-preset';
+import { preset } from '@sa/uno-preset';
 import presetUno from '@unocss/preset-uno';
 import type { Theme } from '@unocss/preset-uno';
 import transformerDirectives from '@unocss/transformer-directives';
@@ -13,7 +13,7 @@ export default defineConfig<Theme>({
       exclude: ['node_modules', 'dist']
     }
   },
-  presets: [presetUno({ dark: 'class' }), presetSkyrocAdmin()],
+  presets: [presetUno({ dark: 'class' }), preset()],
   rules: [
     [
       /^h-calc\((.*)\)$/, // 匹配 h-clac(xxx) 的正则表达式

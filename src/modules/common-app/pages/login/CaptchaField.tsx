@@ -24,6 +24,6 @@ const CaptchaField = ({ captchaLoading, captchaUrl, onRefresh }: CaptchaFieldPro
       </ASpin>
     </ASpace>
   </AForm.Item>
-);
+)
 
-export default CaptchaField;
+export default CaptchaField

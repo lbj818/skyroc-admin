@@ -1,9 +1,9 @@
-import { useSvgIconRender } from '@sa/hooks';
+import { useSvgIconRender } from '@sa/hooks'
 
 export function useSvgIcon() {
-  const { SvgIconVNode } = useSvgIconRender(SvgIcon);
+  const { SvgIconVNode } = useSvgIconRender(SvgIcon)
 
   return {
     SvgIconVNode
-  };
+  }
 }

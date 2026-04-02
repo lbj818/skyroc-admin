@@ -1,6 +1,6 @@
-import clsx from 'clsx';
+import clsx from 'clsx'
 
-import skyrocAvatar from '@/assets/imgs/skyroc.jpg';
+import skyrocAvatar from '@/assets/imgs/skyroc.jpg'
 
 const SkyrocAvatar = ({ className, ...props }: React.ComponentProps<'div'>) => {
   return (
@@ -13,8 +13,8 @@ const SkyrocAvatar = ({ className, ...props }: React.ComponentProps<'div'>) => {
         src={skyrocAvatar}
       />
     </div>
-  );
-};
+  )
+}
 
-export default SkyrocAvatar;
+export default SkyrocAvatar
 

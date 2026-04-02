@@ -1,6 +1,6 @@
-import { useThemeSettings } from '@/features/theme';
+import { useThemeSettings } from '@/features/theme'
 
-import { getReloadFlag, setReloadFlag } from './appStore';
+import { getReloadFlag, setReloadFlag } from './appStore'
 
 /**
  * Reload page
@@ -8,26 +8,26 @@ import { getReloadFlag, setReloadFlag } from './appStore';
  * @param duration Duration time
  */
 export function useReloadPage(duration = 300) {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const isReload = useAppSelector(getReloadFlag);
+  const isReload = useAppSelector(getReloadFlag)
 
-  const themeSettings = useThemeSettings();
+  const themeSettings = useThemeSettings()
 
   async function reloadPage() {
-    dispatch(setReloadFlag(true));
+    dispatch(setReloadFlag(true))
 
-    const d = themeSettings.page.animate ? duration : 40;
+    const d = themeSettings.page.animate ? duration : 40
 
     await new Promise(resolve => {
-      setTimeout(resolve, d);
-    });
+      setTimeout(resolve, d)
+    })
 
-    dispatch(setReloadFlag(false));
+    dispatch(setReloadFlag(false))
   }
 
   return {
     isReload,
     reloadPage
-  };
+  }
 }

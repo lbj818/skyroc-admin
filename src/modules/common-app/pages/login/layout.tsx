@@ -1,32 +1,32 @@
-import { getPaletteColorByNumber, mixColor } from '@sa/color';
-import { Outlet } from 'react-router-dom';
+import { getPaletteColorByNumber, mixColor } from '@sa/color'
+import { Outlet } from 'react-router-dom'
 
-import WaveBg from '@/components/WaveBg';
-import { getThemeSettings, useTheme } from '@/features/theme';
+import WaveBg from '@/components/WaveBg'
+import { getThemeSettings, useTheme } from '@/features/theme'
 
-import Header from './Header';
+import Header from './Header'
 
-const COLOR_WHITE = '#ffffff';
+const COLOR_WHITE = '#ffffff'
 
 function useBgColor() {
-  const { darkMode } = useTheme();
+  const { darkMode } = useTheme()
 
-  const { themeColor } = useAppSelector(getThemeSettings);
+  const { themeColor } = useAppSelector(getThemeSettings)
 
-  const bgThemeColor = darkMode ? getPaletteColorByNumber(themeColor, 600) : themeColor;
+  const bgThemeColor = darkMode ? getPaletteColorByNumber(themeColor, 600) : themeColor
 
-  const ratio = darkMode ? 0.5 : 0.2;
+  const ratio = darkMode ? 0.5 : 0.2
 
-  const bgColor = mixColor(COLOR_WHITE, themeColor, ratio);
+  const bgColor = mixColor(COLOR_WHITE, themeColor, ratio)
 
   return {
     bgColor,
     bgThemeColor
-  };
+  }
 }
 
 const LoginLayout = () => {
-  const { bgColor, bgThemeColor } = useBgColor();
+  const { bgColor, bgThemeColor } = useBgColor()
 
   return (
     <div
@@ -47,7 +47,7 @@ const LoginLayout = () => {
         </div>
       </ACard>
     </div>
-  );
-};
+  )
+}
 
-export default LoginLayout;
+export default LoginLayout

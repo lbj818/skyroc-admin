@@ -1,104 +1,104 @@
-import { AdminLayout, LAYOUT_SCROLL_EL_ID } from '@sa/materials';
-import type { LayoutMode } from '@sa/materials';
-import { configResponsive } from 'ahooks';
-import { Suspense } from 'react';
+import { AdminLayout, LAYOUT_SCROLL_EL_ID } from '@sa/materials'
+import type { LayoutMode } from '@sa/materials'
+import { configResponsive } from 'ahooks'
+import { Suspense } from 'react'
 
-import './index.scss';
+import './index.scss'
 import {
   LAYOUT_MODE_HORIZONTAL,
   LAYOUT_MODE_HORIZONTAL_MIX,
   LAYOUT_MODE_VERTICAL,
   LAYOUT_MODE_VERTICAL_MIX
-} from '@/constants/common';
-import { useMixMenuContext } from '@/features/menu';
-import GlobalTab from '@/features/tab/GlobalTab';
-import { getThemeSettings, setLayoutMode } from '@/features/theme';
+} from '@/constants/common'
+import { useMixMenuContext } from '@/features/menu'
+import GlobalTab from '@/features/tab/GlobalTab'
+import { getThemeSettings, setLayoutMode } from '@/features/theme'
 
-import { getFullContent, getMixSiderFixed, getSiderCollapse, setIsMobile, setSiderCollapse } from '../appStore';
-import GlobalContent from '../modules/GlobalContent';
-import GlobalFooter from '../modules/GlobalFooter';
-import GlobalSider from '../modules/GlobalSider';
-import GlobalHeader from '../modules/global-header/GlobalHeader';
-import GlobalMenu from '../modules/global-menu';
-import ThemeDrawer from '../modules/theme-drawer';
+import { getFullContent, getMixSiderFixed, getSiderCollapse, setIsMobile, setSiderCollapse } from '../appStore'
+import GlobalContent from '../modules/GlobalContent'
+import GlobalFooter from '../modules/GlobalFooter'
+import GlobalSider from '../modules/GlobalSider'
+import GlobalHeader from '../modules/global-header/GlobalHeader'
+import GlobalMenu from '../modules/global-menu'
+import ThemeDrawer from '../modules/theme-drawer'
 
-configResponsive({ sm: 640 });
+configResponsive({ sm: 640 })
 
 const BaseLayout = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const siderCollapse = useAppSelector(getSiderCollapse);
+  const siderCollapse = useAppSelector(getSiderCollapse)
 
-  const fullContent = useAppSelector(getFullContent);
+  const fullContent = useAppSelector(getFullContent)
 
-  const responsive = useResponsive();
+  const responsive = useResponsive()
 
-  const mixSiderFixed = useAppSelector(getMixSiderFixed);
+  const mixSiderFixed = useAppSelector(getMixSiderFixed)
 
-  const { childLevelMenus, isActiveFirstLevelMenuHasChildren } = useMixMenuContext();
+  const { childLevelMenus, isActiveFirstLevelMenuHasChildren } = useMixMenuContext()
 
-  const siderVisible = themeSettings.layout.mode !== LAYOUT_MODE_HORIZONTAL;
+  const siderVisible = themeSettings.layout.mode !== LAYOUT_MODE_HORIZONTAL
 
-  const isVerticalMix = themeSettings.layout.mode === LAYOUT_MODE_VERTICAL_MIX;
+  const isVerticalMix = themeSettings.layout.mode === LAYOUT_MODE_VERTICAL_MIX
 
-  const isHorizontalMix = themeSettings.layout.mode === LAYOUT_MODE_HORIZONTAL_MIX;
+  const isHorizontalMix = themeSettings.layout.mode === LAYOUT_MODE_HORIZONTAL_MIX
 
   const layoutMode = themeSettings.layout.mode.includes(LAYOUT_MODE_VERTICAL)
     ? LAYOUT_MODE_VERTICAL
-    : LAYOUT_MODE_HORIZONTAL;
+    : LAYOUT_MODE_HORIZONTAL
 
-  const isMobile = !responsive.sm;
+  const isMobile = !responsive.sm
 
   function getSiderWidth() {
-    const { reverseHorizontalMix } = themeSettings.layout;
+    const { reverseHorizontalMix } = themeSettings.layout
 
-    const { mixChildMenuWidth, mixWidth, width } = themeSettings.sider;
+    const { mixChildMenuWidth, mixWidth, width } = themeSettings.sider
 
     if (isHorizontalMix && reverseHorizontalMix) {
-      return isActiveFirstLevelMenuHasChildren ? width : 0;
+      return isActiveFirstLevelMenuHasChildren ? width : 0
     }
 
-    let w = isVerticalMix || isHorizontalMix ? mixWidth : width;
+    let w = isVerticalMix || isHorizontalMix ? mixWidth : width
 
     if (isVerticalMix && mixSiderFixed && childLevelMenus.length) {
-      w += mixChildMenuWidth;
+      w += mixChildMenuWidth
     }
 
-    return w;
+    return w
   }
 
-  const siderWidth = getSiderWidth();
+  const siderWidth = getSiderWidth()
 
   function getSiderCollapsedWidth() {
-    const { reverseHorizontalMix } = themeSettings.layout;
-    const { collapsedWidth, mixChildMenuWidth, mixCollapsedWidth } = themeSettings.sider;
+    const { reverseHorizontalMix } = themeSettings.layout
+    const { collapsedWidth, mixChildMenuWidth, mixCollapsedWidth } = themeSettings.sider
 
     if (isHorizontalMix && reverseHorizontalMix) {
-      return isActiveFirstLevelMenuHasChildren ? collapsedWidth : 0;
+      return isActiveFirstLevelMenuHasChildren ? collapsedWidth : 0
     }
 
-    let w = isVerticalMix || isHorizontalMix ? mixCollapsedWidth : collapsedWidth;
+    let w = isVerticalMix || isHorizontalMix ? mixCollapsedWidth : collapsedWidth
 
     if (isVerticalMix && mixSiderFixed && childLevelMenus.length) {
-      w += mixChildMenuWidth;
+      w += mixChildMenuWidth
     }
 
-    return w;
+    return w
   }
-  const siderCollapsedWidth = getSiderCollapsedWidth();
+  const siderCollapsedWidth = getSiderCollapsedWidth()
 
   function updateSiderCollapse() {
-    dispatch(setSiderCollapse(true));
+    dispatch(setSiderCollapse(true))
   }
 
   useLayoutEffect(() => {
-    dispatch(setIsMobile(isMobile));
+    dispatch(setIsMobile(isMobile))
     if (isMobile) {
-      dispatch(setLayoutMode('vertical'));
+      dispatch(setLayoutMode('vertical'))
     }
-  }, [isMobile, dispatch]);
+  }, [isMobile, dispatch])
 
   return (
     <AdminLayout
@@ -151,7 +151,7 @@ const BaseLayout = () => {
         <ThemeDrawer />
       </Suspense>
     </AdminLayout>
-  );
-};
+  )
+}
 
-export default BaseLayout;
+export default BaseLayout

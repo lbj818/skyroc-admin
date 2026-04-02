@@ -1,11 +1,11 @@
-import { Button, Typography } from 'antd';
-import type { FallbackProps } from 'react-error-boundary';
+import { Button, Typography } from 'antd'
+import type { FallbackProps } from 'react-error-boundary'
 
-import { globalConfig } from '@/config';
+import { globalConfig } from '@/config'
 
-const { Text, Title } = Typography;
+const { Text, Title } = Typography
 
-const theme = globalConfig.defaultThemeColor;
+const theme = globalConfig.defaultThemeColor
 
 const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
@@ -22,7 +22,7 @@ const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
         刷新重试
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default ErrorPage;
+export default ErrorPage

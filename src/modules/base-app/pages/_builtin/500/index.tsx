@@ -1,7 +1,7 @@
-import ExceptionBase from '@/components/ExceptionBase';
+import ExceptionBase from '@/components/ExceptionBase'
 
 const GoWrong = () => {
-  return <ExceptionBase type="500" />;
-};
+  return <ExceptionBase type="500" />
+}
 
-export default GoWrong;
+export default GoWrong

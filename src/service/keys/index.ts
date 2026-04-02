@@ -7,4 +7,4 @@ export const QUERY_KEYS = {
     ROLE_LIST: (params?: Api.SystemManage.RoleSearchParams) => ['systemManage', 'roleList', params] as const,
     USER_LIST: (params?: Api.SystemManage.UserSearchParams) => ['systemManage', 'userList', params] as const
   }
-} as const;
+} as const

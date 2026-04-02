@@ -1,34 +1,34 @@
-import { SimpleScrollbar } from '@sa/materials';
+import { SimpleScrollbar } from '@sa/materials'
 
-import { cacheThemeSettings } from '@/features/theme';
-import { closeThemeDrawer, getThemeDrawerVisible } from '@/layouts/appStore';
+import { cacheThemeSettings } from '@/features/theme'
+import { closeThemeDrawer, getThemeDrawerVisible } from '@/layouts/appStore'
 
-import ConfigOperation from './modules/ConfigOperation';
-import DarkMode from './modules/DarkMode';
-import LayoutMode from './modules/LayoutMode';
-import PageFun from './modules/PageFun';
-import ThemeColor from './modules/ThemeColor';
+import ConfigOperation from './modules/ConfigOperation'
+import DarkMode from './modules/DarkMode'
+import LayoutMode from './modules/LayoutMode'
+import PageFun from './modules/PageFun'
+import ThemeColor from './modules/ThemeColor'
 
 const ThemeDrawer = memo(() => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const themeDrawerVisible = useAppSelector(getThemeDrawerVisible);
+  const themeDrawerVisible = useAppSelector(getThemeDrawerVisible)
 
   function close() {
-    dispatch(closeThemeDrawer());
+    dispatch(closeThemeDrawer())
   }
 
   useMount(() => {
     const saveThemeSettings = () => {
-      dispatch(cacheThemeSettings());
-    };
+      dispatch(cacheThemeSettings())
+    }
 
-    window.addEventListener('beforeunload', saveThemeSettings);
+    window.addEventListener('beforeunload', saveThemeSettings)
 
     return () => {
-      window.removeEventListener('beforeunload', saveThemeSettings);
-    };
-  });
+      window.removeEventListener('beforeunload', saveThemeSettings)
+    }
+  })
 
   return (
     <ADrawer
@@ -59,7 +59,7 @@ const ThemeDrawer = memo(() => {
         </div>
       </SimpleScrollbar>
     </ADrawer>
-  );
-});
+  )
+})
 
-export default ThemeDrawer;
+export default ThemeDrawer

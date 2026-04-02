@@ -1,40 +1,34 @@
-import type { MenuProps } from 'antd';
+import type { MenuProps } from 'antd'
 
-import { selectIsLogin } from '@/features/auth/tokenStore';
-import { useRoute, useRouter } from '@/features/router';
-import { localStg } from '@/utils/storage';
+import { selectIsLogin } from '@/features/auth/tokenStore'
+import { useRouter } from '@/features/router'
+import { doLogout } from '@/modules/common-app/pages/login/useLogin'
 
 const UserAvatar = memo(() => {
-  const isLogin = useAppSelector(selectIsLogin);
+  const isLogin = useAppSelector(selectIsLogin)
 
-  const userInfo = localStg.get('userInfo') as any;
+  // 从 sessionStorage 读取用户信息（Vue3 项目登录后存储）
+  const userInfoRaw = window.sessionStorage.getItem('userInfo')
+  const userInfo = userInfoRaw ? JSON.parse(userInfoRaw) : null
 
-  const { navigate, push } = useRouter();
-
-  const { fullPath } = useRoute();
+  const { navigate } = useRouter()
 
   function logout() {
     window?.$modal?.confirm({
       cancelText: '取消',
       content: '确认退出登录吗？',
       okText: '确认',
-      onOk: () => {
-        push('/login-out', { query: { redirect: fullPath } });
-      },
+      onOk: () => doLogout(),
       title: '提示'
-    });
+    })
   }
 
   function onClick({ key }: { key: string }) {
     if (key === '1') {
-      logout();
+      logout()
     } else {
-      navigate('/user-center');
+      navigate('/user-center')
     }
-  }
-
-  function loginOrRegister() {
-    navigate('/login');
   }
 
   const items: MenuProps['items'] = [
@@ -50,9 +44,7 @@ const UserAvatar = memo(() => {
         </div>
       )
     },
-    {
-      type: 'divider'
-    },
+    { type: 'divider' },
     {
       key: '1',
       label: (
@@ -65,7 +57,7 @@ const UserAvatar = memo(() => {
         </div>
       )
     }
-  ];
+  ]
 
   return isLogin ? (
     <ADropdown
@@ -84,8 +76,8 @@ const UserAvatar = memo(() => {
       </div>
     </ADropdown>
   ) : (
-    <AButton onClick={loginOrRegister}>登录 / 注册</AButton>
-  );
-});
+    <AButton onClick={() => navigate('/login')}>登录</AButton>
+  )
+})
 
-export default UserAvatar;
+export default UserAvatar

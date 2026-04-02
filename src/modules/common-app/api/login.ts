@@ -1,4 +1,4 @@
-import { get, post, postForm } from '@/service/request';
+import { get, post, postForm } from '@/service/request'
 
 export interface LoginParams {
   algorithm: string;
@@ -57,7 +57,7 @@ export function loginApi(params: LoginParams) {
     scope: 'ui',
     type: 'account',
     username: params.username
-  });
+  })
 }
 
 /** 退出登录 */
@@ -68,7 +68,7 @@ export function logoutApi(accessToken: string) {
     {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
-  );
+  )
 }
 
 /** 刷新 token */
@@ -77,7 +77,7 @@ export function refreshTokenApi(refreshToken: string) {
     client_id: 'browser',
     grant_type: 'refresh_token',
     refresh_token: refreshToken
-  });
+  })
 }
 
 /** 获取图形验证码 */
@@ -89,10 +89,10 @@ export function getCaptchaApi() {
       headers: { Accept: '*/*' },
       token: false
     }
-  );
+  )
 }
 
 /** 获取当前登录用户信息 */
 export function getUserInfoApi() {
-  return get<UserInfo>('/uaa/users/getLoginUserInfo');
+  return get<UserInfo>('/uaa/users/getLoginUserInfo')
 }

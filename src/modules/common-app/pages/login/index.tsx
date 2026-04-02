@@ -1,7 +1,7 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 
-import CaptchaField from './CaptchaField';
-import { useLoginHook } from './useLogin';
+import CaptchaField from './CaptchaField'
+import { useLoginHook } from './useLogin'
 
 interface LoginFormValues {
   captcha?: string;
@@ -10,11 +10,11 @@ interface LoginFormValues {
 }
 
 const LoginPage = () => {
-  const [form] = AForm.useForm<LoginFormValues>();
-  const { captchaLoading, captchaUrl, errorMsg, fetchCaptcha, loading, requestId, setErrorMsg, toLogin } = useLoginHook();
+  const [form] = AForm.useForm<LoginFormValues>()
+  const { captchaLoading, captchaUrl, errorMsg, fetchCaptcha, loading, requestId, setErrorMsg, toLogin } = useLoginHook()
 
   function handleValuesChange() {
-    if (errorMsg) setErrorMsg(null);
+    if (errorMsg) setErrorMsg(null)
   }
 
   async function handleSubmit(values: LoginFormValues) {
@@ -24,7 +24,7 @@ const LoginPage = () => {
       password: values.password,
       requestId,
       username: values.username
-    });
+    })
   }
 
   return (
@@ -91,7 +91,7 @@ const LoginPage = () => {
         </AForm.Item>
       </AForm>
     </>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

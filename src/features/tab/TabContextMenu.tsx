@@ -1,6 +1,6 @@
-import type { MenuProps } from 'antd';
+import type { MenuProps } from 'antd'
 
-import { useTabController } from './tabHooks';
+import { useTabController } from './tabHooks'
 
 interface ContextMenuProps {
   active: boolean;
@@ -30,13 +30,13 @@ function getMenu(options: DropdownOption[]) {
     ),
     key: opt.key,
     label: opt.label
-  }));
+  }))
 
-  return items;
+  return items
 }
 
 const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: ContextMenuProps) => {
-  const { clearLeftTabs, clearRightTabs, closeAllTabs, closeCurrentTab, closeOtherTabs } = useTabController();
+  const { clearLeftTabs, clearRightTabs, closeAllTabs, closeCurrentTab, closeOtherTabs } = useTabController()
 
   const options = () => {
     const opts: DropdownOption[] = [
@@ -45,41 +45,41 @@ const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: C
       { icon: 'mdi:format-horizontal-align-left', key: 'closeLeft', label: '关闭左侧' },
       { icon: 'mdi:format-horizontal-align-right', key: 'closeRight', label: '关闭右侧' },
       { icon: 'ant-design:line-outlined', key: 'closeAll', label: '关闭所有' }
-    ];
+    ]
 
     return opts
       .filter(opt => !excludeKeys.includes(opt.key))
       .map(opt => {
         if (disabledKeys.includes(opt.key)) {
-          opt.disabled = true;
+          opt.disabled = true
         }
-        return opt;
-      });
-  };
+        return opt
+      })
+  }
 
-  const menu = getMenu(options());
+  const menu = getMenu(options())
 
   const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
     closeAll() {
-      closeAllTabs();
+      closeAllTabs()
     },
     closeCurrent() {
-      closeCurrentTab(tabId);
+      closeCurrentTab(tabId)
     },
     closeLeft() {
-      clearLeftTabs(tabId);
+      clearLeftTabs(tabId)
     },
     closeOther() {
-      closeOtherTabs(tabId);
+      closeOtherTabs(tabId)
     },
     closeRight() {
-      clearRightTabs(tabId);
+      clearRightTabs(tabId)
     }
-  };
+  }
 
   const handleClick: MenuProps['onClick'] = e => {
-    dropdownAction[e.key as App.Global.DropdownKey]();
-  };
+    dropdownAction[e.key as App.Global.DropdownKey]()
+  }
 
   return (
     <ADropdown
@@ -88,7 +88,7 @@ const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: C
     >
       {children}
     </ADropdown>
-  );
-};
+  )
+}
 
-export default ContextMenu;
+export default ContextMenu

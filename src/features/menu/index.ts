@@ -1,5 +1,5 @@
-export * from './menuContext';
+export * from './menuContext'
 
-export { default as MenuProvider } from './MenuProvider';
+export { default as MenuProvider } from './MenuProvider'
 
-export { default as MenuToggler } from './MenuToggler';
+export { default as MenuToggler } from './MenuToggler'

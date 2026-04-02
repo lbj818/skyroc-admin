@@ -1,25 +1,25 @@
-import { Button } from 'antd';
-import { createElement } from 'react';
+import { Button } from 'antd'
+import { createElement } from 'react'
 
-import { globalConfig } from '@/config';
+import { globalConfig } from '@/config'
 
 export function setupAppVersionNotification() {
-  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' && import.meta.env.PROD;
+  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' && import.meta.env.PROD
 
-  if (!canAutoUpdateApp) return;
+  if (!canAutoUpdateApp) return
 
-  let isShow = false;
+  let isShow = false
 
   document.addEventListener('visibilitychange', async () => {
-    const preConditions = [!isShow, document.visibilityState === 'visible', !globalConfig.isDev];
+    const preConditions = [!isShow, document.visibilityState === 'visible', !globalConfig.isDev]
 
-    if (!preConditions.every(Boolean)) return;
+    if (!preConditions.every(Boolean)) return
 
-    const buildTime = await getHtmlBuildTime();
+    const buildTime = await getHtmlBuildTime()
 
-    if (buildTime === BUILD_TIME) return;
+    if (buildTime === BUILD_TIME) return
 
-    isShow = true;
+    isShow = true
 
     window.$notification?.open({
       btn: (() => {
@@ -32,7 +32,7 @@ export function setupAppVersionNotification() {
               {
                 key: 'cancel',
                 onClick() {
-                  window.$notification?.destroy();
+                  window.$notification?.destroy()
                 }
               },
               '稍后再说'
@@ -42,22 +42,22 @@ export function setupAppVersionNotification() {
               {
                 key: 'ok',
                 onClick() {
-                  location.reload();
+                  location.reload()
                 },
                 type: 'primary'
               },
               '立即刷新'
             )
           ]
-        );
+        )
       })(),
       description: '检测到系统有新版本发布，是否立即刷新页面？',
       message: '系统版本更新通知',
       onClose() {
-        isShow = false;
+        isShow = false
       }
-    });
-  });
+    })
+  })
 }
 
 async function getHtmlBuildTime() {
@@ -65,13 +65,13 @@ async function getHtmlBuildTime() {
     headers: {
       'Cache-Control': 'no-cache'
     }
-  });
+  })
 
-  const html = await res.text();
+  const html = await res.text()
 
-  const match = html.match(/<meta name="buildTime" content="(.*)">/);
+  const match = html.match(/<meta name="buildTime" content="(.*)">/)
 
-  const buildTime = match?.[1] || '';
+  const buildTime = match?.[1] || ''
 
-  return buildTime;
+  return buildTime
 }

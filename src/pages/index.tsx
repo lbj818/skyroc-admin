@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom'
 
-import { globalConfig } from '@/config';
+import { globalConfig } from '@/config'
 
 const Index = () => {
   return (
@@ -8,7 +8,7 @@ const Index = () => {
       replace
       to={globalConfig.homePath}
     />
-  );
-};
+  )
+}
 
-export default Index;
+export default Index

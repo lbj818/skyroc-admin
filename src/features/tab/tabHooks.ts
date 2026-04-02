@@ -1,6 +1,6 @@
-import { useEmit, useOn } from '@sa/hooks';
+import { useEmit, useOn } from '@sa/hooks'
 
-import { useRoute, useRouter } from '@/features/router';
+import { useRoute, useRouter } from '@/features/router'
 import {
   addTab,
   changeTabLabel,
@@ -10,18 +10,18 @@ import {
   setActiveTabId,
   setTabs,
   updateTab
-} from '@/features/tab/tabStore';
-import { localStg } from '@/utils/storage';
+} from '@/features/tab/tabStore'
+import { localStg } from '@/utils/storage'
 
-import { getActiveFirstLevelMenuKey } from '../menu/menuHelpers';
-import { setRemoveCacheKey } from '../router/routeStore';
-import { useThemeSettings } from '../theme';
+import { getActiveFirstLevelMenuKey } from '../menu/menuHelpers'
+import { setRemoveCacheKey } from '../router/routeStore'
+import { useThemeSettings } from '../theme'
 
-import { getFixedTabs, getTabByRoute, isTabInTabs } from './shared';
-import { TabEvent } from './tabEnum';
+import { getFixedTabs, getTabByRoute, isTabInTabs } from './shared'
+import { TabEvent } from './tabEnum'
 
 export function useUpdateTabs() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   /**
    * 更新标签页
@@ -29,26 +29,26 @@ export function useUpdateTabs() {
    * @param newTabs
    */
   function updateTabs(newTabs: App.Global.Tab[]) {
-    dispatch(setTabs(newTabs));
+    dispatch(setTabs(newTabs))
   }
 
-  return updateTabs;
+  return updateTabs
 }
 
 export function useTabActions() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const tabs = useAppSelector(selectTabs);
+  const tabs = useAppSelector(selectTabs)
 
-  const updateTabs = useUpdateTabs();
+  const updateTabs = useUpdateTabs()
 
-  const { navigate } = useRouter();
+  const { navigate } = useRouter()
 
-  const activeTabId = useAppSelector(selectActiveTabId);
+  const activeTabId = useAppSelector(selectActiveTabId)
 
-  const _fixedTabs = getFixedTabs(tabs);
+  const _fixedTabs = getFixedTabs(tabs)
 
-  const _tabIds = tabs.map(tab => tab.id);
+  const _tabIds = tabs.map(tab => tab.id)
 
   /**
    * 切换激活的标签页
@@ -56,7 +56,7 @@ export function useTabActions() {
    * @param tabId
    */
   function changeActiveTabId(tabId: string) {
-    dispatch(setActiveTabId(tabId));
+    dispatch(setActiveTabId(tabId))
   }
 
   /**
@@ -65,9 +65,9 @@ export function useTabActions() {
    * @param tab
    */
   async function switchRouteByTab(tab: App.Global.Tab) {
-    navigate(tab.fullPath);
+    navigate(tab.fullPath)
 
-    changeActiveTabId(tab.id);
+    changeActiveTabId(tab.id)
   }
 
   /**
@@ -76,33 +76,33 @@ export function useTabActions() {
    * @param excludes
    */
   function _clearTabs(excludes: string[] = []) {
-    const remainTabIds = [..._fixedTabs.map(tab => tab.id), ...excludes];
+    const remainTabIds = [..._fixedTabs.map(tab => tab.id), ...excludes]
 
     // ② 单次遍历拆分：收集待删除 tab，收集 keepAlive‑cache key
-    const removeKeepKeys: string[] = [];
-    const updatedTabs: App.Global.Tab[] = [];
+    const removeKeepKeys: string[] = []
+    const updatedTabs: App.Global.Tab[] = []
 
     for (const tab of tabs) {
       if (remainTabIds.includes(tab.id)) {
-        updatedTabs.push(tab);
-      } else if (tab.keepAlive) removeKeepKeys.push(tab.routePath);
+        updatedTabs.push(tab)
+      } else if (tab.keepAlive) removeKeepKeys.push(tab.routePath)
     }
 
     // 如果一次都没删，直接返回
-    if (updatedTabs.length === tabs.length) return;
+    if (updatedTabs.length === tabs.length) return
 
     // ③ 处理激活页逻辑
     if (!remainTabIds.includes(activeTabId)) {
-      const currentIndex = tabs.findIndex(tab => tab.id === activeTabId);
+      const currentIndex = tabs.findIndex(tab => tab.id === activeTabId)
 
-      const newActive = tabs[currentIndex + 1] || tabs[currentIndex - 1] || updatedTabs.at(-1);
+      const newActive = tabs[currentIndex + 1] || tabs[currentIndex - 1] || updatedTabs.at(-1)
 
-      if (newActive) switchRouteByTab(newActive);
+      if (newActive) switchRouteByTab(newActive)
     }
-    updateTabs(updatedTabs);
+    updateTabs(updatedTabs)
 
     if (removeKeepKeys.length > 0) {
-      dispatch(setRemoveCacheKey(removeKeepKeys));
+      dispatch(setRemoveCacheKey(removeKeepKeys))
     }
   }
 
@@ -112,13 +112,13 @@ export function useTabActions() {
    * @param tabId
    */
   function _clearLeftTabs(tabId: string) {
-    const index = _tabIds.indexOf(tabId);
+    const index = _tabIds.indexOf(tabId)
 
-    if (index === -1) return;
+    if (index === -1) return
 
-    const excludes = _tabIds.slice(index);
+    const excludes = _tabIds.slice(index)
 
-    _clearTabs(excludes);
+    _clearTabs(excludes)
   }
 
   /**
@@ -127,18 +127,18 @@ export function useTabActions() {
    * @param tabId
    */
   function _clearRightTabs(tabId: string) {
-    const index = _tabIds.indexOf(tabId);
+    const index = _tabIds.indexOf(tabId)
 
     if (index === 0) {
-      _clearTabs();
-      return;
+      _clearTabs()
+      return
     }
 
-    if (index === -1) return;
+    if (index === -1) return
 
-    const excludes = _tabIds.slice(0, index + 1);
+    const excludes = _tabIds.slice(0, index + 1)
 
-    _clearTabs(excludes);
+    _clearTabs(excludes)
   }
 
   /**
@@ -148,13 +148,13 @@ export function useTabActions() {
    */
   function removeTabById(tabId: string) {
     const excludes = _tabIds // 除了要删的，其余都保留
-      .filter(t => t !== tabId);
+      .filter(t => t !== tabId)
 
-    _clearTabs(excludes);
+    _clearTabs(excludes)
   }
 
   function removeActiveTab() {
-    removeTabById(activeTabId);
+    removeTabById(activeTabId)
   }
 
   /**
@@ -164,25 +164,25 @@ export function useTabActions() {
    * @returns
    */
   function isTabRetain(tabId: string) {
-    return _fixedTabs.some(tab => tab.id === tabId);
+    return _fixedTabs.some(tab => tab.id === tabId)
   }
 
   useOn(TabEvent.UPDATE_TABS, (eventName: TabEvent, id: string) => {
     // 清除左侧标签页
-    if (eventName === TabEvent.CLEAR_LEFT_TABS) return _clearLeftTabs(id);
+    if (eventName === TabEvent.CLEAR_LEFT_TABS) return _clearLeftTabs(id)
 
     // 清除右侧标签页
-    if (eventName === TabEvent.CLEAR_RIGHT_TABS) return _clearRightTabs(id);
+    if (eventName === TabEvent.CLEAR_RIGHT_TABS) return _clearRightTabs(id)
 
     // 关闭当前标签页
-    if (eventName === TabEvent.CLOSE_CURRENT) return removeTabById(id);
+    if (eventName === TabEvent.CLOSE_CURRENT) return removeTabById(id)
 
     // 关闭其他标签页
-    if (eventName === TabEvent.CLOSE_OTHER) return _clearTabs([id]);
+    if (eventName === TabEvent.CLOSE_OTHER) return _clearTabs([id])
 
     // 清除所有标签页
-    return _clearTabs();
-  });
+    return _clearTabs()
+  })
 
   return {
     activeTabId,
@@ -192,34 +192,34 @@ export function useTabActions() {
     removeActiveTab,
     removeTabById,
     tabs
-  };
+  }
 }
 
 export function useTabController() {
-  const emit = useEmit();
+  const emit = useEmit()
 
   function _operateTab(eventName: TabEvent, id?: string) {
-    emit(TabEvent.UPDATE_TABS, eventName, id);
+    emit(TabEvent.UPDATE_TABS, eventName, id)
   }
 
   function clearLeftTabs(id: string) {
-    _operateTab(TabEvent.CLEAR_LEFT_TABS, id);
+    _operateTab(TabEvent.CLEAR_LEFT_TABS, id)
   }
 
   function clearRightTabs(id: string) {
-    _operateTab(TabEvent.CLEAR_RIGHT_TABS, id);
+    _operateTab(TabEvent.CLEAR_RIGHT_TABS, id)
   }
 
   function closeCurrentTab(id: string) {
-    _operateTab(TabEvent.CLOSE_CURRENT, id);
+    _operateTab(TabEvent.CLOSE_CURRENT, id)
   }
 
   function closeOtherTabs(id: string) {
-    _operateTab(TabEvent.CLOSE_OTHER, id);
+    _operateTab(TabEvent.CLOSE_OTHER, id)
   }
 
   function closeAllTabs() {
-    _operateTab(TabEvent.CLOSE_ALL);
+    _operateTab(TabEvent.CLOSE_ALL)
   }
 
   return {
@@ -228,120 +228,120 @@ export function useTabController() {
     closeAllTabs,
     closeCurrentTab,
     closeOtherTabs
-  };
+  }
 }
 
 export function initTab(cache: boolean, updateTabs: (tabs: App.Global.Tab[]) => void) {
-  const storageTabs = localStg.get('globalTabs');
+  const storageTabs = localStg.get('globalTabs')
 
   if (cache && storageTabs) {
-    updateTabs(storageTabs);
+    updateTabs(storageTabs)
 
-    return storageTabs;
+    return storageTabs
   }
 
-  return [];
+  return []
 }
 
 export function useCacheTabs() {
-  const themeSettings = useThemeSettings();
+  const themeSettings = useThemeSettings()
 
-  const tabs = useAppSelector(selectTabs);
+  const tabs = useAppSelector(selectTabs)
 
   function cacheTabs() {
-    if (!themeSettings.tab.cache) return;
+    if (!themeSettings.tab.cache) return
 
-    localStg.set('globalTabs', tabs);
+    localStg.set('globalTabs', tabs)
   }
 
-  return cacheTabs;
+  return cacheTabs
 }
 
 export function useTabManager() {
-  const isInit = useRef(false);
+  const isInit = useRef(false)
 
-  const themeSettings = useThemeSettings();
+  const themeSettings = useThemeSettings()
 
-  const cacheTabs = useCacheTabs();
+  const cacheTabs = useCacheTabs()
 
-  const tabs = useAppSelector(selectTabs);
+  const tabs = useAppSelector(selectTabs)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const updateTabs = useUpdateTabs();
+  const updateTabs = useUpdateTabs()
 
-  const _route = useRoute();
+  const _route = useRoute()
 
   function _addTab(route: Router.Route) {
-    const tab = getTabByRoute(route);
+    const tab = getTabByRoute(route)
 
     if (!isInit.current) {
-      isInit.current = true;
+      isInit.current = true
 
-      const initTabs = initTab(themeSettings.tab.cache, updateTabs);
+      const initTabs = initTab(themeSettings.tab.cache, updateTabs)
 
-      const existsInInit = Array.isArray(initTabs) && initTabs.length > 0 && isTabInTabs(tab.id, initTabs);
-      const existsInStore = isTabInTabs(tab.id, tabs);
+      const existsInInit = Array.isArray(initTabs) && initTabs.length > 0 && isTabInTabs(tab.id, initTabs)
+      const existsInStore = isTabInTabs(tab.id, tabs)
 
       if (!existsInInit && !existsInStore) {
-        dispatch(addTab(tab));
+        dispatch(addTab(tab))
       }
     } else if (!isTabInTabs(tab.id, tabs)) {
-      dispatch(addTab(tab));
+      dispatch(addTab(tab))
     } else {
-      const index = tabs.findIndex(item => item.id === tab.id);
+      const index = tabs.findIndex(item => item.id === tab.id)
 
-      dispatch(updateTab({ index, tab }));
+      dispatch(updateTab({ index, tab }))
     }
 
-    dispatch(setActiveTabId(tab.id));
+    dispatch(setActiveTabId(tab.id))
 
-    const firstLevelRouteName = getActiveFirstLevelMenuKey(route);
-    dispatch(setActiveFirstLevelMenuKey(firstLevelRouteName));
+    const firstLevelRouteName = getActiveFirstLevelMenuKey(route)
+    dispatch(setActiveFirstLevelMenuKey(firstLevelRouteName))
   }
 
   useEffect(() => {
-    _addTab(_route);
-  }, [_route.fullPath]);
+    _addTab(_route)
+  }, [_route.fullPath])
 
   useEventListener(
     'beforeunload',
     () => {
-      cacheTabs();
+      cacheTabs()
     },
     { target: window }
-  );
+  )
 }
 
 export function useTabLabel() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const activeTabId = useAppSelector(selectActiveTabId);
+  const activeTabId = useAppSelector(selectActiveTabId)
 
-  const tabs = useAppSelector(selectTabs);
+  const tabs = useAppSelector(selectTabs)
 
   function setTabLabel(label: string, tabId?: string) {
-    const id = tabId || activeTabId;
+    const id = tabId || activeTabId
 
-    const tab = tabs.findIndex(item => item.id === id);
+    const tab = tabs.findIndex(item => item.id === id)
 
-    if (tab < 0) return;
+    if (tab < 0) return
 
-    dispatch(changeTabLabel({ index: tab, label }));
+    dispatch(changeTabLabel({ index: tab, label }))
   }
 
   function resetTabLabel(tabId?: string) {
-    const id = tabId || activeTabId;
+    const id = tabId || activeTabId
 
-    const tab = tabs.findIndex(item => item.id === id);
+    const tab = tabs.findIndex(item => item.id === id)
 
-    if (tab < 0) return;
+    if (tab < 0) return
 
-    dispatch(changeTabLabel({ index: tab }));
+    dispatch(changeTabLabel({ index: tab }))
   }
 
   return {
     resetTabLabel,
     setTabLabel
-  };
+  }
 }

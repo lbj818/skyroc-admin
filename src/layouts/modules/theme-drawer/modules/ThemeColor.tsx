@@ -1,20 +1,20 @@
-import { Button, Switch, Tooltip } from 'antd';
+import { Button, Switch, Tooltip } from 'antd'
 
-import { getThemeSettings, setRecommendColor, themeColors } from '@/features/theme';
+import { getThemeSettings, setRecommendColor, themeColors } from '@/features/theme'
 
-import SettingItem from '../components/SettingItem';
+import SettingItem from '../components/SettingItem'
 
-import CustomPicker from './CustomPicker';
+import CustomPicker from './CustomPicker'
 
 const ThemeColor = () => {
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const colors = useAppSelector(themeColors);
+  const colors = useAppSelector(themeColors)
 
   function handleRecommendColorChange(value: boolean) {
-    dispatch(setRecommendColor(value));
+    dispatch(setRecommendColor(value))
   }
 
   return (
@@ -60,7 +60,7 @@ const ThemeColor = () => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ThemeColor;
+export default ThemeColor

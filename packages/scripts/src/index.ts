@@ -39,7 +39,7 @@ interface CommandArg {
 export async function setupCli() {
   const cliOptions = await loadCliOptions();
 
-  const cli = cac(blue('skyroc-admin'));
+  const cli = cac(blue('grc-admin'));
 
   cli
     .version(lightGreen(version))

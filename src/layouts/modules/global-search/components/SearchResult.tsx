@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import clsx from 'clsx'
 
 interface Props {
   active: boolean;
@@ -9,7 +9,7 @@ interface Props {
 
 const SearchResult: FC<Props> = memo(({ active, enter, menu, setActiveRouteName }) => {
   function handleMouseEnter() {
-    setActiveRouteName(menu.key);
+    setActiveRouteName(menu.key)
   }
 
   return (
@@ -29,7 +29,7 @@ const SearchResult: FC<Props> = memo(({ active, enter, menu, setActiveRouteName 
 
       <IconAntDesignEnterOutlined />
     </div>
-  );
-});
+  )
+})
 
-export default SearchResult;
+export default SearchResult

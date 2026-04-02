@@ -1,4 +1,4 @@
-import { BarChart, GaugeChart, LineChart, PictorialBarChart, PieChart, RadarChart, ScatterChart } from 'echarts/charts';
+import { BarChart, GaugeChart, LineChart, PictorialBarChart, PieChart, RadarChart, ScatterChart } from 'echarts/charts'
 import type {
   BarSeriesOption,
   GaugeSeriesOption,
@@ -7,7 +7,7 @@ import type {
   PieSeriesOption,
   RadarSeriesOption,
   ScatterSeriesOption
-} from 'echarts/charts';
+} from 'echarts/charts'
 import {
   DatasetComponent,
   GridComponent,
@@ -16,7 +16,7 @@ import {
   ToolboxComponent,
   TooltipComponent,
   TransformComponent
-} from 'echarts/components';
+} from 'echarts/components'
 import type {
   DatasetComponentOption,
   GridComponentOption,
@@ -24,12 +24,12 @@ import type {
   TitleComponentOption,
   ToolboxComponentOption,
   TooltipComponentOption
-} from 'echarts/components';
-import * as echarts from 'echarts/core';
-import { LabelLayout, UniversalTransition } from 'echarts/features';
-import { CanvasRenderer } from 'echarts/renderers';
+} from 'echarts/components'
+import * as echarts from 'echarts/core'
+import { LabelLayout, UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
 
-import { ThemeContext, getThemeSettings } from '@/features/theme';
+import { ThemeContext, getThemeSettings } from '@/features/theme'
 
 export type ECOption = echarts.ComposeOption<
   | BarSeriesOption
@@ -65,7 +65,7 @@ echarts.use([
   LabelLayout,
   UniversalTransition,
   CanvasRenderer
-]);
+])
 
 interface ChartHooks {
   onDestroy?: (chart: echarts.ECharts) => void | Promise<void>;
@@ -80,34 +80,34 @@ interface ChartHooks {
  * @param darkMode dark mode
  */
 export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: ChartHooks = {}) {
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext)
 
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
-  const domRef = useRef<HTMLDivElement | null>(null);
-  const initialSize = { height: 0, width: 0 };
-  const size = useSize(domRef);
+  const domRef = useRef<HTMLDivElement | null>(null)
+  const initialSize = { height: 0, width: 0 }
+  const size = useSize(domRef)
 
-  const chart = useRef<echarts.ECharts | null>(null);
-  const chartOptions = useRef<T>(optionsFactory());
+  const chart = useRef<echarts.ECharts | null>(null)
+  const chartOptions = useRef<T>(optionsFactory())
 
   const {
     onDestroy,
     onRender = instance => {
-      const textColor = darkMode ? 'rgb(224, 224, 224)' : 'rgb(31, 31, 31)';
-      const maskColor = darkMode ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)';
+      const textColor = darkMode ? 'rgb(224, 224, 224)' : 'rgb(31, 31, 31)'
+      const maskColor = darkMode ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.8)'
 
       instance.showLoading({
         color: themeSettings.themeColor,
         fontSize: 14,
         maskColor,
         textColor
-      });
+      })
     },
     onUpdated = instance => {
-      instance.hideLoading();
+      instance.hideLoading()
     }
-  } = hooks;
+  } = hooks
 
   /**
    * whether can render chart
@@ -115,12 +115,12 @@ export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: C
    * when domRef is ready and initialSize is valid
    */
   function canRender() {
-    return domRef.current && initialSize.width > 0 && initialSize.height > 0;
+    return domRef.current && initialSize.width > 0 && initialSize.height > 0
   }
 
   /** is chart rendered */
   function isRendered() {
-    return Boolean(domRef.current && chart.current);
+    return Boolean(domRef.current && chart.current)
   }
 
   /**
@@ -129,57 +129,57 @@ export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: C
    * @param callback callback function
    */
   async function updateOptions(callback: (opts: T, optsFactory: () => T) => ECOption = () => chartOptions.current) {
-    if (!isRendered()) return;
+    if (!isRendered()) return
 
-    const updatedOpts = callback(chartOptions.current, optionsFactory);
+    const updatedOpts = callback(chartOptions.current, optionsFactory)
 
-    Object.assign(chartOptions.current, updatedOpts);
+    Object.assign(chartOptions.current, updatedOpts)
 
     if (isRendered()) {
-      chart.current?.clear();
+      chart.current?.clear()
     }
 
-    chart.current?.setOption({ ...chartOptions.current, backgroundColor: 'transparent' });
+    chart.current?.setOption({ ...chartOptions.current, backgroundColor: 'transparent' })
 
-    await onUpdated?.(chart.current!);
+    await onUpdated?.(chart.current!)
   }
 
   function setOptions(options: T) {
-    chart.current?.setOption(options);
+    chart.current?.setOption(options)
   }
 
   /** render chart */
   async function render() {
     if (!isRendered()) {
-      const chartTheme = darkMode ? 'dark' : 'light';
+      const chartTheme = darkMode ? 'dark' : 'light'
 
-      chart.current = echarts.init(domRef.current, chartTheme);
+      chart.current = echarts.init(domRef.current, chartTheme)
 
-      chart.current.setOption({ ...chartOptions.current, backgroundColor: 'transparent' });
+      chart.current.setOption({ ...chartOptions.current, backgroundColor: 'transparent' })
 
-      await onRender?.(chart.current);
+      await onRender?.(chart.current)
     }
   }
 
   /** resize chart */
   function resize() {
-    chart.current?.resize();
+    chart.current?.resize()
   }
 
   /** destroy chart */
   async function destroy() {
-    if (!chart.current) return;
+    if (!chart.current) return
 
-    await onDestroy?.(chart.current);
-    chart.current?.dispose();
-    chart.current = null;
+    await onDestroy?.(chart.current)
+    chart.current?.dispose()
+    chart.current = null
   }
 
   /** change chart theme */
   async function changeTheme() {
-    await destroy();
-    await render();
-    await onUpdated?.(chart.current!);
+    await destroy()
+    await render()
+    await onUpdated?.(chart.current!)
   }
 
   /**
@@ -189,43 +189,43 @@ export function useEcharts<T extends ECOption>(optionsFactory: () => T, hooks: C
    * @param h height
    */
   async function renderChartBySize(w: number, h: number) {
-    initialSize.width = w;
-    initialSize.height = h;
+    initialSize.width = w
+    initialSize.height = h
 
     // size is abnormal, destroy chart
     if (!canRender()) {
-      await destroy();
+      await destroy()
 
-      return;
+      return
     }
 
     // resize chart
     if (isRendered()) {
-      resize();
+      resize()
     }
 
     // render chart
-    await render();
+    await render()
 
     if (chart.current) {
-      await onUpdated?.(chart.current);
+      await onUpdated?.(chart.current)
     }
   }
   useUnmount(() => {
-    destroy();
-  });
+    destroy()
+  })
 
   useUpdateEffect(() => {
-    renderChartBySize(size?.width as number, size?.height as number);
-  }, [size]);
+    renderChartBySize(size?.width as number, size?.height as number)
+  }, [size])
 
   useUpdateEffect(() => {
-    changeTheme();
-  }, [darkMode]);
+    changeTheme()
+  }, [darkMode])
 
   return {
     domRef,
     setOptions,
     updateOptions
-  };
+  }
 }

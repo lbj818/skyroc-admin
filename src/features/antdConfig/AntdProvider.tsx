@@ -1,46 +1,46 @@
-import zhCN from 'antd/es/locale/zh_CN';
-import type { PropsWithChildren } from 'react';
+import zhCN from 'antd/es/locale/zh_CN'
+import type { PropsWithChildren } from 'react'
 
-import { globalConfig } from '@/config';
-import { info } from '@/constants/app';
-import { themeColors } from '@/features/theme';
+import { globalConfig } from '@/config'
+import { info } from '@/constants/app'
+import { themeColors } from '@/features/theme'
 import {
   getAntdTheme,
   setupThemeVarsToHtml,
   toggleAuxiliaryColorModes,
   toggleGrayscaleMode
-} from '@/features/theme/shared';
-import { useThemeSettings } from '@/features/theme/themeHook';
-import { localStg } from '@/utils/storage';
+} from '@/features/theme/shared'
+import { useThemeSettings } from '@/features/theme/themeHook'
+import { localStg } from '@/utils/storage'
 
-import { useTheme } from '../theme';
+import { useTheme } from '../theme'
 
 function useAntdTheme() {
-  const themeSettings = useThemeSettings();
+  const themeSettings = useThemeSettings()
 
-  const colors = useAppSelector(themeColors);
+  const colors = useAppSelector(themeColors)
 
-  const { darkMode } = useTheme();
+  const { darkMode } = useTheme()
 
-  const antdTheme = getAntdTheme(colors, darkMode, themeSettings.tokens);
+  const antdTheme = getAntdTheme(colors, darkMode, themeSettings.tokens)
 
   useEffect(() => {
-    setupThemeVarsToHtml(colors, themeSettings.tokens, themeSettings.recommendColor);
+    setupThemeVarsToHtml(colors, themeSettings.tokens, themeSettings.recommendColor)
 
-    localStg.set('themeColor', colors.primary);
+    localStg.set('themeColor', colors.primary)
 
-    toggleAuxiliaryColorModes(themeSettings.colourWeakness);
+    toggleAuxiliaryColorModes(themeSettings.colourWeakness)
 
-    toggleGrayscaleMode(themeSettings.grayscale);
-  }, [colors, themeSettings]);
+    toggleGrayscaleMode(themeSettings.grayscale)
+  }, [colors, themeSettings])
 
-  console.info(`%c${info}`, `color: ${colors.primary}`);
+  console.info(`%c${info}`, `color: ${colors.primary}`)
 
-  return { antdTheme, watermarkText: themeSettings.watermark.text, watermarkVisible: themeSettings.watermark.visible };
+  return { antdTheme, watermarkText: themeSettings.watermark.text, watermarkVisible: themeSettings.watermark.visible }
 }
 
 function AntdConfig({ children }: PropsWithChildren) {
-  const { antdTheme, watermarkText, watermarkVisible } = useAntdTheme();
+  const { antdTheme, watermarkText, watermarkVisible } = useAntdTheme()
 
   return (
     <AConfigProvider
@@ -57,7 +57,7 @@ function AntdConfig({ children }: PropsWithChildren) {
         {children}
       </AWatermark>
     </AConfigProvider>
-  );
+  )
 }
 
-export default AntdConfig;
+export default AntdConfig

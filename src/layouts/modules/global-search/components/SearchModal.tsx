@@ -1,13 +1,13 @@
-import { useDebounceFn, useKeyPress } from 'ahooks';
-import type { InputRef } from 'antd';
-import clsx from 'clsx';
+import { useDebounceFn, useKeyPress } from 'ahooks'
+import type { InputRef } from 'antd'
+import clsx from 'clsx'
 
-import { useMixMenuContext } from '@/features/menu';
-import { useRouter } from '@/features/router';
-import { getIsMobile } from '@/layouts/appStore';
+import { useMixMenuContext } from '@/features/menu'
+import { useRouter } from '@/features/router'
+import { getIsMobile } from '@/layouts/appStore'
 
-import SearchFooter from './SearchFooter';
-import SearchResult from './SearchResult';
+import SearchFooter from './SearchFooter'
+import SearchResult from './SearchResult'
 
 interface Props {
   onClose: () => void;
@@ -21,90 +21,90 @@ interface Props {
  * @param treeMap
  */
 function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Global.Menu[] = []) {
-  if (menus && menus.length === 0) return [];
+  if (menus && menus.length === 0) return []
   return menus.reduce((acc, cur) => {
-    acc.push(cur);
+    acc.push(cur)
 
     if (cur.children && cur.children.length > 0) {
-      transformMenuToSearchMenus(cur.children, treeMap);
+      transformMenuToSearchMenus(cur.children, treeMap)
     }
-    return acc;
-  }, treeMap);
+    return acc
+  }, treeMap)
 }
 
 const SearchModal = ({ onClose, show }: Props) => {
-  const [resultOptions, setResultOptions] = useState<App.Global.Menu[]>([]);
-  const [activeRoute, setActiveRoute] = useState<string>('');
-  const isMobile = useAppSelector(getIsMobile);
+  const [resultOptions, setResultOptions] = useState<App.Global.Menu[]>([])
+  const [activeRoute, setActiveRoute] = useState<string>('')
+  const isMobile = useAppSelector(getIsMobile)
 
-  const keyword = useRef<InputRef>(null);
+  const keyword = useRef<InputRef>(null)
 
-  const { allMenus } = useMixMenuContext();
+  const { allMenus } = useMixMenuContext()
 
-  const { navigate } = useRouter();
+  const { navigate } = useRouter()
 
-  const searchMenus = useMemo(() => transformMenuToSearchMenus(allMenus), [allMenus]);
+  const searchMenus = useMemo(() => transformMenuToSearchMenus(allMenus), [allMenus])
 
   function handleClose() {
     // handle with setTimeout to prevent user from seeing some operations
     setTimeout(() => {
-      onClose();
-      setResultOptions([]);
-    }, 200);
+      onClose()
+      setResultOptions([])
+    }, 200)
   }
 
   function search() {
     const result = searchMenus.filter(menu => {
-      const trimKeyword = keyword.current?.input?.value?.toLocaleLowerCase().trim();
-      return trimKeyword && menu.title?.includes(trimKeyword);
-    });
+      const trimKeyword = keyword.current?.input?.value?.toLocaleLowerCase().trim()
+      return trimKeyword && menu.title?.includes(trimKeyword)
+    })
 
-    const activeName = result[0]?.key || '';
+    const activeName = result[0]?.key || ''
 
-    setResultOptions(result);
-    setActiveRoute(activeName);
+    setResultOptions(result)
+    setActiveRoute(activeName)
   }
 
-  const handleSearch = useDebounceFn(search, { wait: 300 });
+  const handleSearch = useDebounceFn(search, { wait: 300 })
 
   /** key up */
   function handleUp() {
-    handleKeyPress(-1); // 方向 -1 表示向上
+    handleKeyPress(-1) // 方向 -1 表示向上
   }
 
   /** key down */
   function handleDown() {
-    handleKeyPress(1); // 方向 1 表示向下
+    handleKeyPress(1) // 方向 1 表示向下
   }
 
   function getActivePathIndex() {
-    return resultOptions.findIndex(item => item.key === activeRoute);
+    return resultOptions.findIndex(item => item.key === activeRoute)
   }
 
   function handleKeyPress(direction: 1 | -1) {
-    const { length } = resultOptions;
-    if (length === 0) return;
+    const { length } = resultOptions
+    if (length === 0) return
 
-    const index = getActivePathIndex();
-    if (index === -1) return;
+    const index = getActivePathIndex()
+    if (index === -1) return
 
-    const activeIndex = (index + direction + length) % length; // 确保 index 在范围内循环
-    const activeKey = resultOptions[activeIndex].key;
+    const activeIndex = (index + direction + length) % length // 确保 index 在范围内循环
+    const activeKey = resultOptions[activeIndex].key
 
-    setActiveRoute(activeKey);
+    setActiveRoute(activeKey)
   }
 
   /** key enter */
   function handleEnter() {
-    if (resultOptions.length === 0 || activeRoute === '') return;
-    handleClose();
-    navigate(activeRoute);
+    if (resultOptions.length === 0 || activeRoute === '') return
+    handleClose()
+    navigate(activeRoute)
   }
 
-  useKeyPress('Escape', handleClose);
-  useKeyPress('Enter', handleEnter);
-  useKeyPress('uparrow', handleUp);
-  useKeyPress('downarrow', handleDown);
+  useKeyPress('Escape', handleClose)
+  useKeyPress('Enter', handleEnter)
+  useKeyPress('uparrow', handleUp)
+  useKeyPress('downarrow', handleDown)
 
   return (
     <AModal
@@ -154,7 +154,7 @@ const SearchModal = ({ onClose, show }: Props) => {
         )}
       </div>
     </AModal>
-  );
-};
+  )
+}
 
-export default SearchModal;
+export default SearchModal

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface InitialStateType {
   activeFirstLevelMenuKey: string;
@@ -16,43 +16,43 @@ const initialState: InitialStateType = {
   removeCacheKey: null,
   /** - 标签页 */
   tabs: []
-};
+}
 
 export const tabSlice = createSlice({
   initialState,
   name: 'tab',
   reducers: {
     addTab: (state, { payload }: PayloadAction<App.Global.Tab>) => {
-      const { fixedIndex } = payload;
+      const { fixedIndex } = payload
       if (fixedIndex || fixedIndex === 0) {
-        state.tabs.splice(fixedIndex, 0, payload);
+        state.tabs.splice(fixedIndex, 0, payload)
       } else {
-        state.tabs = [...state.tabs, payload];
+        state.tabs = [...state.tabs, payload]
       }
     },
     changeTabLabel(state, { payload }: PayloadAction<{ index: number; label?: string }>) {
-      const { index, label } = payload;
+      const { index, label } = payload
 
       if (label) {
-        state.tabs[index].label = label;
+        state.tabs[index].label = label
       } else {
-        state.tabs[index].label = state.tabs[index].oldLabel ?? '';
+        state.tabs[index].label = state.tabs[index].oldLabel ?? ''
       }
     },
     clearTabs: () => initialState,
     setActiveFirstLevelMenuKey: (state, action: PayloadAction<string>) => {
-      state.activeFirstLevelMenuKey = action.payload;
+      state.activeFirstLevelMenuKey = action.payload
     },
     setActiveTabId: (state, action: PayloadAction<string>) => {
-      state.activeTabId = action.payload;
+      state.activeTabId = action.payload
     },
     setTabs: (state, action: PayloadAction<App.Global.Tab[]>) => {
-      state.tabs = action.payload;
+      state.tabs = action.payload
     },
     updateTab: (state, { payload }: PayloadAction<{ index: number; tab: App.Global.Tab }>) => {
-      const { index, tab } = payload;
+      const { index, tab } = payload
 
-      state.tabs[index] = tab;
+      state.tabs[index] = tab
     }
   },
   selectors: {
@@ -60,9 +60,9 @@ export const tabSlice = createSlice({
     selectActiveTabId: tab => tab.activeTabId,
     selectTabs: tab => tab.tabs
   }
-});
+})
 
 export const { addTab, changeTabLabel, clearTabs, setActiveFirstLevelMenuKey, setActiveTabId, setTabs, updateTab } =
-  tabSlice.actions;
+  tabSlice.actions
 
-export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectTabs } = tabSlice.selectors;
+export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectTabs } = tabSlice.selectors

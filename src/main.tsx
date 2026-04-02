@@ -1,22 +1,22 @@
-import { QueryClientProvider } from '@tanstack/react-query';
-import { createRoot } from 'react-dom/client';
-import { ErrorBoundary } from 'react-error-boundary';
-import { Provider } from 'react-redux';
+import { QueryClientProvider } from '@tanstack/react-query'
+import { createRoot } from 'react-dom/client'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Provider } from 'react-redux'
 
-import { store } from '@/store';
+import { store } from '@/store'
 
-import './plugins/assets';
-import App from './App.tsx';
-import FallbackRender from './components/ErrorBoundary.tsx';
-import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupNProgress } from './plugins';
-import { queryClient } from './service/queryClient';
+import './plugins/assets'
+import App from './App.tsx'
+import FallbackRender from './components/ErrorBoundary.tsx'
+import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupNProgress } from './plugins'
+import { queryClient } from './service/queryClient'
 
 function setupApp() {
-  const container = document.getElementById('root');
+  const container = document.getElementById('root')
 
-  if (!container) return;
+  if (!container) return
 
-  const root = createRoot(container);
+  const root = createRoot(container)
 
   root.render(
     <ErrorBoundary fallbackRender={FallbackRender}>
@@ -26,15 +26,15 @@ function setupApp() {
         </QueryClientProvider>
       </Provider>
     </ErrorBoundary>
-  );
+  )
 
-  setupNProgress();
+  setupNProgress()
 
-  setupIconifyOffline();
+  setupIconifyOffline()
 
-  setupDayjs();
+  setupDayjs()
 
-  setupAppVersionNotification();
+  setupAppVersionNotification()
 }
 
-setupApp();
+setupApp()

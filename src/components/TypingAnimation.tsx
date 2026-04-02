@@ -1,7 +1,7 @@
-import clsx from 'clsx';
-import type { MotionProps } from 'motion/react';
-import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx'
+import type { MotionProps } from 'motion/react'
+import { motion } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
 
 interface TypingAnimationProps extends MotionProps {
   as?: React.ElementType;
@@ -23,57 +23,57 @@ export function TypingAnimation({
 }: TypingAnimationProps) {
   const MotionComponent = motion.create(Component, {
     forwardMotionProps: true
-  });
+  })
 
-  const [displayedText, setDisplayedText] = useState<string>('');
-  const [started, setStarted] = useState(false);
-  const elementRef = useRef<HTMLElement | null>(null);
+  const [displayedText, setDisplayedText] = useState<string>('')
+  const [started, setStarted] = useState(false)
+  const elementRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!startOnView) {
       const startTimeout = setTimeout(() => {
-        setStarted(true);
-      }, delay);
-      return () => clearTimeout(startTimeout);
+        setStarted(true)
+      }, delay)
+      return () => clearTimeout(startTimeout)
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
-            setStarted(true);
-          }, delay);
-          observer.disconnect();
+            setStarted(true)
+          }, delay)
+          observer.disconnect()
         }
       },
       { threshold: 0.1 }
-    );
+    )
 
     if (elementRef.current) {
-      observer.observe(elementRef.current);
+      observer.observe(elementRef.current)
     }
 
-    return () => observer.disconnect();
-  }, [delay, startOnView]);
+    return () => observer.disconnect()
+  }, [delay, startOnView])
 
   useEffect(() => {
-    if (!started) return;
+    if (!started) return
 
-    let i = 0;
+    let i = 0
     const typingEffect = setInterval(() => {
       if (i < children.length) {
-        setDisplayedText(children.substring(0, i + 1));
-        i += 1;
+        setDisplayedText(children.substring(0, i + 1))
+        i += 1
       } else {
-        clearInterval(typingEffect);
+        clearInterval(typingEffect)
       }
-    }, duration);
+    }, duration)
 
-    // eslint-disable-next-line consistent-return
+     
     return () => {
-      clearInterval(typingEffect);
-    };
-  }, [children, duration, started]);
+      clearInterval(typingEffect)
+    }
+  }, [children, duration, started])
 
   return (
     <MotionComponent
@@ -83,5 +83,5 @@ export function TypingAnimation({
     >
       {displayedText}
     </MotionComponent>
-  );
+  )
 }

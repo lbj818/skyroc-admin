@@ -1,4 +1,4 @@
-import { InputNumber, Select, Switch } from 'antd';
+import { InputNumber, Select, Switch } from 'antd'
 
 import {
   getThemeSettings,
@@ -10,25 +10,25 @@ import {
   setSider,
   setTab,
   setWatermark
-} from '@/features/theme';
+} from '@/features/theme'
 
-import SettingItem from '../components/SettingItem';
+import SettingItem from '../components/SettingItem'
 
 const PageFun = memo(() => {
-  const themeSetting = useAppSelector(getThemeSettings);
+  const themeSetting = useAppSelector(getThemeSettings)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const isWrapperScrollMode = themeSetting.layout.scrollMode === 'wrapper';
-  const isPageAnimate = themeSetting.page.animate;
-  const layoutMode = themeSetting.layout.mode;
-  const isMixLayoutMode = layoutMode.includes('mix');
-  const isVertical = layoutMode === 'vertical';
+  const isWrapperScrollMode = themeSetting.layout.scrollMode === 'wrapper'
+  const isPageAnimate = themeSetting.page.animate
+  const layoutMode = themeSetting.layout.mode
+  const isMixLayoutMode = layoutMode.includes('mix')
+  const isVertical = layoutMode === 'vertical'
 
   const scrollModeOptions = [
     { label: '外层滚动', value: 'wrapper' },
     { label: '主体滚动', value: 'content' }
-  ];
+  ]
   const pageAnimationModeOptions = [
     { label: '弹动', value: 'fade' },
     { label: '底部消退', value: 'fade-bottom' },
@@ -37,12 +37,12 @@ const PageFun = memo(() => {
     { label: '无', value: 'none' },
     { label: '渐变', value: 'zoom-fade' },
     { label: '闪现', value: 'zoom-out' }
-  ];
+  ]
   const tabModeOptions = [
     { label: '按钮风格', value: 'button' },
     { label: '谷歌风格', value: 'chrome' },
     { label: '滑块风格', value: 'slider' }
-  ];
+  ]
 
   return (
     <div className="relative flex-col-stretch gap-12px">
@@ -231,7 +231,7 @@ const PageFun = memo(() => {
         />
       </SettingItem>
     </div>
-  );
-});
+  )
+})
 
-export default PageFun;
+export default PageFun

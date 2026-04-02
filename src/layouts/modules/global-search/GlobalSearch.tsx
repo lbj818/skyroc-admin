@@ -1,10 +1,10 @@
-import { useBoolean } from 'ahooks';
-import { Suspense } from 'react';
+import { useBoolean } from 'ahooks'
+import { Suspense } from 'react'
 
-const SearchModal = lazy(() => import('./components/SearchModal'));
+const SearchModal = lazy(() => import('./components/SearchModal'))
 
 const GlobalSearch = memo(() => {
-  const [show, { setFalse, toggle }] = useBoolean();
+  const [show, { setFalse, toggle }] = useBoolean()
 
   return (
     <>
@@ -23,7 +23,7 @@ const GlobalSearch = memo(() => {
         />
       </Suspense>
     </>
-  );
-});
+  )
+})
 
-export default GlobalSearch;
+export default GlobalSearch

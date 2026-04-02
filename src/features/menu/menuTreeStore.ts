@@ -1,5 +1,5 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 export interface MenuItem {
   children?: MenuItem[];
@@ -24,7 +24,7 @@ interface MenuTreeState {
 const initialState: MenuTreeState = {
   loaded: false,
   menuTree: []
-};
+}
 
 export const menuTreeSlice = createSlice({
   initialState,
@@ -32,15 +32,15 @@ export const menuTreeSlice = createSlice({
   reducers: {
     resetMenuTree: () => initialState,
     setMenuTree: (state, { payload }: PayloadAction<MenuItem[]>) => {
-      state.menuTree = payload;
-      state.loaded = true;
+      state.menuTree = payload
+      state.loaded = true
     }
   },
   selectors: {
     selectMenuLoaded: s => s.loaded,
     selectMenuTree: s => s.menuTree
   }
-});
+})
 
-export const { resetMenuTree, setMenuTree } = menuTreeSlice.actions;
-export const { selectMenuLoaded, selectMenuTree } = menuTreeSlice.selectors;
+export const { resetMenuTree, setMenuTree } = menuTreeSlice.actions
+export const { selectMenuLoaded, selectMenuTree } = menuTreeSlice.selectors

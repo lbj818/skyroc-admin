@@ -4,5 +4,5 @@
  * All service related enums
  */
 
-export * from './common';
-export * from './system-manage';
+export * from './common'
+export * from './system-manage'

@@ -1,8 +1,8 @@
-import DarkModeContainer from '@/components/DarkModeContainer.tsx';
-import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
-import { ThemeContext } from '@/features/theme';
+import DarkModeContainer from '@/components/DarkModeContainer.tsx'
+import { GLOBAL_SIDER_MENU_ID } from '@/constants/app'
+import { ThemeContext } from '@/features/theme'
 
-import GlobalLogo from './GlobalLogo';
+import GlobalLogo from './GlobalLogo'
 
 interface Props {
   headerHeight: number;
@@ -13,11 +13,11 @@ interface Props {
 }
 
 const GlobalSider: FC<Props> = memo(({ headerHeight, inverted, isHorizontalMix, isVerticalMix, siderCollapse }) => {
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext)
 
-  const showLogo = !isVerticalMix && !isHorizontalMix;
+  const showLogo = !isVerticalMix && !isHorizontalMix
 
-  const darkMenu = !darkMode && !isHorizontalMix && inverted;
+  const darkMenu = !darkMode && !isHorizontalMix && inverted
 
   return (
     <DarkModeContainer
@@ -35,7 +35,7 @@ const GlobalSider: FC<Props> = memo(({ headerHeight, inverted, isHorizontalMix, 
         id={GLOBAL_SIDER_MENU_ID}
       />
     </DarkModeContainer>
-  );
-});
+  )
+})
 
-export default GlobalSider;
+export default GlobalSider

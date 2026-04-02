@@ -1,5 +1,5 @@
-import clsx from 'clsx';
-import type { PropsWithChildren } from 'react';
+import clsx from 'clsx'
+import type { PropsWithChildren } from 'react'
 
 type Props = PropsWithChildren<{
   className?: string;
@@ -10,7 +10,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const SettingItem: FC<Props> = ({ children, className, label, show = true, suffix }: Props) => {
-  if (!show) return null;
+  if (!show) return null
 
   return (
     <div className={clsx('w-full flex-y-center justify-between', className)}>
@@ -20,7 +20,7 @@ const SettingItem: FC<Props> = ({ children, className, label, show = true, suffi
       </div>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default SettingItem;
+export default SettingItem

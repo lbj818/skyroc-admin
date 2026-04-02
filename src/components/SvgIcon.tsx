@@ -1,7 +1,7 @@
-import { Icon } from '@iconify/react';
-import type { CSSProperties } from 'react';
+import { Icon } from '@iconify/react'
+import type { CSSProperties } from 'react'
 
-import { globalConfig } from '@/config';
+import { globalConfig } from '@/config'
 
 interface Props {
   readonly className?: string;
@@ -12,12 +12,12 @@ interface Props {
   readonly style?: CSSProperties;
 }
 
-const defaultLocalIcon = 'no-icon';
+const defaultLocalIcon = 'no-icon'
 const symbolId = (localIcon: string = defaultLocalIcon) => {
-  const iconName = localIcon || defaultLocalIcon;
+  const iconName = localIcon || defaultLocalIcon
 
-  return `#${globalConfig.localIconPrefix}-${iconName}`;
-};
+  return `#${globalConfig.localIconPrefix}-${iconName}`
+}
 
 /**
  * Props
@@ -44,7 +44,7 @@ const SvgIcon = ({ icon, localIcon, ...props }: Props) => {
       icon={icon}
       {...props}
     />
-  );
-};
+  )
+}
 
-export default SvgIcon;
+export default SvgIcon

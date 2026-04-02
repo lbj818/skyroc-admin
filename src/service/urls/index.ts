@@ -1,1 +1,1 @@
-export * from './system-manage';
+export * from './system-manage'

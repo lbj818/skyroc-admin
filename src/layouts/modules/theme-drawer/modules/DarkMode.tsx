@@ -1,4 +1,4 @@
-import { Switch } from 'antd';
+import { Switch } from 'antd'
 
 import {
   ThemeSchemaSegmented,
@@ -6,26 +6,26 @@ import {
   setColourWeakness,
   setGrayscale,
   setIsOnlyExpandCurrentParentMenu
-} from '@/features/theme';
+} from '@/features/theme'
 
-import SettingItem from '../components/SettingItem';
-import '@/styles/css/darkMode.css';
+import SettingItem from '../components/SettingItem'
+import '@/styles/css/darkMode.css'
 
 const DarkMode = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useAppSelector(getThemeSettings)
 
   function handleGrayscaleChange(value: boolean) {
-    dispatch(setGrayscale(value));
+    dispatch(setGrayscale(value))
   }
 
   function handleAuxiliaryColorChange(value: boolean) {
-    dispatch(setColourWeakness(value));
+    dispatch(setColourWeakness(value))
   }
 
   function handleIsOnlyExpandCurrentParentMenuChange(value: boolean) {
-    dispatch(setIsOnlyExpandCurrentParentMenu(value));
+    dispatch(setIsOnlyExpandCurrentParentMenu(value))
   }
   return (
     <div className="flex-col-stretch gap-16px">
@@ -54,7 +54,7 @@ const DarkMode = () => {
         />
       </SettingItem>
     </div>
-  );
-};
+  )
+}
 
-export default DarkMode;
+export default DarkMode

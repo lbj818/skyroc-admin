@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query'
 
 import {
   fetchGetAllPages,
@@ -7,8 +7,8 @@ import {
   fetchGetMenuTree,
   fetchGetRoleList,
   fetchGetUserList
-} from '../api';
-import { QUERY_KEYS } from '../keys';
+} from '../api'
+import { QUERY_KEYS } from '../keys'
 
 /**
  * Get role list hook
@@ -22,7 +22,7 @@ export function useRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return useQuery({
     queryFn: () => fetchGetRoleList(params),
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.ROLE_LIST(params)
-  });
+  })
 }
 
 /**
@@ -36,7 +36,7 @@ export function useAllRoles() {
     queryFn: fetchGetAllRoles,
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.ALL_ROLES,
     staleTime: 0
-  });
+  })
 }
 
 /**
@@ -51,7 +51,7 @@ export function useUserList(params?: Api.SystemManage.UserSearchParams) {
   return useQuery({
     queryFn: () => fetchGetUserList(params),
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.USER_LIST(params)
-  });
+  })
 }
 
 /**
@@ -64,7 +64,7 @@ export function useMenuList() {
   return useQuery({
     queryFn: fetchGetMenuList,
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.MENU_LIST
-  });
+  })
 }
 
 /**
@@ -78,7 +78,7 @@ export function useAllPages() {
     queryFn: fetchGetAllPages,
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.ALL_PAGES,
     staleTime: 0
-  });
+  })
 }
 
 /**
@@ -91,5 +91,5 @@ export function useMenuTree() {
   return useQuery({
     queryFn: fetchGetMenuTree,
     queryKey: QUERY_KEYS.SYSTEM_MANAGE.MENU_TREE
-  });
+  })
 }

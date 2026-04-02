@@ -1,8 +1,8 @@
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom'
 
 function convert(m: any) {
-  const { default: Component } = m;
-  return { Component };
+  const { default: Component } = m
+  return { Component }
 }
 
 export const BaseChildrenRoutes = [
@@ -31,4 +31,4 @@ export const BaseChildrenRoutes = [
     id: 'exception',
     path: '/exception'
   }
-] satisfies RouteObject[];
+] satisfies RouteObject[]

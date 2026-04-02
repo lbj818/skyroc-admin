@@ -19,94 +19,94 @@ export type LocationQueryRaw = Record<string | number, LocationQueryValueRaw | L
  * @internal
  */
 
-export const PLUS_RE = /\+/g; // %2B
+export const PLUS_RE = /\+/g // %2B
 
-const EQUAL_RE = /[=]/g; // %3D
+const EQUAL_RE = /[=]/g // %3D
 
-const ENC_BRACKET_OPEN_RE = /%5B/g; // [
-const ENC_BRACKET_CLOSE_RE = /%5D/g; // ]
-const ENC_CARET_RE = /%5E/g; // ^
-const ENC_BACKTICK_RE = /%60/g; // `
-const ENC_CURLY_OPEN_RE = /%7B/g; // {
-const ENC_PIPE_RE = /%7C/g; // |
-const ENC_CURLY_CLOSE_RE = /%7D/g; // }
-const ENC_SPACE_RE = /%20/g; // }
-const HASH_RE = /#/g; // %23
-const AMPERSAND_RE = /&/g; // %26
+const ENC_BRACKET_OPEN_RE = /%5B/g // [
+const ENC_BRACKET_CLOSE_RE = /%5D/g // ]
+const ENC_CARET_RE = /%5E/g // ^
+const ENC_BACKTICK_RE = /%60/g // `
+const ENC_CURLY_OPEN_RE = /%7B/g // {
+const ENC_PIPE_RE = /%7C/g // |
+const ENC_CURLY_CLOSE_RE = /%7D/g // }
+const ENC_SPACE_RE = /%20/g // }
+const HASH_RE = /#/g // %23
+const AMPERSAND_RE = /&/g // %26
 export function parseQuery(search: string): LocationQuery {
-  const query: LocationQuery = {};
+  const query: LocationQuery = {}
   // avoid creating an object with an empty key and empty value
   // because of split('&')
-  if (search === '' || search === '?') return query;
-  const hasLeadingIM = search[0] === '?';
-  const searchParams = (hasLeadingIM ? search.slice(1) : search).split('&');
+  if (search === '' || search === '?') return query
+  const hasLeadingIM = search[0] === '?'
+  const searchParams = (hasLeadingIM ? search.slice(1) : search).split('&')
 
   for (let i = 0; i < searchParams.length; i += 1) {
     // pre decode the + into space
-    const searchParam = searchParams[i].replace(PLUS_RE, ' ');
+    const searchParam = searchParams[i].replace(PLUS_RE, ' ')
     // allow the = character
-    const eqPos = searchParam.indexOf('=');
-    const key = decode(eqPos < 0 ? searchParam : searchParam.slice(0, eqPos));
-    const value = eqPos < 0 ? null : decode(searchParam.slice(eqPos + 1));
+    const eqPos = searchParam.indexOf('=')
+    const key = decode(eqPos < 0 ? searchParam : searchParam.slice(0, eqPos))
+    const value = eqPos < 0 ? null : decode(searchParam.slice(eqPos + 1))
 
     if (key in query) {
       // an extra variable for ts types
-      let currentValue = query[key];
+      let currentValue = query[key]
       if (!Array.isArray(currentValue)) {
-        currentValue = [currentValue];
-        query[key] = currentValue;
+        currentValue = [currentValue]
+        query[key] = currentValue
       }
       // we force the modification
-      (currentValue as LocationQueryValue[]).push(value);
+      (currentValue as LocationQueryValue[]).push(value)
     } else {
-      query[key] = value;
+      query[key] = value
     }
   }
-  return query;
+  return query
 }
 
 export function stringifyQuery(query: LocationQueryRaw): string {
-  let search = '';
+  let search = ''
 
   for (const [originalKey, value] of Object.entries(query)) {
-    const key = encodeQueryKey(originalKey);
+    const key = encodeQueryKey(originalKey)
     if (value === null) {
       // only null adds the value
       if (value !== undefined) {
-        search += (search.length ? '&' : '') + key;
+        search += (search.length ? '&' : '') + key
       }
-      // eslint-disable-next-line no-continue
-      continue;
+       
+      continue
     }
     // keep null values
     const values: LocationQueryValueRaw[] = Array.isArray(value)
       ? value.map(v => v && encodeQueryValue(v))
-      : [value && encodeQueryValue(value)];
+      : [value && encodeQueryValue(value)]
 
     for (const v of values) {
       // skip undefined values in arrays as if they were not present
       if (v !== undefined) {
         // only append & with non-empty search
-        search += (search.length ? '&' : '') + key;
-        if (v !== null) search += `=${v}`;
+        search += (search.length ? '&' : '') + key
+        if (v !== null) search += `=${v}`
       }
     }
   }
 
-  return search;
+  return search
 }
 
 export function decode(text: string | number): string {
   try {
-    return decodeURIComponent(`${text}`);
+    return decodeURIComponent(`${text}`)
   } catch {
-    console.warn(`Error decoding "${text}". Using original value`);
+    console.warn(`Error decoding "${text}". Using original value`)
   }
-  return `${text}`;
+  return `${text}`
 }
 
 export function encodeQueryKey(text: string | number): string {
-  return encodeQueryValue(text).replace(EQUAL_RE, '%3D');
+  return encodeQueryValue(text).replace(EQUAL_RE, '%3D')
 }
 
 export function encodeQueryValue(text: string | number): string {
@@ -121,12 +121,12 @@ export function encodeQueryValue(text: string | number): string {
       .replace(ENC_CURLY_OPEN_RE, '{')
       .replace(ENC_CURLY_CLOSE_RE, '}')
       .replace(ENC_CARET_RE, '^')
-  );
+  )
 }
 
 function commonEncode(text: string | number): string {
   return encodeURI(`${text}`)
     .replace(ENC_PIPE_RE, '|')
     .replace(ENC_BRACKET_OPEN_RE, '[')
-    .replace(ENC_BRACKET_CLOSE_RE, ']');
+    .replace(ENC_BRACKET_CLOSE_RE, ']')
 }

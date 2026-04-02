@@ -1,12 +1,12 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { getPaletteColorByNumber } from '@sa/color';
+import { createSelector, createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { getPaletteColorByNumber } from '@sa/color'
 
-import { globalConfig } from '@/config';
-import type { AppThunk } from '@/store';
-import { localStg } from '@/utils/storage';
+import { globalConfig } from '@/config'
+import type { AppThunk } from '@/store'
+import { localStg } from '@/utils/storage'
 
-import { initThemeSettings } from './shared';
+import { initThemeSettings } from './shared'
 
 interface InitialStateType {
   settings: App.Theme.ThemeSetting;
@@ -22,18 +22,18 @@ type DeepPartial<T> = {
 
 const initialState: InitialStateType = {
   settings: initThemeSettings()
-};
+}
 
 export const themeSlice = createSlice({
   initialState,
   name: 'theme',
   reducers: {
     changeReverseHorizontalMix(state, { payload }: PayloadAction<boolean>) {
-      state.settings.layout.reverseHorizontalMix = payload;
+      state.settings.layout.reverseHorizontalMix = payload
     },
 
     resetTheme: () => {
-      return initialState;
+      return initialState
     },
     /**
      * Set colourWeakness value
@@ -41,14 +41,14 @@ export const themeSlice = createSlice({
      * @param isColourWeakness
      */
     setColourWeakness(state, { payload }: PayloadAction<boolean>) {
-      state.settings.colourWeakness = payload;
+      state.settings.colourWeakness = payload
     },
 
     setFixedHeaderAndTab(state, { payload }: PayloadAction<boolean>) {
-      state.settings.fixedHeaderAndTab = payload;
+      state.settings.fixedHeaderAndTab = payload
     },
     setFooter(state, { payload }: PayloadAction<Partial<App.Theme.ThemeSetting['footer']>>) {
-      Object.assign(state.settings.footer, payload);
+      Object.assign(state.settings.footer, payload)
     },
     /**
      * Set grayscale value
@@ -56,41 +56,41 @@ export const themeSlice = createSlice({
      * @param isGrayscale
      */
     setGrayscale(state, { payload }: PayloadAction<boolean>) {
-      state.settings.grayscale = payload;
+      state.settings.grayscale = payload
     },
     setHeader(state, { payload }: PayloadAction<DeepPartial<App.Theme.ThemeSetting['header']>>) {
-      Object.assign(state.settings.header, payload);
+      Object.assign(state.settings.header, payload)
     },
     setIsInfoFollowPrimary(state, { payload }: PayloadAction<boolean>) {
-      state.settings.isInfoFollowPrimary = payload;
+      state.settings.isInfoFollowPrimary = payload
     },
     setIsOnlyExpandCurrentParentMenu(state, { payload }: PayloadAction<boolean>) {
-      state.settings.isOnlyExpandCurrentParentMenu = payload;
+      state.settings.isOnlyExpandCurrentParentMenu = payload
     },
     setLayoutMode(state, { payload }: PayloadAction<UnionKey.ThemeLayoutMode>) {
-      state.settings.layout.mode = payload;
+      state.settings.layout.mode = payload
     },
     setLayoutScrollMode(state, { payload }: PayloadAction<UnionKey.ThemeScrollMode>) {
-      state.settings.layout.scrollMode = payload;
+      state.settings.layout.scrollMode = payload
     },
     setPage(state, { payload }: PayloadAction<Partial<App.Theme.ThemeSetting['page']>>) {
-      Object.assign(state.settings.page, payload);
+      Object.assign(state.settings.page, payload)
     },
     setRecommendColor(state, { payload }: PayloadAction<boolean>) {
-      state.settings.recommendColor = payload;
+      state.settings.recommendColor = payload
     },
     setSider(state, { payload }: PayloadAction<Partial<App.Theme.ThemeSetting['sider']>>) {
-      Object.assign(state.settings.sider, payload);
+      Object.assign(state.settings.sider, payload)
     },
     setSiderInverted(state, { payload }: PayloadAction<boolean>) {
-      state.settings.sider.inverted = payload;
+      state.settings.sider.inverted = payload
     },
     setTab(state, { payload }: PayloadAction<Partial<App.Theme.ThemeSetting['tab']>>) {
-      Object.assign(state.settings.tab, payload);
+      Object.assign(state.settings.tab, payload)
     },
 
     setWatermark(state, { payload }: PayloadAction<Partial<App.Theme.ThemeSetting['watermark']>>) {
-      Object.assign(state.settings.watermark, payload);
+      Object.assign(state.settings.watermark, payload)
     },
     /**
      * Update theme colors
@@ -102,27 +102,27 @@ export const themeSlice = createSlice({
       state,
       { payload: { color, key } }: PayloadAction<{ color: string; key: App.Theme.ThemeColorKey }>
     ) {
-      let colorValue = color;
+      let colorValue = color
 
       if (state.settings.recommendColor) {
         // get a color palette by provided color and color name, and use the suitable color
 
-        colorValue = getPaletteColorByNumber(color, 500, true);
+        colorValue = getPaletteColorByNumber(color, 500, true)
       }
 
       if (key === 'primary') {
-        state.settings.themeColor = colorValue;
+        state.settings.themeColor = colorValue
       } else {
-        state.settings.otherColor[key] = colorValue;
+        state.settings.otherColor[key] = colorValue
       }
     }
   },
   selectors: {
     getThemeSettings: theme => theme.settings
   }
-});
+})
 
-export const { getThemeSettings } = themeSlice.selectors;
+export const { getThemeSettings } = themeSlice.selectors
 
 export const {
   changeReverseHorizontalMix,
@@ -143,7 +143,7 @@ export const {
   setTab,
   setWatermark,
   updateThemeColors
-} = themeSlice.actions;
+} = themeSlice.actions
 
 // 计算属性选择器
 export const themeColors = createSelector([getThemeSettings], ({ isInfoFollowPrimary, otherColor, themeColor }) => {
@@ -151,17 +151,17 @@ export const themeColors = createSelector([getThemeSettings], ({ isInfoFollowPri
     primary: themeColor,
     ...otherColor,
     info: isInfoFollowPrimary ? themeColor : otherColor.info
-  };
-  return colors;
-});
+  }
+  return colors
+})
 
 export const settingsJson = createSelector([getThemeSettings], settings => {
-  return JSON.stringify(settings);
-});
+  return JSON.stringify(settings)
+})
 
 /** Cache theme settings */
 export const cacheThemeSettings = (): AppThunk => (_, getState) => {
-  if (globalConfig.isDev) return;
+  if (globalConfig.isDev) return
 
-  localStg.set('themeSettings', getThemeSettings(getState()));
-};
+  localStg.set('themeSettings', getThemeSettings(getState()))
+}

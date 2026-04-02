@@ -3,9 +3,9 @@
 import type { Preset } from '@unocss/core';
 import type { Theme } from '@unocss/preset-uno';
 
-export function presetSkyrocAdmin(): Preset<Theme> {
+export function preset(): Preset<Theme> {
   const preset: Preset<Theme> = {
-    name: 'preset-skyroc-admin',
+    name: 'preset',
     shortcuts: [
       {
         'flex-1-hidden': 'flex-1 overflow-hidden',
@@ -52,4 +52,4 @@ export function presetSkyrocAdmin(): Preset<Theme> {
   return preset;
 }
 
-export default presetSkyrocAdmin;
+export default preset;

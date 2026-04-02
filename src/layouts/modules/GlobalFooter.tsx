@@ -1,4 +1,4 @@
-import DarkModeContainer from '@/components/DarkModeContainer';
+import DarkModeContainer from '@/components/DarkModeContainer'
 
 const GlobalFooter = () => {
   return (
@@ -8,10 +8,10 @@ const GlobalFooter = () => {
         rel="noopener noreferrer"
         target="_blank"
       >
-        Copyright MIT © 2021 Skyroc
+        Copyright MIT © 2026 数智化合规系统
       </a>
     </DarkModeContainer>
-  );
-};
+  )
+}
 
-export default GlobalFooter;
+export default GlobalFooter

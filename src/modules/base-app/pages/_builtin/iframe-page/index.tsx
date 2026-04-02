@@ -1,14 +1,14 @@
-import { useBoolean } from 'ahooks';
-import { Skeleton } from 'antd';
+import { useBoolean } from 'ahooks'
+import { Skeleton } from 'antd'
 
-import { useRoute } from '@/features/router';
+import { useRoute } from '@/features/router'
 
 const IframePage = () => {
-  const [loading, { setFalse: endLoading }] = useBoolean(true);
+  const [loading, { setFalse: endLoading }] = useBoolean(true)
 
   const {
     handle: { url }
-  } = useRoute();
+  } = useRoute()
 
   return (
     <>
@@ -24,12 +24,12 @@ const IframePage = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 export const handle = {
   hideInMenu: true,
   title: 'iframe-page_[url]'
-};
+}
 
-export default IframePage;
+export default IframePage

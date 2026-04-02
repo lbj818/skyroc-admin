@@ -1,10 +1,10 @@
-import { openThemeDrawer } from '@/layouts/appStore';
+import { openThemeDrawer } from '@/layouts/appStore'
 
 const ThemeButton = memo(() => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   function handleClick() {
-    dispatch(openThemeDrawer());
+    dispatch(openThemeDrawer())
   }
 
   return (
@@ -15,7 +15,7 @@ const ThemeButton = memo(() => {
       tooltipContent="主题配置"
       onClick={handleClick}
     />
-  );
-});
+  )
+})
 
-export default ThemeButton;
+export default ThemeButton

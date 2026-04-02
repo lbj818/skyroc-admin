@@ -1,11 +1,11 @@
-import { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom'
 
-import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
+import { GLOBAL_HEADER_MENU_ID } from '@/constants/app'
 
-import HorizontalMenu from '../components/HorizontalMenu';
-import { HorizontalMenuMode } from '../types';
+import HorizontalMenu from '../components/HorizontalMenu'
+import { HorizontalMenuMode } from '../types'
 
-import { useGetElementById } from './hook';
+import { useGetElementById } from './hook'
 
 interface Props {
   /** 水平菜单显示模式 */
@@ -13,11 +13,11 @@ interface Props {
 }
 
 const Horizontal = ({ mode = HorizontalMenuMode.All }: Props) => {
-  const container = useGetElementById(GLOBAL_HEADER_MENU_ID);
+  const container = useGetElementById(GLOBAL_HEADER_MENU_ID)
 
-  if (!container) return null;
+  if (!container) return null
 
-  return createPortal(<HorizontalMenu mode={mode} />, container);
-};
+  return createPortal(<HorizontalMenu mode={mode} />, container)
+}
 
-export default Horizontal;
+export default Horizontal

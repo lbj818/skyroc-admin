@@ -1,63 +1,63 @@
-import { PageTab } from '@sa/materials';
-import clsx from 'clsx';
+import { PageTab } from '@sa/materials'
+import clsx from 'clsx'
 
-import BetterScroll from '@/components/BetterScroll';
-import { getFullContent, toggleFullContent } from '@/layouts/appStore';
-import { isPC } from '@/utils/agent';
+import BetterScroll from '@/components/BetterScroll'
+import { getFullContent, toggleFullContent } from '@/layouts/appStore'
+import { isPC } from '@/utils/agent'
 
-import { setRemoveCacheKey } from '../router/routeStore';
-import { useTheme, useThemeSettings } from '../theme';
+import { setRemoveCacheKey } from '../router/routeStore'
+import { useTheme, useThemeSettings } from '../theme'
 
-import ContextMenu from './TabContextMenu';
-import TabReloadButton from './TabReloadButton';
-import { useTabActions, useTabManager } from './tabHooks';
-import { useTabScroll } from './useTabScroll';
+import ContextMenu from './TabContextMenu'
+import TabReloadButton from './TabReloadButton'
+import { useTabActions, useTabManager } from './tabHooks'
+import { useTabScroll } from './useTabScroll'
 
 const GlobalTab = () => {
-  const isPCFlag = isPC();
+  const isPCFlag = isPC()
 
-  const { darkMode } = useTheme();
+  const { darkMode } = useTheme()
 
-  const themeSettings = useThemeSettings();
+  const themeSettings = useThemeSettings()
 
-  const { activeTabId, dispatch, isTabRetain, navigate, removeTabById, tabs } = useTabActions();
+  const { activeTabId, dispatch, isTabRetain, navigate, removeTabById, tabs } = useTabActions()
 
-  const { bsWrapper, setBsScroll, tabRef } = useTabScroll(activeTabId);
+  const { bsWrapper, setBsScroll, tabRef } = useTabScroll(activeTabId)
 
-  useTabManager();
+  useTabManager()
 
-  const fullContent = useAppSelector(getFullContent);
+  const fullContent = useAppSelector(getFullContent)
 
-  const tabWrapperClass = themeSettings.tab.mode === 'chrome' ? 'items-end' : 'items-center gap-12px';
+  const tabWrapperClass = themeSettings.tab.mode === 'chrome' ? 'items-end' : 'items-center gap-12px'
 
   function removeFocus() {
-    (document.activeElement as HTMLElement)?.blur();
+    (document.activeElement as HTMLElement)?.blur()
   }
 
   function getContextMenuDisabledKeys(tabId: string, index: number) {
-    const disabledKeys: App.Global.DropdownKey[] = [];
-    const isRetain = isTabRetain(tabId);
+    const disabledKeys: App.Global.DropdownKey[] = []
+    const isRetain = isTabRetain(tabId)
     if (isRetain) {
-      const homeDisable: App.Global.DropdownKey[] = ['closeCurrent', 'closeLeft'];
-      disabledKeys.push(...homeDisable);
+      const homeDisable: App.Global.DropdownKey[] = ['closeCurrent', 'closeLeft']
+      disabledKeys.push(...homeDisable)
     }
-    if (index === 1) disabledKeys.push('closeLeft');
+    if (index === 1) disabledKeys.push('closeLeft')
 
-    if (index === tabs.length - 1) disabledKeys.push('closeRight');
-    return disabledKeys;
+    if (index === tabs.length - 1) disabledKeys.push('closeRight')
+    return disabledKeys
   }
 
   function toggleContent() {
-    dispatch(toggleFullContent());
+    dispatch(toggleFullContent())
   }
 
   function handleCloseTab(tab: App.Global.Tab) {
-    removeTabById(tab.id);
-    dispatch(setRemoveCacheKey(tab.routePath));
+    removeTabById(tab.id)
+    dispatch(setRemoveCacheKey(tab.routePath))
   }
 
   function handleClickTab(tab: App.Global.Tab) {
-    navigate(tab.fullPath);
+    navigate(tab.fullPath)
   }
 
   return (
@@ -122,7 +122,7 @@ const GlobalTab = () => {
         toggleFullscreen={toggleContent}
       />
     </DarkModeContainer>
-  );
-};
+  )
+}
 
-export default GlobalTab;
+export default GlobalTab
