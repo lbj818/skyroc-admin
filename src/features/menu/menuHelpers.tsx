@@ -4,7 +4,7 @@ import type { RouteObject } from 'react-router-dom'
 
 import BeyondHiding from '@/components/BeyondHiding'
 import SvgIcon from '@/components/SvgIcon'
-import type { MenuItem } from '@/features/menu/menuTreeStore'
+import type { MenuItem } from '@/store/menuTreeStore'
 
 /** 动态渲染 antd 图标，icon 为图标名字符串如 "FileTextOutlined" */
 function renderMenuIcon(icon: string, style?: React.CSSProperties) {

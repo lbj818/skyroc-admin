@@ -2,88 +2,41 @@ import type { TooltipProps } from 'antd'
 import { Tooltip } from 'antd'
 import clsx from 'clsx'
 
-import { setLayoutMode } from '@/features/theme'
-import { getIsMobile } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
+import { useThemeStore } from '@/store/themeStore'
 
-type LayoutConfig = Record<
-  UnionKey.ThemeLayoutMode,
-  {
-    headerClass: string;
-    mainClass: string;
-    menuClass: string;
-    placement: TooltipProps['placement'];
-  }
->;
+type LayoutConfig = Record<UnionKey.ThemeLayoutMode, { headerClass: string; mainClass: string; menuClass: string; placement: TooltipProps['placement'] }>
 
 const LAYOUT_CONFIG: LayoutConfig = {
-  horizontal: {
-    headerClass: '',
-    mainClass: 'w-full h-3/4',
-    menuClass: 'w-full h-1/4',
-    placement: 'bottom'
-  },
-  'horizontal-mix': {
-    headerClass: '',
-    mainClass: 'w-2/3 h-3/4',
-    menuClass: 'w-full h-1/4',
-    placement: 'bottom'
-  },
-  vertical: {
-    headerClass: '',
-    mainClass: 'w-2/3 h-3/4',
-    menuClass: 'w-1/3 h-full',
-    placement: 'bottom'
-  },
-  'vertical-mix': {
-    headerClass: '',
-    mainClass: 'w-2/3 h-3/4',
-    menuClass: 'w-1/4 h-full',
-    placement: 'bottom'
-  }
+  horizontal: { headerClass: '', mainClass: 'w-full h-3/4', menuClass: 'w-full h-1/4', placement: 'bottom' },
+  'horizontal-mix': { headerClass: '', mainClass: 'w-2/3 h-3/4', menuClass: 'w-full h-1/4', placement: 'bottom' },
+  vertical: { headerClass: '', mainClass: 'w-2/3 h-3/4', menuClass: 'w-1/3 h-full', placement: 'bottom' },
+  'vertical-mix': { headerClass: '', mainClass: 'w-2/3 h-3/4', menuClass: 'w-1/4 h-full', placement: 'bottom' }
+}
+
+const layoutModeLabels: Record<UnionKey.ThemeLayoutMode, string> = {
+  horizontal: '顶部菜单模式', 'horizontal-mix': '顶部菜单混合模式',
+  vertical: '左侧菜单模式', 'vertical-mix': '左侧菜单混合模式'
 }
 
 interface Props extends Record<UnionKey.ThemeLayoutMode, React.ReactNode> {
-  mode: UnionKey.ThemeLayoutMode;
+  mode: UnionKey.ThemeLayoutMode
 }
 
-const LayoutModeCard: FC<Props> = ({ mode, ...rest }: Props) => {
-  const isMobile = useAppSelector(getIsMobile)
-
-  const dispatch = useAppDispatch()
-
-  const layoutModeLabels: Record<UnionKey.ThemeLayoutMode, string> = {
-    horizontal: '顶部菜单模式',
-    'horizontal-mix': '顶部菜单混合模式',
-    vertical: '左侧菜单模式',
-    'vertical-mix': '左侧菜单混合模式'
-  }
-
-  function handleChangeMode(modeType: UnionKey.ThemeLayoutMode) {
-    if (isMobile) return
-    dispatch(setLayoutMode(modeType))
-  }
+const LayoutModeCard: FC<Props> = ({ mode, ...rest }) => {
+  const isMobile = useAppStore(s => s.isMobile)
+  const { setLayoutMode } = useThemeStore.getState()
 
   return (
     <div className="flex-center flex-wrap gap-x-32px gap-y-16px">
       {Object.entries(LAYOUT_CONFIG).map(([key, item]) => (
         <div
           key={key}
-          className={clsx(
-            'flex cursor-pointer border-2px rounded-6px hover:border-primary',
-            mode === key ? 'border-primary' : 'border-transparent'
-          )}
-          onClick={() => handleChangeMode(key as UnionKey.ThemeLayoutMode)}
+          className={clsx('flex cursor-pointer border-2px rounded-6px hover:border-primary', mode === key ? 'border-primary' : 'border-transparent')}
+          onClick={() => !isMobile && setLayoutMode(key as UnionKey.ThemeLayoutMode)}
         >
-          <Tooltip
-            placement={item.placement}
-            title={layoutModeLabels[key as UnionKey.ThemeLayoutMode]}
-          >
-            <div
-              className={clsx(
-                'h-64px w-96px gap-6px rd-4px p-6px shadow dark:shadow-coolGray-5',
-                key.includes('vertical') ? 'flex' : 'flex-col'
-              )}
-            >
+          <Tooltip placement={item.placement} title={layoutModeLabels[key as UnionKey.ThemeLayoutMode]}>
+            <div className={clsx('h-64px w-96px gap-6px rd-4px p-6px shadow dark:shadow-coolGray-5', key.includes('vertical') ? 'flex' : 'flex-col')}>
               {rest[key as UnionKey.ThemeLayoutMode]}
             </div>
           </Tooltip>

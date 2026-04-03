@@ -4,43 +4,33 @@ import type { MenuProps } from 'antd'
 
 import { useMixMenuContext } from '@/features/menu'
 import { useRouter } from '@/features/router'
-import { getThemeSettings } from '@/features/theme'
-import { getSiderCollapse } from '@/layouts/appStore'
+import { useThemeSettings } from '@/features/theme'
+import { useAppStore } from '@/store/appStore'
 
 interface LevelKeysProps {
-  children?: LevelKeysProps[];
-  key?: string;
+  children?: LevelKeysProps[]
+  key?: string
 }
 
-const getLevelKeys = (items1: LevelKeysProps[]) => {
+const getLevelKeys = (items: LevelKeysProps[]) => {
   const key: Record<string, number> = {}
-  const func = (items2: LevelKeysProps[], level = 1) => {
-    items2.forEach(item => {
-      if (item.key) {
-        key[item.key] = level
-      }
-      if (item.children) {
-        func(item.children, level + 1)
-      }
+  const walk = (list: LevelKeysProps[], level = 1) => {
+    list.forEach(item => {
+      if (item.key) key[item.key] = level
+      if (item.children) walk(item.children, level + 1)
     })
   }
-  func(items1)
+  walk(items)
   return key
 }
 
-const getSelectedMenuKeyPath = (matches: Router.Route['matched']) => {
-  const result = matches.reduce((acc: string[], match, index) => {
-    if (index < matches.length - 1 && match.pathname) {
-      acc.push(match.pathname)
-    }
+const getSelectedMenuKeyPath = (matches: Router.Route['matched']) =>
+  matches.reduce((acc: string[], match, index) => {
+    if (index < matches.length - 1 && match.pathname) acc.push(match.pathname)
     return acc
   }, [])
 
-  return result
-}
-
 function transformMenuToAntdMenuItem(menu: any): any {
-  // Recursively transform children to always be an array or undefined
   const { children, ...rest } = menu
   return {
     ...rest,
@@ -50,50 +40,25 @@ function transformMenuToAntdMenuItem(menu: any): any {
 
 const VerticalMenu = memo(() => {
   const { allMenus, childLevelMenus, route, selectKey } = useMixMenuContext()
-
   const levelKeys = useMemo(() => getLevelKeys(allMenus), [allMenus])
-
-  const themeSettings = useAppSelector(getThemeSettings)
-
+  const themeSettings = useThemeSettings()
   const { navigate } = useRouter()
+  const inlineCollapsed = useAppStore(s => s.siderCollapse)
 
   const isMix = themeSettings.layout.mode.includes('mix')
-
   const isVerticalMix = themeSettings.layout.mode === 'vertical-mix'
-
-  const inlineCollapsed = useAppSelector(getSiderCollapse)
 
   const [stateOpenKeys, setStateOpenKeys] = useState<string[]>(
     inlineCollapsed ? [] : getSelectedMenuKeyPath(route.matched)
   )
 
-  function handleClickMenu(menuInfo: MenuInfo) {
-    navigate(menuInfo.key)
-  }
-
   const onOpenChange: MenuProps['onOpenChange'] = keys => {
-    if (keys.includes('rc-menu-more')) {
-      setStateOpenKeys(keys)
-      return
-    }
-
+    if (keys.includes('rc-menu-more')) { setStateOpenKeys(keys); return }
     const currentOpenKey = keys.find(key => !stateOpenKeys.includes(key))
-
-    // open
     if (currentOpenKey && themeSettings.isOnlyExpandCurrentParentMenu) {
-      const repeatIndex = keys
-        .filter(key => key !== currentOpenKey)
-        .findIndex(key => levelKeys[key] === levelKeys[currentOpenKey])
-
-      setStateOpenKeys(
-        keys
-          // remove repeat key
-          .filter((_, index) => index !== repeatIndex)
-          // remove current level all child
-          .filter(key => levelKeys[key] <= levelKeys[currentOpenKey])
-      )
+      const repeatIndex = keys.filter(k => k !== currentOpenKey).findIndex(k => levelKeys[k] === levelKeys[currentOpenKey])
+      setStateOpenKeys(keys.filter((_, i) => i !== repeatIndex).filter(k => levelKeys[k] <= levelKeys[currentOpenKey]))
     } else {
-      // // close
       setStateOpenKeys(keys)
     }
   }
@@ -105,12 +70,7 @@ const VerticalMenu = memo(() => {
 
   useUpdateEffect(() => {
     if (inlineCollapsed || isVerticalMix) return
-
-    const names = route.matched
-      .slice(isMix ? 1 : 0, -1)
-      .map(item => item.pathname)
-      .filter(Boolean) as string[]
-
+    const names = route.matched.slice(isMix ? 1 : 0, -1).map(item => item.pathname).filter(Boolean) as string[]
     setStateOpenKeys(names || [])
   }, [isMix, inlineCollapsed])
 
@@ -125,7 +85,7 @@ const VerticalMenu = memo(() => {
         openKeys={stateOpenKeys}
         selectedKeys={selectKey}
         onOpenChange={onOpenChange}
-        onSelect={handleClickMenu}
+        onSelect={(info: MenuInfo) => navigate(info.key)}
       />
     </SimpleScrollbar>
   )

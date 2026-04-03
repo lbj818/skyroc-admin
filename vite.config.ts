@@ -77,7 +77,6 @@ export default defineConfig(configEnv => {
             axios: ['axios'],
             react: ['react', 'react-dom', 'react-error-boundary'],
             reactRouter: ['react-router-dom'],
-            redux: ['react-redux', '@reduxjs/toolkit'],
             sa: ['@sa/axios', '@sa/color', '@sa/hooks', '@sa/materials', '@sa/utils']
           }
         }

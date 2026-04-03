@@ -1,7 +1,7 @@
 import { SimpleScrollbar } from '@sa/materials'
 
-import { cacheThemeSettings } from '@/features/theme'
-import { closeThemeDrawer, getThemeDrawerVisible } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
+import { useThemeStore } from '@/store/themeStore'
 
 import ConfigOperation from './modules/ConfigOperation'
 import DarkMode from './modules/DarkMode'
@@ -10,24 +10,13 @@ import PageFun from './modules/PageFun'
 import ThemeColor from './modules/ThemeColor'
 
 const ThemeDrawer = memo(() => {
-  const dispatch = useAppDispatch()
-
-  const themeDrawerVisible = useAppSelector(getThemeDrawerVisible)
-
-  function close() {
-    dispatch(closeThemeDrawer())
-  }
+  const themeDrawerVisible = useAppStore(s => s.themeDrawerVisible)
+  const { closeThemeDrawer } = useAppStore.getState()
+  const { cacheThemeSettings } = useThemeStore.getState()
 
   useMount(() => {
-    const saveThemeSettings = () => {
-      dispatch(cacheThemeSettings())
-    }
-
-    window.addEventListener('beforeunload', saveThemeSettings)
-
-    return () => {
-      window.removeEventListener('beforeunload', saveThemeSettings)
-    }
+    window.addEventListener('beforeunload', cacheThemeSettings)
+    return () => window.removeEventListener('beforeunload', cacheThemeSettings)
   })
 
   return (
@@ -37,14 +26,8 @@ const ThemeDrawer = memo(() => {
       open={themeDrawerVisible}
       styles={{ body: { padding: 0 } }}
       title="主题配置"
-      extra={
-        <ButtonIcon
-          className="h-28px"
-          icon="ant-design:close-outlined"
-          onClick={close}
-        />
-      }
-      onClose={close}
+      extra={<ButtonIcon className="h-28px" icon="ant-design:close-outlined" onClick={closeThemeDrawer} />}
+      onClose={closeThemeDrawer}
     >
       <SimpleScrollbar>
         <div className="overflow-x-hidden px-24px pb-24px pt-8px">

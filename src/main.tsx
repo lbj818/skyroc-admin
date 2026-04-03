@@ -1,9 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Provider } from 'react-redux'
-
-import { store } from '@/store'
 
 import './plugins/assets'
 import App from './App.tsx'
@@ -13,27 +10,19 @@ import { queryClient } from './service/queryClient'
 
 function setupApp() {
   const container = document.getElementById('root')
-
   if (!container) return
 
-  const root = createRoot(container)
-
-  root.render(
+  createRoot(container).render(
     <ErrorBoundary fallbackRender={FallbackRender}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </ErrorBoundary>
   )
 
   setupNProgress()
-
   setupIconifyOffline()
-
   setupDayjs()
-
   setupAppVersionNotification()
 }
 

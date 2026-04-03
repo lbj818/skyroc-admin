@@ -1,16 +1,14 @@
 import type { MenuProps } from 'antd'
 
-import { selectIsLogin } from '@/features/auth/tokenStore'
 import { useRouter } from '@/features/router'
 import { doLogout } from '@/modules/common-app/pages/login/useLogin'
+import { useTokenStore } from '@/store/tokenStore'
 
 const UserAvatar = memo(() => {
-  const isLogin = useAppSelector(selectIsLogin)
-
-  // 从 sessionStorage 读取用户信息（Vue3 项目登录后存储）
-  const userInfoRaw = window.sessionStorage.getItem('userInfo')
-  const userInfo = userInfoRaw ? JSON.parse(userInfoRaw) : null
-
+  const isLogin = useTokenStore(s => s.isLogin)
+  const userInfo = (() => {
+    try { return JSON.parse(window.sessionStorage.getItem('userInfo') || 'null') } catch { return null }
+  })()
   const { navigate } = useRouter()
 
   function logout() {
@@ -23,54 +21,23 @@ const UserAvatar = memo(() => {
     })
   }
 
-  function onClick({ key }: { key: string }) {
-    if (key === '1') {
-      logout()
-    } else {
-      navigate('/user-center')
-    }
-  }
-
   const items: MenuProps['items'] = [
     {
       key: '0',
-      label: (
-        <div className="flex-center gap-8px">
-          <SvgIcon
-            className="text-icon"
-            icon="ph:user-circle"
-          />
-          个人中心
-        </div>
-      )
+      label: <div className="flex-center gap-8px"><SvgIcon className="text-icon" icon="ph:user-circle" />个人中心</div>
     },
     { type: 'divider' },
     {
       key: '1',
-      label: (
-        <div className="flex-center gap-8px">
-          <SvgIcon
-            className="text-icon"
-            icon="ph:sign-out"
-          />
-          退出登录
-        </div>
-      )
+      label: <div className="flex-center gap-8px"><SvgIcon className="text-icon" icon="ph:sign-out" />退出登录</div>
     }
   ]
 
   return isLogin ? (
-    <ADropdown
-      menu={{ items, onClick }}
-      placement="bottomRight"
-      trigger={['click']}
-    >
+    <ADropdown menu={{ items, onClick: ({ key }) => key === '1' ? logout() : navigate('/user-center') }} placement="bottomRight" trigger={['click']}>
       <div>
         <ButtonIcon className="px-12px">
-          <SvgIcon
-            className="text-icon-large"
-            icon="ph:user-circle"
-          />
+          <SvgIcon className="text-icon-large" icon="ph:user-circle" />
           <span className="text-16px font-medium">{userInfo?.nickname || userInfo?.username}</span>
         </ButtonIcon>
       </div>

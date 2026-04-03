@@ -1,18 +1,15 @@
 import { router } from '@/features/router'
-import { store } from '@/store'
+import { useAppStore } from '@/store/appStore'
+import { useMenuTreeStore } from '@/store/menuTreeStore'
+import { useRouteStore } from '@/store/routeStore'
+import { useTabStore } from '@/store/tabStore'
+import { useTokenStore } from '@/store/tokenStore'
 
-import { resetMenuTree } from '../menu/menuTreeStore'
-import { resetRouteStore } from '../router/routeStore'
-import { clearTabs } from '../tab/tabStore'
-
-import { resetToken } from './tokenStore'
-
-/** 重置认证状态，清除 token、菜单、路由缓存，跳转登录页 */
 export function resetAuth() {
-  store.dispatch(resetToken())
-  store.dispatch(resetMenuTree())
-  store.dispatch(clearTabs())
-  store.dispatch(resetRouteStore())
+  useTokenStore.getState().resetToken()
+  useMenuTreeStore.getState().resetMenuTree()
+  useTabStore.getState().clearTabs()
+  useRouteStore.getState().resetRouteStore()
 
   router.resetRoutes()
 

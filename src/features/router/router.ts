@@ -1,13 +1,13 @@
+import type { DataRouter } from 'react-router'
 import type { RouterNavigateOptions, To } from 'react-router-dom'
 import { createBrowserRouter, createHashRouter, matchRoutes } from 'react-router-dom'
 
 import { globalConfig } from '@/config'
 import { routes } from '@/router'
-import { store } from '@/store'
+import { useRouteStore } from '@/store/routeStore'
 
 import { initDynamicRoutes } from './initDynamicRoutes'
 import { type LocationQueryRaw, stringifyQuery } from './query'
-import { setCacheRoutes } from './routeStore'
 
 function createRouterInstance() {
   const routerCreator = globalConfig.routerMode === 'hash' ? createHashRouter : createBrowserRouter
@@ -23,7 +23,7 @@ function initRouter() {
     if (!isLogin) return false
     if (isAlreadyPatch) return false
 
-    const matchRoute = matchRoutes(routes, { pathname: path }, import.meta.env.VITE_BASE_URL)
+    const matchRoute = matchRoutes(routes as any, { pathname: path }, import.meta.env.VITE_BASE_URL)
 
     if (!matchRoute || matchRoute.length < 2) return true
 
@@ -43,7 +43,7 @@ function initRouter() {
     }
   })
 
-  store.dispatch(setCacheRoutes([]))
+  useRouteStore.getState().setCacheRoutes([])
 
   if (Boolean(window.sessionStorage.getItem('Authorization')) && !isAlreadyPatch) {
     initDynamicRoutes(reactRouter.patchRoutes)
@@ -51,7 +51,7 @@ function initRouter() {
 
   function resetRoutes() {
     isAlreadyPatch = false
-    reactRouter._internalSetRoutes(routes)
+    reactRouter._internalSetRoutes(routes as Parameters<DataRouter['_internalSetRoutes']>[0])
   }
 
   return { reactRouter, resetRoutes }

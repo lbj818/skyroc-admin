@@ -66,8 +66,6 @@ declare global {
   const memo: typeof import('react')['memo']
   const startTransition: typeof import('react')['startTransition']
   const useAntdTable: typeof import('ahooks')['useAntdTable']
-  const useAppDispatch: typeof import('../hooks/business/useStore')['useAppDispatch']
-  const useAppSelector: typeof import('../hooks/business/useStore')['useAppSelector']
   const useAsyncEffect: typeof import('ahooks')['useAsyncEffect']
   const useBoolean: typeof import('ahooks')['useBoolean']
   const useCallback: typeof import('react')['useCallback']

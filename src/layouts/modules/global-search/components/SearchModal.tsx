@@ -4,30 +4,21 @@ import clsx from 'clsx'
 
 import { useMixMenuContext } from '@/features/menu'
 import { useRouter } from '@/features/router'
-import { getIsMobile } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
 
 import SearchFooter from './SearchFooter'
 import SearchResult from './SearchResult'
 
 interface Props {
-  onClose: () => void;
-  show: boolean;
+  onClose: () => void
+  show: boolean
 }
 
-/**
- * Transform menu to searchMenus
- *
- * @param menus - menus
- * @param treeMap
- */
 function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Global.Menu[] = []) {
-  if (menus && menus.length === 0) return []
+  if (!menus?.length) return []
   return menus.reduce((acc, cur) => {
     acc.push(cur)
-
-    if (cur.children && cur.children.length > 0) {
-      transformMenuToSearchMenus(cur.children, treeMap)
-    }
+    if (cur.children?.length) transformMenuToSearchMenus(cur.children, treeMap)
     return acc
   }, treeMap)
 }
@@ -35,76 +26,43 @@ function transformMenuToSearchMenus(menus: App.Global.Menu[], treeMap: App.Globa
 const SearchModal = ({ onClose, show }: Props) => {
   const [resultOptions, setResultOptions] = useState<App.Global.Menu[]>([])
   const [activeRoute, setActiveRoute] = useState<string>('')
-  const isMobile = useAppSelector(getIsMobile)
-
+  const isMobile = useAppStore(s => s.isMobile)
   const keyword = useRef<InputRef>(null)
-
   const { allMenus } = useMixMenuContext()
-
   const { navigate } = useRouter()
-
   const searchMenus = useMemo(() => transformMenuToSearchMenus(allMenus), [allMenus])
 
   function handleClose() {
-    // handle with setTimeout to prevent user from seeing some operations
-    setTimeout(() => {
-      onClose()
-      setResultOptions([])
-    }, 200)
+    setTimeout(() => { onClose(); setResultOptions([]) }, 200)
   }
 
   function search() {
-    const result = searchMenus.filter(menu => {
-      const trimKeyword = keyword.current?.input?.value?.toLocaleLowerCase().trim()
-      return trimKeyword && menu.title?.includes(trimKeyword)
-    })
-
-    const activeName = result[0]?.key || ''
-
+    const trimKeyword = keyword.current?.input?.value?.toLocaleLowerCase().trim()
+    const result = searchMenus.filter(menu => trimKeyword && menu.title?.includes(trimKeyword))
     setResultOptions(result)
-    setActiveRoute(activeName)
+    setActiveRoute(result[0]?.key || '')
   }
 
   const handleSearch = useDebounceFn(search, { wait: 300 })
 
-  /** key up */
-  function handleUp() {
-    handleKeyPress(-1) // 方向 -1 表示向上
-  }
-
-  /** key down */
-  function handleDown() {
-    handleKeyPress(1) // 方向 1 表示向下
-  }
-
-  function getActivePathIndex() {
-    return resultOptions.findIndex(item => item.key === activeRoute)
-  }
-
   function handleKeyPress(direction: 1 | -1) {
     const { length } = resultOptions
-    if (length === 0) return
-
-    const index = getActivePathIndex()
+    if (!length) return
+    const index = resultOptions.findIndex(item => item.key === activeRoute)
     if (index === -1) return
-
-    const activeIndex = (index + direction + length) % length // 确保 index 在范围内循环
-    const activeKey = resultOptions[activeIndex].key
-
-    setActiveRoute(activeKey)
+    setActiveRoute(resultOptions[(index + direction + length) % length].key)
   }
 
-  /** key enter */
   function handleEnter() {
-    if (resultOptions.length === 0 || activeRoute === '') return
+    if (!resultOptions.length || !activeRoute) return
     handleClose()
     navigate(activeRoute)
   }
 
   useKeyPress('Escape', handleClose)
   useKeyPress('Enter', handleEnter)
-  useKeyPress('uparrow', handleUp)
-  useKeyPress('downarrow', handleDown)
+  useKeyPress('uparrow', () => handleKeyPress(-1))
+  useKeyPress('downarrow', () => handleKeyPress(1))
 
   return (
     <AModal
@@ -120,38 +78,13 @@ const SearchModal = ({ onClose, show }: Props) => {
       onCancel={handleClose}
     >
       <ASpace.Compact className="w-full">
-        <AInput
-          allowClear
-          placeholder="请输入关键词搜索"
-          prefix={<IconUilSearch className="text-15px text-#c2c2c2" />}
-          ref={keyword}
-          onInput={handleSearch.run}
-        />
-        {isMobile && (
-          <AButton
-            ghost
-            type="primary"
-            onClick={handleClose}
-          >
-            取消
-          </AButton>
-        )}
+        <AInput allowClear placeholder="请输入关键词搜索" prefix={<IconUilSearch className="text-15px text-#c2c2c2" />} ref={keyword} onInput={handleSearch.run} />
+        {isMobile && <AButton ghost type="primary" onClick={handleClose}>取消</AButton>}
       </ASpace.Compact>
-
       <div className="mt-20px">
-        {resultOptions.length === 0 ? (
-          <AEmpty />
-        ) : (
-          resultOptions.map(item => (
-            <SearchResult
-              active={item.key === activeRoute}
-              enter={handleEnter}
-              key={item.key}
-              menu={item}
-              setActiveRouteName={setActiveRoute}
-            />
-          ))
-        )}
+        {resultOptions.length === 0 ? <AEmpty /> : resultOptions.map(item => (
+          <SearchResult active={item.key === activeRoute} enter={handleEnter} key={item.key} menu={item} setActiveRouteName={setActiveRoute} />
+        ))}
       </div>
     </AModal>
   )

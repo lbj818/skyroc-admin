@@ -2,44 +2,33 @@ import clsx from 'clsx'
 import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react'
 
 import { usePreviousRoute } from '@/features/router'
-import { selectCacheRoutes, selectRemoveCacheKey, setRemoveCacheKey } from '@/features/router/routeStore'
 import { useThemeSettings } from '@/features/theme'
-import { getReloadFlag } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
+import { useRouteStore } from '@/store/routeStore'
+
 import './transition.css'
 
 interface Props {
-  /** Show padding for content */
-  closePadding?: boolean;
+  closePadding?: boolean
 }
 
 const GlobalContent = ({ closePadding }: Props) => {
   const previousRoute = usePreviousRoute()
-
-  const dispatch = useAppDispatch()
-
   const currentOutlet = useOutlet(previousRoute)
-
   const { pathname } = useLocation()
-
   const aliveRef = useKeepAliveRef()
 
-  const removeCacheKey = useAppSelector(selectRemoveCacheKey)
-
-  const cacheKeys = useAppSelector(selectCacheRoutes)
-
-  const reload = useAppSelector(getReloadFlag)
-
+  const removeCacheKey = useRouteStore(s => s.removeCacheKey)
+  const cacheKeys = useRouteStore(s => s.cacheRoutes)
+  const reload = useAppStore(s => s.reloadFlag)
+  const { setRemoveCacheKey } = useRouteStore.getState()
   const themeSetting = useThemeSettings()
-
   const transitionName = themeSetting.page.animate ? themeSetting.page.animateMode : ''
 
   useUpdateEffect(() => {
     if (!aliveRef.current || !removeCacheKey) return
-
     aliveRef.current.destroy(removeCacheKey)
-
-    // 有的时候用户打开同一页面输入在关闭 不去切换新的页面 会造成无法二次删除缓存
-    dispatch(setRemoveCacheKey(null))
+    setRemoveCacheKey(null)
   }, [removeCacheKey])
 
   useUpdateEffect(() => {

@@ -1,4 +1,4 @@
-import { get, post, postForm } from '@/service/request'
+import { del, get, postForm } from '@/service/request'
 
 export interface LoginParams {
   algorithm: string;
@@ -62,7 +62,7 @@ export function loginApi(params: LoginParams) {
 
 /** 退出登录 */
 export function logoutApi(accessToken: string) {
-  return post(
+  return del(
     '/uaa/token/logout',
     { access_token: accessToken },
     {

@@ -1,9 +1,8 @@
 import type { RouteObject } from 'react-router-dom'
 
-import type { MenuItem } from '@/features/menu/menuTreeStore'
-import { setMenuTree } from '@/features/menu/menuTreeStore'
 import { get } from '@/service/request'
-import { store } from '@/store'
+import { useMenuTreeStore } from '@/store/menuTreeStore'
+import type { MenuItem } from '@/store/menuTreeStore'
 
 interface RawMenuItem {
   cacheFlag: number;
@@ -112,7 +111,7 @@ function getPageComponent(componentPath: string) {
     console.warn(`[route] 找不到组件: "${componentPath}"，尝试路径:`, candidates)
   }
 
-  return () => import('@/pages/error')
+  return () => import('base-app/pages/common/error')
 }
 
 /** 递归收集所有叶子路由，全部平铺注册（对齐 Vue3 generateFlatRoutes）。 父级菜单节点（含 system 分组）只用于菜单树展示，不参与路由注册。 */
@@ -160,7 +159,7 @@ export async function initDynamicRoutes(
   const menuTree = buildMenuTree(flatItems)
 
   // 菜单树（含 system 分组）存入 store，供侧边栏渲染
-  store.dispatch(setMenuTree(menuTree))
+  useMenuTreeStore.getState().setMenuTree(menuTree)
 
   // 所有路由平铺注册到 (base) 下，不做嵌套
   const routes = collectFlatRoutes(menuTree)

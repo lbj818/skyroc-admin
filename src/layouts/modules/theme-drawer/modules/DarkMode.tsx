@@ -1,57 +1,26 @@
 import { Switch } from 'antd'
 
-import {
-  ThemeSchemaSegmented,
-  getThemeSettings,
-  setColourWeakness,
-  setGrayscale,
-  setIsOnlyExpandCurrentParentMenu
-} from '@/features/theme'
+import { ThemeSchemaSegmented } from '@/features/theme'
+import { useThemeStore } from '@/store/themeStore'
 
 import SettingItem from '../components/SettingItem'
 import '@/styles/css/darkMode.css'
 
 const DarkMode = () => {
-  const dispatch = useAppDispatch()
+  const settings = useThemeStore(s => s.settings)
+  const { setColourWeakness, setGrayscale, setIsOnlyExpandCurrentParentMenu } = useThemeStore.getState()
 
-  const themeSettings = useAppSelector(getThemeSettings)
-
-  function handleGrayscaleChange(value: boolean) {
-    dispatch(setGrayscale(value))
-  }
-
-  function handleAuxiliaryColorChange(value: boolean) {
-    dispatch(setColourWeakness(value))
-  }
-
-  function handleIsOnlyExpandCurrentParentMenuChange(value: boolean) {
-    dispatch(setIsOnlyExpandCurrentParentMenu(value))
-  }
   return (
     <div className="flex-col-stretch gap-16px">
-      <div className="i-flex-center">
-        <ThemeSchemaSegmented />
-      </div>
-
+      <div className="i-flex-center"><ThemeSchemaSegmented /></div>
       <SettingItem label="灰度模式">
-        <Switch
-          checked={themeSettings.grayscale}
-          onChange={handleGrayscaleChange}
-        />
+        <Switch checked={settings.grayscale} onChange={setGrayscale} />
       </SettingItem>
-
       <SettingItem label="色弱模式">
-        <Switch
-          checked={themeSettings.colourWeakness}
-          onChange={handleAuxiliaryColorChange}
-        />
+        <Switch checked={settings.colourWeakness} onChange={setColourWeakness} />
       </SettingItem>
-
       <SettingItem label="仅展开当前父级菜单">
-        <Switch
-          checked={themeSettings.isOnlyExpandCurrentParentMenu}
-          onChange={handleIsOnlyExpandCurrentParentMenuChange}
-        />
+        <Switch checked={settings.isOnlyExpandCurrentParentMenu} onChange={setIsOnlyExpandCurrentParentMenu} />
       </SettingItem>
     </div>
   )

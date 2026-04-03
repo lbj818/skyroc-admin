@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-import { selectMenuLoaded } from '@/features/menu/menuTreeStore'
 import { usePrevious, useRoute } from '@/features/router'
+import { useMenuTreeStore } from '@/store/menuTreeStore'
 
 const LOGIN_PATH = '/login'
 const ALLOW_LIST = ['/login', '/login-out', '/exception/403', '/exception/404', '/exception/500']
@@ -15,7 +15,7 @@ const RootLayout = () => {
   const previousRoute = usePrevious(route)
 
   const { handle, pathname } = route
-  const menuLoaded = useAppSelector(selectMenuLoaded)
+  const menuLoaded = useMenuTreeStore(s => s.loaded)
 
   useEffect(() => {
     document.title = handle?.title ?? ''

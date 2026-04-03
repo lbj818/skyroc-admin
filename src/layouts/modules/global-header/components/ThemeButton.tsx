@@ -1,11 +1,7 @@
-import { openThemeDrawer } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
 
 const ThemeButton = memo(() => {
-  const dispatch = useAppDispatch()
-
-  function handleClick() {
-    dispatch(openThemeDrawer())
-  }
+  const { openThemeDrawer } = useAppStore.getState()
 
   return (
     <ButtonIcon
@@ -13,7 +9,7 @@ const ThemeButton = memo(() => {
       className="px-12px"
       icon="majesticons:color-swatch-line"
       tooltipContent="主题配置"
-      onClick={handleClick}
+      onClick={openThemeDrawer}
     />
   )
 })

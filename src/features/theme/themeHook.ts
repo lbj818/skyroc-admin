@@ -1,7 +1,5 @@
-import { getThemeSettings } from '@/features/theme'
+import { useThemeStore } from '@/store/themeStore'
 
 export function useThemeSettings() {
-  const themeSettings = useAppSelector(getThemeSettings)
-
-  return themeSettings
+  return useThemeStore(s => s.settings)
 }

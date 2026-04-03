@@ -1,14 +1,11 @@
-import { getIsMobile } from '@/layouts/appStore'
+import { useAppStore } from '@/store/appStore'
 
 export function useGetElementById(id: string) {
   const [container, setContainers] = useState<HTMLElement | null>()
-
-  const isMobile = useAppSelector(getIsMobile)
+  const isMobile = useAppStore(s => s.isMobile)
 
   useEffect(() => {
-    const element = document.getElementById(id)
-
-    setContainers(element)
+    setContainers(document.getElementById(id))
   }, [isMobile])
 
   return container
