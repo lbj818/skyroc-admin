@@ -6,10 +6,9 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["./src/*"]
+      "*": [
+        "./src/*"
+      ]
     }
-  },
-  "dependencies": {
-    "@sa/axios": "workspace:*"
   }
 }

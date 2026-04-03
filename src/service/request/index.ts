@@ -1,8 +1,19 @@
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from '@sa/axios'
-import { createAxiosInstance } from '@sa/axios'
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
 
-export type { RequestConfigExtra, ResponseBody } from '@sa/axios'
-export type { AxiosError, AxiosRequestConfig, AxiosResponse }
+import { sessionStg } from '@/utils/storage'
+
+export interface RequestConfigExtra {
+  /** 是否携带 token，默认 true */
+  token?: boolean;
+}
+
+export interface ResponseBody<T = any> {
+  code?: number | string;
+  data?: T;
+  message?: string;
+  msg?: string;
+}
 
 const isDev = import.meta.env.DEV
 const isHttpProxy = isDev && import.meta.env.VITE_HTTP_PROXY === 'Y'
@@ -14,9 +25,11 @@ const BASIC_AUTH = 'Basic YnJvd3Nlcjpicm93c2Vy'
 let authorizing = false
 let authQueue: Array<{ reject: (e: any) => void; req: AxiosRequestConfig; resolve: (v: any) => void }> = []
 
-export const instance = createAxiosInstance(BASE_URL)
-
-import { sessionStg } from '@/utils/storage'
+export const instance: AxiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 300000
+})
 
 // ---- 请求拦截器：注入 token ----
 instance.interceptors.request.use((config: any) => {

@@ -5,7 +5,6 @@ declare namespace AntDesign {
   type TableColumnCheck = import('@sa/hooks').TableColumnCheck;
   type TableProps = import('antd').TableProps;
   type TableDataWithIndex<T> = import('@sa/hooks').TableDataWithIndex<T>;
-  type FlatResponseData<T> = import('@sa/axios').FlatResponseData<T>;
 
   type TableData = Api.Common.CommonRecord<object>;
 
