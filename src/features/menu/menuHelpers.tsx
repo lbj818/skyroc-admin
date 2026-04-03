@@ -1,20 +1,9 @@
-import * as AntdIcons from '@ant-design/icons'
-import { createElement } from 'react'
 import type { RouteObject } from 'react-router-dom'
 
+import AntIcon from '@/components/AntIcon'
 import BeyondHiding from '@/components/BeyondHiding'
 import SvgIcon from '@/components/SvgIcon'
 import type { MenuItem } from '@/store/menuTreeStore'
-
-/** 动态渲染 antd 图标，icon 为图标名字符串如 "FileTextOutlined" */
-function renderMenuIcon(icon: string, style?: React.CSSProperties) {
-  const IconComponent = (AntdIcons as any)[icon]
-  if (IconComponent) {
-    return createElement(IconComponent, { style: { fontSize: '16px', ...style } })
-  }
-  // 降级到 SvgIcon（iconify 图标）
-  return createElement(SvgIcon, { icon, style: { fontSize: '20px', ...style } })
-}
 
 // ---- 静态路由菜单工具 ----
 
@@ -114,7 +103,7 @@ export function mergeMenus(menus: App.Global.Menu[], newMenus: App.Global.Menu[]
 
 function menuItemToGlobalMenu(item: MenuItem): App.Global.Menu {
   const menu: App.Global.Menu = {
-    icon: renderMenuIcon(item.icon),
+    icon: <AntIcon icon={item.icon as any} style={{ fontSize: '16px' }} />,
     key: item.path,
     label: <BeyondHiding title={item.title} />,
     title: item.title

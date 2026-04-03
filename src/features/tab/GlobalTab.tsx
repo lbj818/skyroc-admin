@@ -1,6 +1,7 @@
 import { PageTab } from '@sa/materials'
 import clsx from 'clsx'
 
+import AntIcon from '@/components/AntIcon'
 import BetterScroll from '@/components/BetterScroll'
 import { useAppStore } from '@/store/appStore'
 import { useRouteStore } from '@/store/routeStore'
@@ -57,7 +58,7 @@ const GlobalTab = () => {
                     handleClose={() => handleCloseTab(item)}
                     id={item.id}
                     mode={themeSettings.tab.mode}
-                    prefix={<SvgIcon className="inline-block align-text-bottom text-16px" icon={item.icon} localIcon={item.localIcon} />}
+                    prefix={<AntIcon className="inline-block align-text-bottom text-16px" icon={item.icon as any} />}
                     onClick={() => navigate(item.fullPath)}
                   >
                     <div className="max-w-240px ellipsis-text">{item.label}</div>

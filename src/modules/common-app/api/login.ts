@@ -31,21 +31,28 @@ export interface CaptchaResult {
 }
 
 export interface UserInfo {
-  avatar: string;
-  deptKey: string;
-  deptName: string;
-  email: string;
-  id: number | string;
-  mobile: string;
-  nickname: string;
-  organKey: string;
-  organName: string;
-  roles?: (string | number)[];
-  systems: { icon?: string; systemKey: number; systemName: string }[];
-  username: string;
+  deptKey: string
+  deptName: string
+  email: string
+  headFlag: boolean
+  id: number | string
+  leaglFlag: string
+  mobile: string
+  organKey: string
+  organLevel: number
+  organLevelType: number
+  organName: string
+  prefix: string
+  realName: string
+  roleCodes?: (string | number)[]
+  roles?: (string | number)[]
+  systems: Array<any>
+  tenantCode: string
+  tenantName: string
+  username: string
 }
 
-/** 登录（Basic Auth + form-urlencoded） */
+/** 登录 */
 export function loginApi(params: LoginParams) {
   return postForm<LoginResult>('/uaa/oauth2/token', {
     algorithm: params.algorithm,

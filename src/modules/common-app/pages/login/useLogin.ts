@@ -46,7 +46,7 @@ export function useLoginHook() {
       const userInfo = await getUserInfoApi()
       await initDynamicRoutes(router.reactRouter.patchRoutes)
 
-      const target = redirectUrl ? decodeURIComponent(redirectUrl) : import.meta.env.VITE_ROUTE_HOME || '/home'
+      const target = redirectUrl ? decodeURIComponent(redirectUrl) : import.meta.env.VITE_ROUTE_HOME
       router.replace(target)
 
       window.$notification?.success({
