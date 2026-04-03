@@ -43,7 +43,7 @@ export function useLoginHook() {
 
       useTokenStore.getState().setTokens(data.access_token, data.refresh_token)
 
-      const userInfo = await getUserInfoApi()
+      const { data: userInfo } = await getUserInfoApi()
       await initDynamicRoutes(router.reactRouter.patchRoutes)
 
       const target = redirectUrl ? decodeURIComponent(redirectUrl) : import.meta.env.VITE_ROUTE_HOME

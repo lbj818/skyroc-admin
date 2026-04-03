@@ -1,8 +1,9 @@
 import type { RouteObject } from 'react-router-dom'
 
-import { get } from '@/service/request'
 import { useMenuTreeStore } from '@/store/menuTreeStore'
 import type { MenuItem } from '@/store/menuTreeStore'
+import { get } from '@/utils/request'
+import type { ResponseBody } from '@/utils/request'
 
 interface RawMenuItem {
   cacheFlag: number;
@@ -26,14 +27,14 @@ interface RawSystemItem {
 }
 
 interface MenuApiResponse {
-  data: {
-    menus: RawMenuItem[];
-    system: RawSystemItem[];
-  };
+  menus: RawMenuItem[];
+  system: RawSystemItem[];
 }
 
-function formatMenuData(raw: MenuApiResponse): MenuItem[] {
-  const { menus, system } = raw.data
+function formatMenuData(raw: ResponseBody<MenuApiResponse> | null | undefined): MenuItem[] {
+  const payload = raw?.data
+  const menus: RawMenuItem[] = payload?.menus ?? []
+  const system: RawSystemItem[] = payload?.system ?? []
 
   const formattedMenus: MenuItem[] = menus.map(item => ({
     children: [],

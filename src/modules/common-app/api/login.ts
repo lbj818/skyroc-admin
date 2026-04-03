@@ -1,4 +1,6 @@
-import { del, get, postForm } from '@/service/request'
+import { del, get, getUnwrapped, postUnwrapped } from '@/utils/request'
+
+const BASIC_AUTH = 'Basic YnJvd3Nlcjpicm93c2Vy'
 
 export interface LoginParams {
   algorithm: string;
@@ -54,17 +56,27 @@ export interface UserInfo {
 
 /** 登录 */
 export function loginApi(params: LoginParams) {
-  return postForm<LoginResult>('/uaa/oauth2/token', {
-    algorithm: params.algorithm,
-    captcha: params.captcha || '',
-    client_id: 'browser',
-    grant_type: 'password',
-    password: params.password,
-    requestId: params.requestId || '',
-    scope: 'ui',
-    type: 'account',
-    username: params.username
-  })
+  return postUnwrapped<LoginResult, URLSearchParams>(
+    '/uaa/oauth2/token',
+    new URLSearchParams({
+      algorithm: params.algorithm,
+      captcha: params.captcha || '',
+      client_id: 'browser',
+      grant_type: 'password',
+      password: params.password,
+      requestId: params.requestId || '',
+      scope: 'ui',
+      type: 'account',
+      username: params.username
+    }),
+    {
+      token: false,
+      headers: {
+        Authorization: BASIC_AUTH,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
 }
 
 /** 退出登录 */
@@ -80,16 +92,26 @@ export function logoutApi(accessToken: string) {
 
 /** 刷新 token */
 export function refreshTokenApi(refreshToken: string) {
-  return postForm<RefreshTokenResult>('/uaa/oauth2/token', {
-    client_id: 'browser',
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken
-  })
+  return postUnwrapped<RefreshTokenResult, URLSearchParams>(
+    '/uaa/oauth2/token',
+    new URLSearchParams({
+      client_id: 'browser',
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    }),
+    {
+      token: false,
+      headers: {
+        Authorization: BASIC_AUTH,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
 }
 
 /** 获取图形验证码 */
 export function getCaptchaApi() {
-  return get<CaptchaResult>(
+  return getUnwrapped<CaptchaResult>(
     '/uaa/captcha',
     {},
     {
