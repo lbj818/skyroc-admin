@@ -1,5 +1,4 @@
 import { router } from '@/features/router'
-import { useAppStore } from '@/store/appStore'
 import { useMenuTreeStore } from '@/store/menuTreeStore'
 import { useRouteStore } from '@/store/routeStore'
 import { useTabStore } from '@/store/tabStore'

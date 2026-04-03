@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { router } from '@/features/router'
-import { initDynamicRoutes } from '@/features/router/initDynamicRoutes'
+import { initDynamicRoutes } from '@/features/router/dynamic-routes'
 import { useTokenStore } from '@/store/tokenStore'
 import { sessionStg } from '@/utils/storage'
 

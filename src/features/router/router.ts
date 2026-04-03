@@ -7,7 +7,7 @@ import { routes } from '@/router'
 import { useRouteStore } from '@/store/routeStore'
 import { sessionStg } from '@/utils/storage'
 
-import { initDynamicRoutes } from './initDynamicRoutes'
+import { initDynamicRoutes } from './dynamic-routes'
 import { type LocationQueryRaw, stringifyQuery } from './query'
 
 function createRouterInstance() {

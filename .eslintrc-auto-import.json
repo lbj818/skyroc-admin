@@ -173,6 +173,7 @@
     "IconMdiArrowDownThin": true,
     "IconMdiArrowUpThin": true,
     "IconMdiKeyboardEsc": true,
-    "IconMdiKeyboardReturn": true
+    "IconMdiKeyboardReturn": true,
+    "AntIcon": true
   }
 }
