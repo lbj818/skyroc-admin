@@ -2,12 +2,14 @@ import { Outlet } from 'react-router-dom'
 
 import { usePrevious, useRoute } from '@/features/router'
 import { useMenuTreeStore } from '@/store/menuTreeStore'
+import { sessionStg } from '@/utils/storage'
 
 const LOGIN_PATH = '/login'
-const ALLOW_LIST = ['/login', '/login-out', '/exception/403', '/exception/404', '/exception/500']
+const ALLOW_LIST = ['/login', '/exception/403', '/exception/404', '/exception/500']
+
 
 function checkIsLogin() {
-  return Boolean(window.sessionStorage.getItem('Authorization'))
+  return Boolean(sessionStg.get('Authorization'))
 }
 
 const RootLayout = () => {

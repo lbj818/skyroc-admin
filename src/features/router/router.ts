@@ -5,6 +5,7 @@ import { createBrowserRouter, createHashRouter, matchRoutes } from 'react-router
 import { globalConfig } from '@/config'
 import { routes } from '@/router'
 import { useRouteStore } from '@/store/routeStore'
+import { sessionStg } from '@/utils/storage'
 
 import { initDynamicRoutes } from './initDynamicRoutes'
 import { type LocationQueryRaw, stringifyQuery } from './query'
@@ -18,8 +19,7 @@ function initRouter() {
   let isAlreadyPatch = false
 
   function getIsNeedPatch(path: string) {
-    // 直接读 sessionStorage，避免 Redux 状态更新时序问题
-    const isLogin = Boolean(window.sessionStorage.getItem('Authorization'))
+    const isLogin = Boolean(sessionStg.get('Authorization'))
     if (!isLogin) return false
     if (isAlreadyPatch) return false
 
@@ -45,7 +45,7 @@ function initRouter() {
 
   useRouteStore.getState().setCacheRoutes([])
 
-  if (Boolean(window.sessionStorage.getItem('Authorization')) && !isAlreadyPatch) {
+  if (Boolean(sessionStg.get('Authorization')) && !isAlreadyPatch) {
     initDynamicRoutes(reactRouter.patchRoutes)
   }
 

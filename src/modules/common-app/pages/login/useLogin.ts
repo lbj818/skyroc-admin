@@ -3,11 +3,10 @@ import { useState } from 'react'
 import { router } from '@/features/router'
 import { initDynamicRoutes } from '@/features/router/initDynamicRoutes'
 import { useTokenStore } from '@/store/tokenStore'
+import { sessionStg } from '@/utils/storage'
 
 import { getCaptchaApi, getUserInfoApi, loginApi, logoutApi, refreshTokenApi } from '../../api/login'
 import type { LoginParams } from '../../api/login'
-
-const SESSION_REFRESH_KEY = 'RefreshToken'
 
 function encodePassword(password: string) { return btoa(password) }
 
@@ -65,7 +64,7 @@ export function useLoginHook() {
 }
 
 export async function doLogout() {
-  const token = window.sessionStorage.getItem('Authorization')
+  const token = sessionStg.get('Authorization')
   try {
     if (token) await logoutApi(token)
   } catch {
@@ -77,7 +76,7 @@ export async function doLogout() {
 }
 
 export async function doRefreshToken() {
-  const refresh = window.sessionStorage.getItem(SESSION_REFRESH_KEY)
+  const refresh = sessionStg.get('RefreshToken')
   if (!refresh) throw new Error('no refresh token')
   const data = await refreshTokenApi(refresh)
   useTokenStore.getState().setTokens(data.access_token, data.refresh_token)

@@ -1,13 +1,12 @@
 import type { MenuProps } from 'antd'
+import { doLogout } from 'common-app/pages/login/useLogin'
 
 import { useRouter } from '@/features/router'
-import { doLogout } from '@/modules/common-app/pages/login/useLogin'
-import { useTokenStore } from '@/store/tokenStore'
+import { sessionStg } from '@/utils/storage'
 
 const UserAvatar = memo(() => {
-  const isLogin = useTokenStore(s => s.isLogin)
   const userInfo = (() => {
-    try { return JSON.parse(window.sessionStorage.getItem('userInfo') || 'null') } catch { return null }
+    try { return sessionStg.get('userInfo') } catch { return null }
   })()
   const { navigate } = useRouter()
 
@@ -33,17 +32,15 @@ const UserAvatar = memo(() => {
     }
   ]
 
-  return isLogin ? (
+  return (
     <ADropdown menu={{ items, onClick: ({ key }) => key === '1' ? logout() : navigate('/user-center') }} placement="bottomRight" trigger={['click']}>
       <div>
         <ButtonIcon className="px-12px">
           <SvgIcon className="text-icon-large" icon="ph:user-circle" />
-          <span className="text-16px font-medium">{userInfo?.nickname || userInfo?.username}</span>
+          <span className="text-16px font-medium">{userInfo?.realName || userInfo?.username}</span>
         </ButtonIcon>
       </div>
     </ADropdown>
-  ) : (
-    <AButton onClick={() => navigate('/login')}>登录</AButton>
   )
 })
 

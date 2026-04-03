@@ -66,7 +66,7 @@ const SearchModal = ({ onClose, show }: Props) => {
 
   return (
     <AModal
-      destroyOnClose
+      destroyOnHidden
       className={clsx({ 'top-0px rounded-0': isMobile })}
       closable={false}
       footer={isMobile ? null : <SearchFooter />}

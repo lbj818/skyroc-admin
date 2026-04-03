@@ -3,10 +3,12 @@ declare namespace StorageType {
   interface Session {
     /** The theme color */
     themeColor: string;
-    // /**
-    //  * the theme settings
-    //  */
-    // themeSettings: App.Theme.ThemeSetting;
+    /** Access token (Authorization) */
+    Authorization: string;
+    /** Refresh token */
+    RefreshToken: string;
+    /** User info */
+    userInfo: Record<string, any>;
   }
   type ThemeMode = import('ahooks/lib/useTheme').ThemeModeType;
   interface Local {

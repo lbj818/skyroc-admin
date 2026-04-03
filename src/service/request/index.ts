@@ -16,9 +16,11 @@ let authQueue: Array<{ reject: (e: any) => void; req: AxiosRequestConfig; resolv
 
 export const instance = createAxiosInstance(BASE_URL)
 
+import { sessionStg } from '@/utils/storage'
+
 // ---- 请求拦截器：注入 token ----
 instance.interceptors.request.use((config: any) => {
-  const token = window.sessionStorage.getItem('Authorization')
+  const token = sessionStg.get('Authorization')
   if (token && config.token !== false) {
     config.headers.set('Authorization', `Bearer ${token}`)
   }
@@ -28,7 +30,7 @@ instance.interceptors.request.use((config: any) => {
 // ---- 响应拦截器：统一错误处理 ----
 
 async function handle401() {
-  const token = window.sessionStorage.getItem('Authorization')
+  const token = sessionStg.get('Authorization')
   if (!token) return
 
   if (!authorizing) {

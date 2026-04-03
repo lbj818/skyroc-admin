@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 
-const SESSION_TOKEN_KEY = 'Authorization'
-const SESSION_REFRESH_KEY = 'RefreshToken'
+import { sessionStg } from '@/utils/storage'
 
 interface TokenState {
   accessToken: string | null
@@ -12,17 +11,17 @@ interface TokenState {
 }
 
 export const useTokenStore = create<TokenState>((set) => ({
-  accessToken: window.sessionStorage.getItem(SESSION_TOKEN_KEY) || null,
-  isLogin: Boolean(window.sessionStorage.getItem(SESSION_TOKEN_KEY)),
-  refreshToken: window.sessionStorage.getItem(SESSION_REFRESH_KEY) || null,
+  accessToken: sessionStg.get('Authorization') || null,
+  isLogin: Boolean(sessionStg.get('Authorization')),
+  refreshToken: sessionStg.get('RefreshToken') || null,
   resetToken: () => {
-    window.sessionStorage.removeItem(SESSION_TOKEN_KEY)
-    window.sessionStorage.removeItem(SESSION_REFRESH_KEY)
+    sessionStg.remove('Authorization')
+    sessionStg.remove('RefreshToken')
     set({ accessToken: null, isLogin: false, refreshToken: null })
   },
   setTokens: (accessToken, refreshToken) => {
-    window.sessionStorage.setItem(SESSION_TOKEN_KEY, accessToken)
-    window.sessionStorage.setItem(SESSION_REFRESH_KEY, refreshToken)
+    sessionStg.set('Authorization', accessToken)
+    sessionStg.set('RefreshToken', refreshToken)
     set({ accessToken, isLogin: true, refreshToken })
   }
 }))
