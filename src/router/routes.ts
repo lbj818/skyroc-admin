@@ -1,4 +1,6 @@
+import { createElement } from 'react'
 import type { RouteObject } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 function convert(m: any) {
   const { default: Component } = m
@@ -8,6 +10,10 @@ function convert(m: any) {
 export const Routes = [
   {
     children: [
+      {
+        index: true,
+        element: createElement(Navigate, { to: import.meta.env.VITE_ROUTE_HOME })
+      },
       {
         children: [
           {

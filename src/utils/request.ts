@@ -7,27 +7,12 @@ import type {
 } from 'axios'
 import axios from 'axios'
 
+import { router } from '@/features/router/router'
 import { sessionStg } from '@/utils/storage'
-
-export interface ResponseBody<T = any> {
-  /** 业务状态码 */
-  code?: number | string
-  /** 业务数据 */
-  data?: T
-  /** 后端错误标识 */
-  error?: string
-  message?: string
-  /** 兼容不同字段名的提示信息 */
-  msg?: string
-  /** 部分接口可能返回的 http 状态位 */
-  status?: number
-}
 
 export interface RequestConfigExtra {
   /** 是否返回 axios 原始响应 */
   axiosDetail?: boolean
-  /** 是否为自定义 dev 请求） */
-  customDev?: boolean
   /** 是否显示 loading */
   loading?: boolean
   /** 是否携带 token，默认 true */
@@ -54,10 +39,22 @@ export const instance: AxiosInstance = axios.create({
   timeout: 300000
 })
 
+function getMenuIdForPath() {
+  const { getPathname } = router
+  console.log('pathname', getPathname())
+  return ''
+}
+
+// ---- 请求拦截器：注入 token ----
+
 // ---- 请求拦截器：注入 token ----
 function requestHandler(
   config: InternalAxiosRequestConfig & RequestConfigExtra
 ): InternalAxiosRequestConfig & RequestConfigExtra {
+  const menuId = getMenuIdForPath()
+  if (menuId) {
+    config.headers.set('ApiKey', btoa(menuId))
+  }
   const token = sessionStg.get('Authorization')
   if (token && config.token !== false) {
     config.headers.set('Authorization', `Bearer ${token}`)
@@ -65,9 +62,9 @@ function requestHandler(
   return config
 }
 
-type MaybeWrapped<T> = T | ResponseBody<T>
+type MaybeWrapped<T> = T | API.ResponseBody<T>
 
-function isResponseBody<T>(val: unknown): val is ResponseBody<T> {
+function isResponseBody<T>(val: unknown): val is API.ResponseBody<T> {
   return Boolean(val) && typeof val === 'object' && ('code' in (val as any) || 'msg' in (val as any) || 'message' in (val as any))
 }
 
@@ -84,7 +81,7 @@ function responseHandler(response: AxiosResponse<MaybeWrapped<any>>): any {
   // 1) 业务包装：{ code, data, msg... } → 返回 data
   // 2) 非包装：直接返回对象/数组/token 等 → 原样返回
   if (isResponseBody<any>(payload) && 'data' in payload) {
-    return (payload as ResponseBody<any>).data
+    return (payload as API.ResponseBody<any>).data
   }
   return payload
 }
@@ -144,7 +141,7 @@ interface AxiosOptions<T = any> extends AxiosRequestConfig<T>, RequestConfigExtr
  */
 function request<R = any, T = any>(
   options: AxiosOptions<T> & { axiosDetail?: boolean }
-): Promise<R | ResponseBody<R> | IAxiosResponse<MaybeWrapped<R>>> {
+): Promise<R | API.ResponseBody<R> | IAxiosResponse<MaybeWrapped<R>>> {
   const { axiosDetail = false } = options
   options.axiosDetail = axiosDetail
   return instance.request(options as AxiosRequestConfig<T> & RequestConfigExtra) as any
@@ -156,7 +153,7 @@ export function get<R = any, T = any>(
   url: string,
   params?: T,
   config?: AxiosRequestConfig & RequestConfigExtra
-): Promise<ResponseBody<R>> {
+): Promise<API.ResponseBody<R>> {
   return request<R, T>({
     url,
     params,
@@ -164,14 +161,14 @@ export function get<R = any, T = any>(
     unwrap: false,
     axiosDetail: false as const,
     ...(config as AxiosRequestConfig<T> & RequestConfigExtra)
-  }) as Promise<ResponseBody<R>>
+  }) as Promise<API.ResponseBody<R>>
 }
 
 export function post<R = any, T = any>(
   url: string,
   data?: T,
   config?: AxiosRequestConfig & RequestConfigExtra
-): Promise<ResponseBody<R>> {
+): Promise<API.ResponseBody<R>> {
   return request<R, T>({
     url,
     data,
@@ -179,14 +176,14 @@ export function post<R = any, T = any>(
     unwrap: false,
     axiosDetail: false as const,
     ...(config as AxiosRequestConfig<T> & RequestConfigExtra)
-  }) as Promise<ResponseBody<R>>
+  }) as Promise<API.ResponseBody<R>>
 }
 
 export function put<R = any, T = any>(
   url: string,
   data?: T,
   config?: AxiosRequestConfig & RequestConfigExtra
-): Promise<ResponseBody<R>> {
+): Promise<API.ResponseBody<R>> {
   return request<R, T>({
     url,
     data,
@@ -194,14 +191,14 @@ export function put<R = any, T = any>(
     unwrap: false,
     axiosDetail: false as const,
     ...(config as AxiosRequestConfig<T> & RequestConfigExtra)
-  }) as Promise<ResponseBody<R>>
+  }) as Promise<API.ResponseBody<R>>
 }
 
 export function del<R = any, T = any>(
   url: string,
   data?: T,
   config?: AxiosRequestConfig & RequestConfigExtra
-): Promise<ResponseBody<R>> {
+): Promise<API.ResponseBody<R>> {
   return request<R, T>({
     url,
     data,
@@ -209,7 +206,7 @@ export function del<R = any, T = any>(
     unwrap: false,
     axiosDetail: false as const,
     ...(config as AxiosRequestConfig<T> & RequestConfigExtra)
-  }) as Promise<ResponseBody<R>>
+  }) as Promise<API.ResponseBody<R>>
 }
 
 export function getUnwrapped<R = any, T = any>(
@@ -242,8 +239,14 @@ export function postUnwrapped<R = any, T = any>(
   }) as Promise<R>
 }
 
+export function useRequestUnwrapped<T = any, R = any>(
+  props: AxiosRequestConfig<T> & RequestConfigExtra
+): Promise<R> {
+  return request<R, T>({ ...props, unwrap: true, axiosDetail: false as const }) as Promise<R>
+}
+
 export default function useRequest<T = any, R = any>(
   props: AxiosRequestConfig<T> & RequestConfigExtra
-): Promise<ResponseBody<R>> {
-  return request<R, T>({ ...props, unwrap: false, axiosDetail: false as const }) as Promise<ResponseBody<R>>
+): Promise<API.ResponseBody<R>> {
+  return request<R, T>({ ...props, unwrap: false, axiosDetail: false as const }) as Promise<API.ResponseBody<R>>
 }

@@ -1,12 +1,13 @@
+import { getCaptchaApi, loginApi, logoutApi, refreshTokenApi } from 'common-app/api/login'
+import type { LoginParams } from 'common-app/api/login'
 import { useState } from 'react'
 
 import { router } from '@/features/router'
 import { initDynamicRoutes } from '@/features/router/dynamic-routes'
 import { useTokenStore } from '@/store/tokenStore'
+import { useUserStore } from '@/store/userStore'
 import { sessionStg } from '@/utils/storage'
 
-import { getCaptchaApi, getUserInfoApi, loginApi, logoutApi, refreshTokenApi } from '../../api/login'
-import type { LoginParams } from '../../api/login'
 
 function encodePassword(password: string) { return btoa(password) }
 
@@ -17,8 +18,7 @@ export function useLoginHook() {
   const [captchaLoading, setCaptchaLoading] = useState(false)
   const [requestId, setRequestId] = useState('')
 
-  const [searchParams] = useSearchParams()
-  const redirectUrl = searchParams.get('redirect')
+  const userInfo = useUserStore(s => s.userInfo)
 
   async function fetchCaptcha() {
     setCaptchaLoading(true)
@@ -43,14 +43,13 @@ export function useLoginHook() {
 
       useTokenStore.getState().setTokens(data.access_token, data.refresh_token)
 
-      const { data: userInfo } = await getUserInfoApi()
+      await useUserStore.getState().setUserInfo()
       await initDynamicRoutes(router.reactRouter.patchRoutes)
-
-      const target = redirectUrl ? decodeURIComponent(redirectUrl) : import.meta.env.VITE_ROUTE_HOME
+      const target = import.meta.env.VITE_ROUTE_HOME
       router.replace(target)
 
       window.$notification?.success({
-        description: `欢迎回来，${(userInfo as any)?.nickname || (userInfo as any)?.username}！`,
+        description: `欢迎回来，${userInfo?.realName}！`,
         message: '登录成功'
       })
     } catch {

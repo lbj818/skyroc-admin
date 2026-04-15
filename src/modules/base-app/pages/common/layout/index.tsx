@@ -2,11 +2,11 @@ import { Outlet } from 'react-router-dom'
 
 import { usePrevious, useRoute } from '@/features/router'
 import { useMenuTreeStore } from '@/store/menuTreeStore'
+import { useUserStore } from '@/store/userStore'
 import { sessionStg } from '@/utils/storage'
 
 const LOGIN_PATH = '/login'
 const ALLOW_LIST = ['/login', '/exception/403', '/exception/404', '/exception/500']
-
 
 function checkIsLogin() {
   return Boolean(sessionStg.get('Authorization'))
@@ -31,6 +31,16 @@ const RootLayout = () => {
   }, [pathname])
 
   const isLogin = checkIsLogin()
+  const userInfo = useUserStore(s => s.userInfo)
+  const { setUserInfo } = useUserStore.getState()
+
+  useEffect(() => {
+    if (isLogin && !userInfo) {
+      setUserInfo()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogin, userInfo])
+
   const isAllowed = ALLOW_LIST.includes(pathname) || handle?.constant
 
   // 未登录 + 非白名单 → 跳登录页
@@ -57,6 +67,11 @@ const RootLayout = () => {
   if (handle?.href) {
     window.open(handle.href, '_blank')
     return <Outlet context={previousRoute} />
+  }
+
+  // 已登录但 userInfo 未就绪：等待拉取完成再渲染子页面
+  if (isLogin && !userInfo && !isAllowed) {
+    return null
   }
 
   // 已登录但菜单未加载：等待 patchRoutesOnNavigation 完成

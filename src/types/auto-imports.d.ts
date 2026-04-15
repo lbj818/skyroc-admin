@@ -27,6 +27,7 @@ declare global {
   const ASpin: typeof import('antd')['Spin']
   const ASwitch: typeof import('antd')['Switch']
   const ATooltip: typeof import('antd')['Tooltip']
+  const ATree: typeof import('antd')['Tree']
   const AWatermark: typeof import('antd')['Watermark']
   const AntIcon: typeof import('../components/AntIcon')['default']
   const BetterScroll: typeof import('../components/BetterScroll')['default']

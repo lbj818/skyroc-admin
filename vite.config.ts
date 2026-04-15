@@ -55,11 +55,11 @@ export default defineConfig(configEnv => {
 
             if (filePath) {
               // 提取文件的父文件夹作为文件名
-              if (filePath.includes('/src/pages/')) {
+              if (filePath.includes('/src/modules/')) {
                 // 提取文件的父文件夹作为文件名
-                const pageName = filePath.split('/src/pages/')[1]
+                const moduleName = filePath.split('/src/modules/')[1]
                 // 替换 [name] 为  name 因为vite不支持
-                const newPath = pageName.replace(/\[([^\]]+)\]/g, '$1')
+                const newPath = moduleName.replace(/\[([^\]]+)\]/g, '$1')
 
                 const path = newPath.slice(0, newPath.lastIndexOf('/'))
 

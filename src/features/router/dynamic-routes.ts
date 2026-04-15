@@ -1,40 +1,15 @@
+import { getMenuTreeCurrentUserAll } from 'base-app/api/menu'
+import type { MenuApiResponse, RawMenuItem, RawSystemItem } from 'base-app/api/menu'
 import type { RouteObject } from 'react-router-dom'
 
 import { useMenuTreeStore } from '@/store/menuTreeStore'
 import type { MenuItem } from '@/store/menuTreeStore'
-import { get } from '@/utils/request'
-import type { ResponseBody } from '@/utils/request'
 
-interface RawMenuItem {
-  cacheFlag: number;
-  componentPath: string;
-  id: string;
-  iframeFlag?: string;
-  iframeUrl?: string;
-  menuCode: string;
-  menuIcon?: string;
-  menuName: string;
-  menuPath: string;
-  parentId: string;
-  routingParameters?: string;
-  systemKey: number;
-}
 
-interface RawSystemItem {
-  icon?: string;
-  systemKey: number;
-  systemName: string;
-}
-
-interface MenuApiResponse {
-  menus: RawMenuItem[];
-  system: RawSystemItem[];
-}
-
-function formatMenuData(raw: ResponseBody<MenuApiResponse> | null | undefined): MenuItem[] {
-  const payload = raw?.data
-  const menus: RawMenuItem[] = payload?.menus ?? []
-  const system: RawSystemItem[] = payload?.system ?? []
+function formatMenuData(raw: API.ResponseBody<MenuApiResponse>): MenuItem[] {
+  const data = raw?.data
+  const menus: RawMenuItem[] = data?.menus ?? []
+  const system: RawSystemItem[] = data?.system ?? []
 
   const formattedMenus: MenuItem[] = menus.map(item => ({
     children: [],
@@ -152,10 +127,9 @@ function collectFlatRoutes(items: MenuItem[]): RouteObject[] {
 export async function initDynamicRoutes(
   addRoutes: (parent: string | null, routes: RouteObject[]) => void
 ): Promise<void> {
-  const raw = await get<MenuApiResponse>('/admin/sysmenu/queryCurrentUserAllMenu')
+  const raw = await getMenuTreeCurrentUserAll()
 
   if (!raw) return
-
   const flatItems = formatMenuData(raw)
   const menuTree = buildMenuTree(flatItems)
 

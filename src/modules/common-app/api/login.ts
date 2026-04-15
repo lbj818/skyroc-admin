@@ -36,6 +36,7 @@ export interface UserInfo {
   deptKey: string
   deptName: string
   email: string
+  groupFlag: boolean
   headFlag: boolean
   id: number | string
   leaglFlag: string
